@@ -10,6 +10,7 @@ export type GrupoPublico = {
   id: string;
   nombre: string;
   nivel: "basica" | "superior";
+  taller: "tarde1" | "tarde2";
   descripcion: string | null;
   cupo_max: number;
   memberCount: number;
@@ -36,8 +37,10 @@ type Props = {
 
 const NIVEL_LABEL = { basica: "Educación Básica", superior: "Educación Superior" };
 const NIVEL_COLOR = { basica: "from-sky-600 to-brand", superior: "from-emerald-600 to-emerald-800" };
+const TALLER_LABEL = { tarde1: "Workshop 1 — Tarde 1", tarde2: "Workshop 2 — Tarde 2" };
 
 export function Modulo2Usuario({ suscripcion, grupos, docsByNivel }: Props) {
+  const [taller, setTaller] = useState<"tarde1" | "tarde2">("tarde1");
   const [nivel, setNivel] = useState<"basica" | "superior">("basica");
   const [isPending, startTransition] = useTransition();
   const [error, setError] = useState<string | null>(null);
@@ -147,7 +150,7 @@ export function Modulo2Usuario({ suscripcion, grupos, docsByNivel }: Props) {
   }
 
   // Vista: sin grupo — explorar y unirse
-  const gruposDeNivel = grupos.filter(g => g.nivel === nivel);
+  const gruposDeNivel = grupos.filter(g => g.taller === taller && g.nivel === nivel);
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -173,6 +176,23 @@ export function Modulo2Usuario({ suscripcion, grupos, docsByNivel }: Props) {
         {error && (
           <p className="mb-4 rounded-lg bg-red-50 px-4 py-2 text-center text-sm text-red-700">{error}</p>
         )}
+
+        {/* Taller tabs */}
+        <div className="mb-3 flex justify-center gap-2">
+          {(["tarde1", "tarde2"] as const).map(t => (
+            <button
+              key={t}
+              onClick={() => setTaller(t)}
+              className={`rounded-lg px-5 py-2 text-sm font-semibold transition ${
+                taller === t
+                  ? "bg-slate-800 text-white shadow"
+                  : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"
+              }`}
+            >
+              {TALLER_LABEL[t]}
+            </button>
+          ))}
+        </div>
 
         {/* Nivel tabs */}
         <div className="mb-5 flex justify-center gap-2">

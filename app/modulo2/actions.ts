@@ -14,6 +14,7 @@ async function getMyRol() {
 export async function createGrupo(data: {
   nombre: string;
   nivel: string;
+  taller: string;
   descripcion: string;
   cupo_max: number;
 }) {

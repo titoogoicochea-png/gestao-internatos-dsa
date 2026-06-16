@@ -26,7 +26,8 @@ export default async function Modulo2Page() {
   if (isAdmin) {
     const { data: grupos } = await supabase
       .from("grupos")
-      .select("id, nombre, nivel, descripcion, cupo_max, asignaciones(doc_codigo)")
+      .select("id, nombre, nivel, taller, descripcion, cupo_max, asignaciones(doc_codigo)")
+      .order("taller")
       .order("nivel")
       .order("nombre");
 
@@ -46,6 +47,7 @@ export default async function Modulo2Page() {
     const gruposAdmin: GrupoAdmin[] = (grupos ?? []).map(g => ({
       ...g,
       nivel: g.nivel as "basica" | "superior",
+      taller: (g.taller ?? "tarde1") as "tarde1" | "tarde2",
       members: membersByGrupo[g.id] ?? [],
     }));
 
@@ -87,7 +89,8 @@ export default async function Modulo2Page() {
   // Fetch all groups for exploration
   const { data: grupos } = await supabase
     .from("grupos")
-    .select("id, nombre, nivel, descripcion, cupo_max, asignaciones(doc_codigo)")
+    .select("id, nombre, nivel, taller, descripcion, cupo_max, asignaciones(doc_codigo)")
+    .order("taller")
     .order("nivel")
     .order("nombre");
 
@@ -103,6 +106,7 @@ export default async function Modulo2Page() {
   const gruposPublicos: GrupoPublico[] = (grupos ?? []).map(g => ({
     ...g,
     nivel: g.nivel as "basica" | "superior",
+    taller: (g.taller ?? "tarde1") as "tarde1" | "tarde2",
     memberCount: countByGrupo[g.id] ?? 0,
   }));
 

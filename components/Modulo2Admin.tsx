@@ -11,6 +11,7 @@ export type GrupoAdmin = {
   id: string;
   nombre: string;
   nivel: "basica" | "superior";
+  taller: "tarde1" | "tarde2";
   descripcion: string | null;
   cupo_max: number;
   asignaciones: Asignacion[];
@@ -23,8 +24,10 @@ type Props = {
 };
 
 const NIVEL_LABEL = { basica: "Educación Básica", superior: "Educación Superior" };
+const TALLER_LABEL = { tarde1: "Workshop 1 — Tarde 1", tarde2: "Workshop 2 — Tarde 2" };
 
 export function Modulo2Admin({ grupos, docsByNivel }: Props) {
+  const [taller, setTaller] = useState<"tarde1" | "tarde2">("tarde1");
   const [nivel, setNivel] = useState<"basica" | "superior">("basica");
   const [showForm, setShowForm] = useState(false);
   const [expandedId, setExpandedId] = useState<string | null>(null);
@@ -33,7 +36,7 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
   const [form, setForm] = useState({ nombre: "", descripcion: "", cupo_max: "20" });
   const [pendingCodigos, setPendingCodigos] = useState<Record<string, string[]>>({});
 
-  const gruposDeNivel = grupos.filter(g => g.nivel === nivel);
+  const gruposDeNivel = grupos.filter(g => g.taller === taller && g.nivel === nivel);
   const docs = docsByNivel[nivel];
 
   function codigosFor(grupo: GrupoAdmin): string[] {
@@ -52,7 +55,7 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
     setError(null);
     startTransition(async () => {
       try {
-        await createGrupo({ ...form, nivel, cupo_max: parseInt(form.cupo_max) });
+        await createGrupo({ ...form, nivel, taller, cupo_max: parseInt(form.cupo_max) });
         setForm({ nombre: "", descripcion: "", cupo_max: "20" });
         setShowForm(false);
       } catch (err) {
@@ -130,6 +133,17 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
                 />
               </div>
               <div>
+                <label className="mb-1 block text-xs font-medium text-slate-600">Workshop</label>
+                <select
+                  value={taller}
+                  onChange={e => setTaller(e.target.value as "tarde1" | "tarde2")}
+                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-brand focus:outline-none"
+                >
+                  <option value="tarde1">Workshop 1 — Tarde 1</option>
+                  <option value="tarde2">Workshop 2 — Tarde 2</option>
+                </select>
+              </div>
+              <div>
                 <label className="mb-1 block text-xs font-medium text-slate-600">Nivel</label>
                 <select
                   value={nivel}
@@ -174,6 +188,23 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
             </div>
           </form>
         )}
+
+        {/* Taller tabs */}
+        <div className="mb-3 flex gap-2">
+          {(["tarde1", "tarde2"] as const).map(t => (
+            <button
+              key={t}
+              onClick={() => setTaller(t)}
+              className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
+                taller === t
+                  ? "bg-slate-800 text-white"
+                  : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"
+              }`}
+            >
+              {TALLER_LABEL[t]}
+            </button>
+          ))}
+        </div>
 
         {/* Nivel tabs */}
         <div className="mb-5 flex gap-2">
