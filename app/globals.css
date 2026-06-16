@@ -1,0 +1,159 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --brand: #1f4e79;
+  --brand-light: #2e75b6;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #f7f8fa;
+  color: #1e293b;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Compensar el encabezado fijo al saltar a anclas */
+:target {
+  scroll-margin-top: 5rem;
+}
+
+/* ---------- Tipografía del documento (prosa) ---------- */
+.doc {
+  font-size: 1.02rem;
+  line-height: 1.75;
+  color: #1f2937;
+}
+.doc > :first-child {
+  margin-top: 0;
+}
+.doc h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+  color: var(--brand);
+  margin: 2rem 0 0.5rem;
+  line-height: 1.2;
+}
+.doc h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--brand);
+  margin: 2rem 0 0.75rem;
+  padding-bottom: 0.35rem;
+  border-bottom: 2px solid #e2e8f0;
+}
+.doc h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #0f2c47;
+  margin: 1.75rem 0 0.5rem;
+}
+.doc h4 {
+  font-size: 1.08rem;
+  font-weight: 700;
+  color: #334155;
+  margin: 1.4rem 0 0.4rem;
+}
+.doc p {
+  margin: 0.85rem 0;
+  text-align: justify;
+}
+.doc ul,
+.doc ol {
+  margin: 0.85rem 0 0.85rem 1.25rem;
+  padding-left: 1rem;
+}
+.doc ul {
+  list-style: disc;
+}
+.doc ol {
+  list-style: decimal;
+}
+.doc li {
+  margin: 0.35rem 0;
+}
+.doc blockquote {
+  border-left: 4px solid var(--brand-light);
+  background: #eef4fb;
+  margin: 1rem 0;
+  padding: 0.6rem 1rem;
+  color: #334155;
+  font-style: italic;
+}
+.doc a {
+  color: var(--brand-light);
+  text-decoration: underline;
+}
+.doc hr {
+  border: none;
+  border-top: 1px solid #e2e8f0;
+  margin: 2rem 0;
+}
+.doc strong {
+  font-weight: 700;
+  color: #0f2c47;
+}
+
+/* ---------- Tablas (Anexo C y otras) ---------- */
+.doc .tbl-wrap {
+  overflow-x: auto;
+  margin: 1.1rem 0;
+  border: 1px solid #e2e8f0;
+  border-radius: 0.5rem;
+}
+.doc table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.9rem;
+}
+.doc thead th {
+  background: #1f3a5f;
+  color: #fff;
+  font-weight: 600;
+  text-align: left;
+  padding: 0.5rem 0.7rem;
+  vertical-align: top;
+}
+.doc tbody td {
+  padding: 0.5rem 0.7rem;
+  border-top: 1px solid #e8edf3;
+  vertical-align: top;
+}
+.doc tbody tr:nth-child(even) {
+  background: #f6f9fc;
+}
+
+/* Banner de dimensión / subdimensión del Anexo C (tabla de una sola celda) */
+.doc .dim-banner {
+  display: block;
+  margin: 1.6rem 0 0.4rem;
+  padding: 0.7rem 1rem;
+  border-radius: 0.5rem;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.01em;
+}
+.doc .subdim-banner {
+  display: block;
+  margin: 1.1rem 0 0.3rem;
+  padding: 0.55rem 0.9rem;
+  border-radius: 0.45rem;
+  color: #fff;
+  font-weight: 600;
+  font-size: 0.98rem;
+}
+.doc .note-banner {
+  display: block;
+  margin: 1rem 0;
+  padding: 0.7rem 1rem;
+  border-radius: 0.5rem;
+  background: #fff7ed;
+  border: 1px solid #fed7aa;
+  color: #7c2d12;
+  font-size: 0.9rem;
+}
