@@ -84,6 +84,12 @@ export default function LoginPage() {
             <p className="rounded-lg bg-red-50 px-4 py-2 text-sm text-red-700">{error}</p>
           )}
 
+          <div className="text-right">
+            <a href="/olvide-contrasena" className="text-xs text-slate-400 hover:text-brand hover:underline">
+              ¿Olvidaste tu contraseña?
+            </a>
+          </div>
+
           <button
             type="submit"
             disabled={loading}
