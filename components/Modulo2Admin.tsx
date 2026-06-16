@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import type { Doc } from "@/lib/content";
+import { ANEXO_C_DIMS, ANEXO_C_SUBDIMS } from "@/lib/anexo-c-sections";
 import { createGrupo, deleteGrupo, setAsignaciones } from "@/app/modulo2/actions";
 
 type Asignacion = { doc_codigo: string };
@@ -273,10 +274,12 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
                   {isExpanded && (
                     <div className="border-t border-slate-100 px-5 py-4">
                       <div className="grid gap-6 md:grid-cols-2">
-                        {/* Chapter assignment */}
+                        {/* Content assignment */}
                         <div>
                           <div className="mb-3 flex items-center justify-between">
-                            <h4 className="text-sm font-semibold text-slate-700">Capítulos asignados</h4>
+                            <h4 className="text-sm font-semibold text-slate-700">
+                              {taller === "tarde1" ? "Capítulos asignados" : "Subdimensiones asignadas"}
+                            </h4>
                             {hasPendingChanges && (
                               <button
                                 onClick={() => handleGuardarCapitulos(grupo.id)}
@@ -287,19 +290,47 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
                               </button>
                             )}
                           </div>
-                          <div className="space-y-1.5">
-                            {docs.map(doc => (
-                              <label key={doc.codigo} className="flex cursor-pointer items-center gap-2.5 rounded-lg px-2 py-1.5 hover:bg-slate-50">
-                                <input
-                                  type="checkbox"
-                                  checked={codigos.includes(doc.codigo)}
-                                  onChange={() => toggleCodigo(grupo.id, doc.codigo, codigos)}
-                                  className="h-4 w-4 rounded border-slate-300 text-brand focus:ring-brand"
-                                />
-                                <span className="text-sm text-slate-700">{doc.titulo_es}</span>
-                              </label>
-                            ))}
-                          </div>
+
+                          {taller === "tarde1" ? (
+                            <div className="space-y-1.5">
+                              {docs.map(doc => (
+                                <label key={doc.codigo} className="flex cursor-pointer items-center gap-2.5 rounded-lg px-2 py-1.5 hover:bg-slate-50">
+                                  <input
+                                    type="checkbox"
+                                    checked={codigos.includes(doc.codigo)}
+                                    onChange={() => toggleCodigo(grupo.id, doc.codigo, codigos)}
+                                    className="h-4 w-4 rounded border-slate-300 text-brand focus:ring-brand"
+                                  />
+                                  <span className="text-sm text-slate-700">{doc.titulo_es}</span>
+                                </label>
+                              ))}
+                            </div>
+                          ) : (
+                            <div className="space-y-3">
+                              {ANEXO_C_DIMS.map(dim => (
+                                <div key={dim.num}>
+                                  <p className="mb-1 text-xs font-bold uppercase tracking-wide text-slate-400">
+                                    Dimensión {dim.num} — {dim.titulo_es}
+                                  </p>
+                                  <div className="space-y-1">
+                                    {ANEXO_C_SUBDIMS.filter(s => s.dimNum === dim.num).map(sub => (
+                                      <label key={sub.id} className="flex cursor-pointer items-center gap-2.5 rounded-lg px-2 py-1.5 hover:bg-slate-50">
+                                        <input
+                                          type="checkbox"
+                                          checked={codigos.includes(sub.id)}
+                                          onChange={() => toggleCodigo(grupo.id, sub.id, codigos)}
+                                          className="h-4 w-4 rounded border-slate-300 text-brand focus:ring-brand"
+                                        />
+                                        <span className="text-sm text-slate-700">
+                                          <span className="font-medium text-slate-500">{sub.codigo}</span> {sub.titulo_es}
+                                        </span>
+                                      </label>
+                                    ))}
+                                  </div>
+                                </div>
+                              ))}
+                            </div>
+                          )}
                         </div>
 
                         {/* Member list */}

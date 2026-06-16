@@ -2,6 +2,7 @@
 
 import { useState, useTransition } from "react";
 import type { Doc } from "@/lib/content";
+import { ANEXO_C_SUBDIMS } from "@/lib/anexo-c-sections";
 import { joinGrupo, leaveGrupo } from "@/app/modulo2/actions";
 
 type Asignacion = { doc_codigo: string };
@@ -22,6 +23,7 @@ export type MiSuscripcion = {
     id: string;
     nombre: string;
     nivel: "basica" | "superior";
+    taller: "tarde1" | "tarde2";
     descripcion: string | null;
     cupo_max: number;
     asignaciones: Asignacion[];
@@ -72,7 +74,13 @@ export function Modulo2Usuario({ suscripcion, grupos, docsByNivel }: Props) {
   if (suscripcion) {
     const { grupo } = suscripcion;
     const docs = docsByNivel[grupo.nivel];
-    const assignedDocs = docs.filter(d => grupo.asignaciones.some(a => a.doc_codigo === d.codigo));
+    const isWorkshop2 = grupo.taller === "tarde2";
+    const assignedDocs = isWorkshop2
+      ? []
+      : docs.filter(d => grupo.asignaciones.some(a => a.doc_codigo === d.codigo));
+    const assignedSubdims = isWorkshop2
+      ? ANEXO_C_SUBDIMS.filter(s => grupo.asignaciones.some(a => a.doc_codigo === s.id))
+      : [];
 
     return (
       <div className="min-h-screen bg-slate-50">
@@ -107,31 +115,57 @@ export function Modulo2Usuario({ suscripcion, grupos, docsByNivel }: Props) {
 
           <div className="mt-6">
             <h2 className="mb-3 text-sm font-semibold text-slate-700">
-              Capítulos asignados a tu grupo
+              {isWorkshop2 ? "Subdimensiones del Anexo C asignadas a tu grupo" : "Capítulos asignados a tu grupo"}
             </h2>
-            {assignedDocs.length === 0 ? (
-              <p className="rounded-2xl border border-dashed border-slate-300 bg-white p-6 text-center text-sm text-slate-400">
-                El administrador aún no ha asignado capítulos a este grupo.
-              </p>
+
+            {isWorkshop2 ? (
+              assignedSubdims.length === 0 ? (
+                <p className="rounded-2xl border border-dashed border-slate-300 bg-white p-6 text-center text-sm text-slate-400">
+                  El administrador aún no ha asignado subdimensiones a este grupo.
+                </p>
+              ) : (
+                <div className="space-y-2">
+                  {assignedSubdims.map(sub => (
+                    <a
+                      key={sub.id}
+                      href={`/${grupo.nivel}?doc=99_anexoC#${sub.id}`}
+                      className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                    >
+                      <div className={`h-8 w-1.5 rounded-full bg-gradient-to-b ${NIVEL_COLOR[grupo.nivel]}`} />
+                      <div>
+                        <p className="text-xs font-bold text-slate-400">{sub.codigo} · Dim. {sub.dimNum}</p>
+                        <p className="text-sm font-semibold text-slate-800">{sub.titulo_es}</p>
+                      </div>
+                      <span className="ml-auto text-slate-300">→</span>
+                    </a>
+                  ))}
+                </div>
+              )
             ) : (
-              <div className="space-y-2">
-                {assignedDocs.map(doc => (
-                  <a
-                    key={doc.codigo}
-                    href={`/${grupo.nivel}?doc=${doc.codigo}`}
-                    className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-                  >
-                    <div className={`h-8 w-1.5 rounded-full bg-gradient-to-b ${NIVEL_COLOR[grupo.nivel]}`} />
-                    <div>
-                      <p className="text-sm font-semibold text-slate-800">{doc.titulo_es}</p>
-                      {doc.subtitulo_es && (
-                        <p className="text-xs text-slate-400">{doc.subtitulo_es}</p>
-                      )}
-                    </div>
-                    <span className="ml-auto text-slate-300">→</span>
-                  </a>
-                ))}
-              </div>
+              assignedDocs.length === 0 ? (
+                <p className="rounded-2xl border border-dashed border-slate-300 bg-white p-6 text-center text-sm text-slate-400">
+                  El administrador aún no ha asignado capítulos a este grupo.
+                </p>
+              ) : (
+                <div className="space-y-2">
+                  {assignedDocs.map(doc => (
+                    <a
+                      key={doc.codigo}
+                      href={`/${grupo.nivel}?doc=${doc.codigo}`}
+                      className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                    >
+                      <div className={`h-8 w-1.5 rounded-full bg-gradient-to-b ${NIVEL_COLOR[grupo.nivel]}`} />
+                      <div>
+                        <p className="text-sm font-semibold text-slate-800">{doc.titulo_es}</p>
+                        {doc.subtitulo_es && (
+                          <p className="text-xs text-slate-400">{doc.subtitulo_es}</p>
+                        )}
+                      </div>
+                      <span className="ml-auto text-slate-300">→</span>
+                    </a>
+                  ))}
+                </div>
+              )
             )}
           </div>
 
@@ -246,17 +280,29 @@ export function Modulo2Usuario({ suscripcion, grupos, docsByNivel }: Props) {
                       </div>
                     </div>
 
-                    {/* Assigned chapters */}
-                    {assignedDocs.length > 0 && (
-                      <div className="mt-3">
-                        <p className="mb-1 text-xs font-medium text-slate-500">Trabajarán:</p>
-                        <ul className="space-y-0.5">
-                          {assignedDocs.map(d => (
-                            <li key={d.codigo} className="text-xs text-slate-600">· {d.titulo_es}</li>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
+                    {/* Assigned content preview */}
+                    {(() => {
+                      const isW2 = grupo.taller === "tarde2";
+                      const items = isW2
+                        ? ANEXO_C_SUBDIMS.filter(s => grupo.asignaciones.some(a => a.doc_codigo === s.id))
+                        : docsByNivel[nivel].filter(d => grupo.asignaciones.some(a => a.doc_codigo === d.codigo));
+                      return items.length > 0 ? (
+                        <div className="mt-3">
+                          <p className="mb-1 text-xs font-medium text-slate-500">
+                            {isW2 ? "Subdimensiones:" : "Trabajarán:"}
+                          </p>
+                          <ul className="space-y-0.5">
+                            {items.map(item => (
+                              <li key={"id" in item ? item.id : item.codigo} className="text-xs text-slate-600">
+                                · {"codigo" in item && "titulo_es" in item && "dimNum" in item
+                                  ? `${(item as typeof ANEXO_C_SUBDIMS[0]).codigo} ${(item as typeof ANEXO_C_SUBDIMS[0]).titulo_es}`
+                                  : (item as typeof docsByNivel["basica"][0]).titulo_es}
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      ) : null;
+                    })()}
 
                     <button
                       onClick={() => handleJoin(grupo.id)}

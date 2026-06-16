@@ -66,7 +66,7 @@ export default async function Modulo2Page() {
   if (suscRow) {
     const { data: grupo } = await supabase
       .from("grupos")
-      .select("id, nombre, nivel, descripcion, cupo_max, asignaciones(doc_codigo)")
+      .select("id, nombre, nivel, taller, descripcion, cupo_max, asignaciones(doc_codigo)")
       .eq("id", suscRow.grupo_id)
       .single();
 
@@ -80,6 +80,7 @@ export default async function Modulo2Page() {
         grupo: {
           ...grupo,
           nivel: grupo.nivel as "basica" | "superior",
+          taller: (grupo.taller ?? "tarde1") as "tarde1" | "tarde2",
           memberCount: count ?? 0,
         },
       };
