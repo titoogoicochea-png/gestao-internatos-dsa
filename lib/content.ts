@@ -18,8 +18,11 @@ export interface Doc {
   badge: string | null;
   file: string;
   subtitulo: string | null;
+  subtitulo_es: string | null;
   sections: DocSection[];
+  sections_es: DocSection[];
   raw: string;
+  raw_es: string;
 }
 
 interface GeneratedData {

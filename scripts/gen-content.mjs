@@ -90,17 +90,35 @@ function parseDoc(raw) {
 function build() {
   const data = { generatedAt: null, niveis: {} };
   for (const nivel of NIVEIS) {
-    const dir = path.join(CONTENT_DIR, nivel);
-    if (!fs.existsSync(dir)) {
-      console.warn(`[gen-content] No existe ${dir}, se omite.`);
+    const dirPt = path.join(CONTENT_DIR, nivel);
+    const dirEs = path.join(CONTENT_DIR, `${nivel}_es`);
+    if (!fs.existsSync(dirPt)) {
+      console.warn(`[gen-content] No existe ${dirPt}, se omite.`);
       continue;
     }
-    const files = fs.readdirSync(dir).filter((f) => f.endsWith(".md"));
+    const files = fs.readdirSync(dirPt).filter((f) => f.endsWith(".md"));
     const docs = files.map((file) => {
-      const raw = normalizeMarkdown(fs.readFileSync(path.join(dir, file), "utf8"));
+      const rawPt = normalizeMarkdown(fs.readFileSync(path.join(dirPt, file), "utf8"));
       const meta = fileMeta(file);
-      const { subtitulo, sections } = parseDoc(raw);
-      return { ...meta, file, subtitulo, sections, raw };
+      const { subtitulo: subtitulo_pt, sections: sections_pt } = parseDoc(rawPt);
+
+      let raw_es = rawPt;
+      let subtitulo_es = subtitulo_pt;
+      let sections_es = sections_pt;
+      const esFile = path.join(dirEs, file);
+      if (fs.existsSync(esFile)) {
+        raw_es = normalizeMarkdown(fs.readFileSync(esFile, "utf8"));
+        const parsed = parseDoc(raw_es);
+        subtitulo_es = parsed.subtitulo;
+        sections_es = parsed.sections;
+      }
+
+      return {
+        ...meta, file,
+        subtitulo: subtitulo_pt, subtitulo_es,
+        sections: sections_pt, sections_es,
+        raw: rawPt, raw_es,
+      };
     });
     docs.sort((a, b) => a.order - b.order);
     data.niveis[nivel] = docs;

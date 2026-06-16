@@ -134,15 +134,15 @@ export function Reader({ nivel, docs }: { nivel: Nivel; docs: Doc[] }) {
                     </p>
                   )}
                   <h1 className="text-2xl font-extrabold leading-tight text-brand sm:text-3xl">
-                    {active.subtitulo ?? docTitle(active, lang)}
+                    {(lang === "es" ? active.subtitulo_es : active.subtitulo) ?? docTitle(active, lang)}
                   </h1>
                   <p className="mt-2 inline-block rounded-md bg-amber-50 px-2 py-1 text-xs text-amber-800">
                     {t("reader.source")}
                   </p>
                 </div>
                 {active.codigo === "ANEXO_C"
-                  ? <AnexoCView raw={active.raw} />
-                  : <MarkdownView markdown={active.raw} />
+                  ? <AnexoCView raw={lang === "es" ? active.raw_es : active.raw} />
+                  : <MarkdownView markdown={lang === "es" ? active.raw_es : active.raw} />
                 }
               </article>
             )}
@@ -203,7 +203,8 @@ function SidebarContent({
       <ul className="space-y-0.5">
         {docs.map((doc) => {
           const isActive = doc.codigo === active?.codigo;
-          const hasSections = doc.sections.filter((s) => s.depth <= 3).length > 0;
+          const activeSections = lang === "es" ? doc.sections_es : doc.sections;
+          const hasSections = activeSections.filter((s) => s.depth <= 3).length > 0;
           const isExpanded = expanded.has(doc.codigo);
 
           return (
@@ -252,7 +253,7 @@ function SidebarContent({
               {/* Sub-secciones — visibles si está expandido */}
               {isExpanded && hasSections && (
                 <ul className="mb-1 ml-3 mt-0.5 space-y-0.5 border-l border-slate-200 pl-2">
-                  {doc.sections
+                  {activeSections
                     .filter((s) => s.depth <= 3)
                     .map((s) => (
                       <li key={s.id}>

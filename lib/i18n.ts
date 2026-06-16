@@ -14,7 +14,7 @@ const es: Dict = {
   "nav.index": "Índice",
   "nav.back": "Inicio",
   "nav.sections": "Secciones",
-  "reader.source": "Contenido en portugués (fuente oficial).",
+  "reader.source": "Traducción al español · Fuente oficial en portugués.",
   "reader.pickDoc": "Selecciona un capítulo en el índice.",
   "lang.label": "Idioma",
   "lang.es": "Español",
