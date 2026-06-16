@@ -36,7 +36,8 @@ export default async function Modulo2Page() {
 
     const membersByGrupo: Record<string, { id: string; nombre: string; email: string | null }[]> = {};
     for (const s of suscripciones ?? []) {
-      const p = s.profiles as { id: string; nombre: string; email: string | null } | null;
+      const raw = s.profiles;
+      const p = (Array.isArray(raw) ? raw[0] : raw) as { id: string; nombre: string; email: string | null } | null;
       if (!p) continue;
       if (!membersByGrupo[s.grupo_id]) membersByGrupo[s.grupo_id] = [];
       membersByGrupo[s.grupo_id].push(p);
