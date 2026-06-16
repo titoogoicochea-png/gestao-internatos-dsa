@@ -1,5 +1,7 @@
 # Gestão de Internatos DSA — Lector bilingüe
 
+**URL de producción:** https://referencial-gestao-internatosdsa.vercel.app
+
 Aplicación web (Next.js) que **lee los documentos `.md`** de los referenciais de
 internados adventistas de la DSA (Educación **Básica** y **Superior**) y los muestra
 como un documento navegable, mobile-first, con interfaz **bilingüe (Español / Português)**.
