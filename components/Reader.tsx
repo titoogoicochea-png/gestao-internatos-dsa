@@ -7,6 +7,7 @@ import { docTitle } from "@/lib/content";
 import { useLang } from "./LanguageProvider";
 import { LanguageToggle } from "./LanguageToggle";
 import { MarkdownView } from "./MarkdownView";
+import { AnexoCView } from "./AnexoCView";
 
 export function Reader({ nivel, docs }: { nivel: Nivel; docs: Doc[] }) {
   const { t, lang } = useLang();
@@ -139,7 +140,10 @@ export function Reader({ nivel, docs }: { nivel: Nivel; docs: Doc[] }) {
                     {t("reader.source")}
                   </p>
                 </div>
-                <MarkdownView markdown={active.raw} />
+                {active.codigo === "ANEXO_C"
+                  ? <AnexoCView raw={active.raw} />
+                  : <MarkdownView markdown={active.raw} />
+                }
               </article>
             )}
           </div>
