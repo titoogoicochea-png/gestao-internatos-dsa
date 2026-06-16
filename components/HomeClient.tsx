@@ -10,6 +10,7 @@ export function HomeClient({ nombre, rol }: { nombre: string; rol: string }) {
   const router = useRouter();
   const { t } = useLang();
   const isAdmin = rol === "admin" || rol === "propietario";
+  const isPropietario = rol === "propietario";
 
   async function handleLogout() {
     const supabase = createClient();
@@ -25,6 +26,14 @@ export function HomeClient({ nombre, rol }: { nombre: string; rol: string }) {
           <span className="text-sm font-semibold text-brand">DSA · Internatos</span>
           <div className="flex items-center gap-4">
             <LanguageToggle />
+            {isPropietario && (
+              <a
+                href="/admin/usuarios"
+                className="hidden rounded-lg border border-amber-200 bg-amber-50 px-3 py-1.5 text-xs font-medium text-amber-700 hover:bg-amber-100 sm:block"
+              >
+                Gestión de usuarios
+              </a>
+            )}
             <span className="hidden text-sm text-slate-500 sm:block">
               {nombre}
             </span>
