@@ -32,3 +32,4 @@ next-env.d.ts
 
 # generated content (rebuilt from /content on each build)
 /lib/content.generated.json
+.env.local
