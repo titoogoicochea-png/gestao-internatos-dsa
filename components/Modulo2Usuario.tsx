@@ -75,9 +75,25 @@ export function Modulo2Usuario({ suscripcion, grupos, docsByNivel }: Props) {
     const { grupo } = suscripcion;
     const isWorkshop2 = grupo.taller === "tarde2";
     const nivelDocs = docsByNivel[grupo.nivel].filter(d => d.kind === "capitulo");
-    const assignedDocs = !isWorkshop2
-      ? nivelDocs.filter(d => grupo.asignaciones.some(a => a.doc_codigo === d.codigo))
+
+    type AssignedItem =
+      | { type: "doc"; doc: (typeof nivelDocs)[number] }
+      | { type: "section"; doc: (typeof nivelDocs)[number]; sectionId: string; sectionText: string };
+
+    const assignedItems: AssignedItem[] = !isWorkshop2
+      ? grupo.asignaciones.flatMap((a): AssignedItem[] => {
+          if (a.doc_codigo.includes("#")) {
+            const [docCode, sectionId] = a.doc_codigo.split("#");
+            const doc = nivelDocs.find(d => d.codigo === docCode);
+            const section = doc?.sections_es.find(s => s.id === sectionId);
+            if (doc && section) return [{ type: "section", doc, sectionId, sectionText: section.text }];
+            return [];
+          }
+          const doc = nivelDocs.find(d => d.codigo === a.doc_codigo);
+          return doc ? [{ type: "doc", doc }] : [];
+        })
       : [];
+
     const assignedSubdims = isWorkshop2
       ? ANEXO_C_SUBDIMS.filter(s => grupo.asignaciones.some(a => a.doc_codigo === s.id))
       : [];
@@ -148,28 +164,45 @@ export function Modulo2Usuario({ suscripcion, grupos, docsByNivel }: Props) {
                 </div>
               )
             ) : (
-              assignedDocs.length === 0 ? (
+              assignedItems.length === 0 ? (
                 <p className="rounded-2xl border border-dashed border-slate-300 bg-white p-6 text-center text-sm text-slate-400">
                   El administrador aún no ha asignado contenido a este grupo.
                 </p>
               ) : (
                 <div className="space-y-2">
-                  {assignedDocs.map(doc => (
-                    <a
-                      key={doc.codigo}
-                      href={`/${grupo.nivel}?doc=${doc.codigo}`}
-                      className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-                    >
-                      <div className={`h-8 w-1.5 rounded-full bg-gradient-to-b ${NIVEL_COLOR[grupo.nivel]}`} />
-                      <div>
-                        <p className="text-sm font-semibold text-slate-800">{doc.titulo_es}</p>
-                        {doc.subtitulo_es && (
-                          <p className="text-xs text-slate-400">{doc.subtitulo_es}</p>
-                        )}
-                      </div>
-                      <span className="ml-auto text-slate-300">→</span>
-                    </a>
-                  ))}
+                  {assignedItems.map(item => {
+                    const href = item.type === "section"
+                      ? `/${grupo.nivel}?doc=${item.doc.codigo}#${item.sectionId}`
+                      : `/${grupo.nivel}?doc=${item.doc.codigo}`;
+                    const key = item.type === "section"
+                      ? `${item.doc.codigo}#${item.sectionId}`
+                      : item.doc.codigo;
+                    return (
+                      <a
+                        key={key}
+                        href={href}
+                        className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                      >
+                        <div className={`h-8 w-1.5 rounded-full bg-gradient-to-b ${NIVEL_COLOR[grupo.nivel]}`} />
+                        <div>
+                          {item.type === "section" ? (
+                            <>
+                              <p className="text-xs font-semibold text-slate-400">{item.doc.titulo_es}</p>
+                              <p className="text-sm font-semibold text-slate-800">{item.sectionText}</p>
+                            </>
+                          ) : (
+                            <>
+                              <p className="text-sm font-semibold text-slate-800">{item.doc.titulo_es}</p>
+                              {item.doc.subtitulo_es && (
+                                <p className="text-xs text-slate-400">{item.doc.subtitulo_es}</p>
+                              )}
+                            </>
+                          )}
+                        </div>
+                        <span className="ml-auto text-slate-300">→</span>
+                      </a>
+                    );
+                  })}
                 </div>
               )
             )}
@@ -300,16 +333,23 @@ export function Modulo2Usuario({ suscripcion, grupos, docsByNivel }: Props) {
                           </div>
                         ) : null;
                       } else {
-                        const items = docsByNivel[grupo.nivel]
-                          .filter(d => d.kind === "capitulo" && grupo.asignaciones.some(a => a.doc_codigo === d.codigo));
-                        return items.length > 0 ? (
+                        const allDocs = docsByNivel[grupo.nivel].filter(d => d.kind === "capitulo");
+                        const previewItems = grupo.asignaciones.flatMap(a => {
+                          if (a.doc_codigo.includes("#")) {
+                            const [docCode, sectionId] = a.doc_codigo.split("#");
+                            const doc = allDocs.find(d => d.codigo === docCode);
+                            const section = doc?.sections_es.find(s => s.id === sectionId);
+                            return section ? [{ label: section.text }] : [];
+                          }
+                          const doc = allDocs.find(d => d.codigo === a.doc_codigo);
+                          return doc ? [{ label: doc.titulo_es + (doc.subtitulo_es ? ` — ${doc.subtitulo_es}` : "") }] : [];
+                        });
+                        return previewItems.length > 0 ? (
                           <div className="mt-3">
                             <p className="mb-1 text-xs font-medium text-slate-500">Contenido:</p>
                             <ul className="space-y-0.5">
-                              {items.map(d => (
-                                <li key={d.codigo} className="text-xs text-slate-600">
-                                  · {d.titulo_es}{d.subtitulo_es ? ` — ${d.subtitulo_es}` : ""}
-                                </li>
+                              {previewItems.map((item, i) => (
+                                <li key={i} className="text-xs text-slate-600">· {item.label}</li>
                               ))}
                             </ul>
                           </div>

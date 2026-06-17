@@ -282,22 +282,53 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
 
                           {grupo.taller === "tarde1" ? (
                             <div className="space-y-1.5 max-h-72 overflow-y-auto pr-1">
-                              {nivelDocs.map(doc => (
-                                <label key={doc.codigo} className="flex cursor-pointer items-start gap-2.5 rounded-lg px-2 py-2 hover:bg-slate-50">
-                                  <input
-                                    type="checkbox"
-                                    checked={codigos.includes(doc.codigo)}
-                                    onChange={() => toggleCodigo(grupo.id, doc.codigo, codigos)}
-                                    className="mt-0.5 h-4 w-4 rounded border-slate-300 text-brand focus:ring-brand"
-                                  />
-                                  <div>
-                                    <p className="text-sm font-semibold text-slate-700">{doc.titulo_es}</p>
-                                    {doc.subtitulo_es && (
-                                      <p className="text-xs text-slate-400">{doc.subtitulo_es}</p>
-                                    )}
-                                  </div>
-                                </label>
-                              ))}
+                              {nivelDocs.map(doc => {
+                                const dimSections = doc.sections_es.filter(
+                                  s => s.depth === 3 && /^\d+\.\d+/.test(s.text)
+                                );
+                                if (dimSections.length > 0) {
+                                  return (
+                                    <div key={doc.codigo} className="rounded-lg border border-slate-100 bg-slate-50/50 p-2">
+                                      <p className="mb-1.5 px-1 text-xs font-bold text-slate-500">
+                                        {doc.titulo_es}
+                                        {doc.subtitulo_es && <span className="font-normal"> — {doc.subtitulo_es}</span>}
+                                      </p>
+                                      <div className="space-y-1 pl-1">
+                                        {dimSections.map(section => {
+                                          const code = `${doc.codigo}#${section.id}`;
+                                          return (
+                                            <label key={section.id} className="flex cursor-pointer items-center gap-2.5 rounded-lg px-2 py-1.5 hover:bg-white">
+                                              <input
+                                                type="checkbox"
+                                                checked={codigos.includes(code)}
+                                                onChange={() => toggleCodigo(grupo.id, code, codigos)}
+                                                className="h-4 w-4 rounded border-slate-300 text-brand focus:ring-brand"
+                                              />
+                                              <p className="text-sm text-slate-700">{section.text}</p>
+                                            </label>
+                                          );
+                                        })}
+                                      </div>
+                                    </div>
+                                  );
+                                }
+                                return (
+                                  <label key={doc.codigo} className="flex cursor-pointer items-start gap-2.5 rounded-lg px-2 py-2 hover:bg-slate-50">
+                                    <input
+                                      type="checkbox"
+                                      checked={codigos.includes(doc.codigo)}
+                                      onChange={() => toggleCodigo(grupo.id, doc.codigo, codigos)}
+                                      className="mt-0.5 h-4 w-4 rounded border-slate-300 text-brand focus:ring-brand"
+                                    />
+                                    <div>
+                                      <p className="text-sm font-semibold text-slate-700">{doc.titulo_es}</p>
+                                      {doc.subtitulo_es && (
+                                        <p className="text-xs text-slate-400">{doc.subtitulo_es}</p>
+                                      )}
+                                    </div>
+                                  </label>
+                                );
+                              })}
                             </div>
                           ) : (
                             <div className="space-y-3 max-h-72 overflow-y-auto pr-1">
