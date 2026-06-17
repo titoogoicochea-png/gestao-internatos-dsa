@@ -3,7 +3,6 @@
 import { useState, useTransition } from "react";
 import type { Doc } from "@/lib/content";
 import { ANEXO_C_SUBDIMS } from "@/lib/anexo-c-sections";
-import { CAP3_DIMS } from "@/lib/cap3-dims";
 import { joinGrupo, leaveGrupo } from "@/app/modulo2/actions";
 
 type Asignacion = { doc_codigo: string };
@@ -75,8 +74,9 @@ export function Modulo2Usuario({ suscripcion, grupos, docsByNivel }: Props) {
   if (suscripcion) {
     const { grupo } = suscripcion;
     const isWorkshop2 = grupo.taller === "tarde2";
-    const assignedDims = !isWorkshop2
-      ? CAP3_DIMS.filter(d => grupo.asignaciones.some(a => a.doc_codigo === d.id))
+    const nivelDocs = docsByNivel[grupo.nivel].filter(d => d.kind === "capitulo");
+    const assignedDocs = !isWorkshop2
+      ? nivelDocs.filter(d => grupo.asignaciones.some(a => a.doc_codigo === d.codigo))
       : [];
     const assignedSubdims = isWorkshop2
       ? ANEXO_C_SUBDIMS.filter(s => grupo.asignaciones.some(a => a.doc_codigo === s.id))
@@ -101,8 +101,12 @@ export function Modulo2Usuario({ suscripcion, grupos, docsByNivel }: Props) {
 
           <div className={`h-2 rounded-t-2xl bg-gradient-to-r ${NIVEL_COLOR[grupo.nivel]}`} />
           <div className="rounded-b-2xl border border-t-0 border-slate-200 bg-white p-6 shadow-sm">
-            <div className="mb-1 text-xs font-bold uppercase tracking-widest text-slate-400">
-              {NIVEL_LABEL[grupo.nivel]}
+            <div className="mb-1 flex items-center gap-2">
+              <span className="text-xs font-bold uppercase tracking-widest text-slate-400">
+                {NIVEL_LABEL[grupo.nivel]}
+              </span>
+              <span className="text-slate-300">·</span>
+              <span className="text-xs font-semibold text-slate-400">{TALLER_LABEL[grupo.taller]}</span>
             </div>
             <h1 className="text-xl font-extrabold text-slate-800">{grupo.nombre}</h1>
             {grupo.descripcion && (
@@ -117,7 +121,7 @@ export function Modulo2Usuario({ suscripcion, grupos, docsByNivel }: Props) {
             <h2 className="mb-3 text-sm font-semibold text-slate-700">
               {isWorkshop2
                 ? "Subdimensiones del Anexo C asignadas a tu grupo"
-                : "Dimensiones del Capítulo III asignadas a tu grupo"}
+                : `Contenido asignado — ${NIVEL_LABEL[grupo.nivel]}`}
             </h2>
 
             {isWorkshop2 ? (
@@ -144,33 +148,29 @@ export function Modulo2Usuario({ suscripcion, grupos, docsByNivel }: Props) {
                 </div>
               )
             ) : (
-              assignedDims.length === 0 ? (
+              assignedDocs.length === 0 ? (
                 <p className="rounded-2xl border border-dashed border-slate-300 bg-white p-6 text-center text-sm text-slate-400">
-                  El administrador aún no ha asignado dimensiones a este grupo.
+                  El administrador aún no ha asignado contenido a este grupo.
                 </p>
               ) : (
-                <>
-                  <div className="mb-3 rounded-lg bg-slate-50 px-3 py-2.5">
-                    <p className="text-xs font-bold text-slate-500 uppercase tracking-wide">Capítulo III — Dimensiones Operativas</p>
-                    <p className="mt-0.5 text-xs text-slate-400">¿Cómo formamos y cuidamos?</p>
-                  </div>
-                  <div className="space-y-2">
-                    {assignedDims.map(dim => (
-                      <a
-                        key={dim.id}
-                        href={`/${grupo.nivel}?doc=CAP_III#${dim.anchor_es}`}
-                        className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
-                      >
-                        <div className={`h-8 w-1.5 rounded-full bg-gradient-to-b ${NIVEL_COLOR[grupo.nivel]}`} />
-                        <div>
-                          <p className="text-xs font-bold text-slate-400">{dim.num}</p>
-                          <p className="text-sm font-semibold text-slate-800">{dim.titulo_es}</p>
-                        </div>
-                        <span className="ml-auto text-slate-300">→</span>
-                      </a>
-                    ))}
-                  </div>
-                </>
+                <div className="space-y-2">
+                  {assignedDocs.map(doc => (
+                    <a
+                      key={doc.codigo}
+                      href={`/${grupo.nivel}?doc=${doc.codigo}`}
+                      className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+                    >
+                      <div className={`h-8 w-1.5 rounded-full bg-gradient-to-b ${NIVEL_COLOR[grupo.nivel]}`} />
+                      <div>
+                        <p className="text-sm font-semibold text-slate-800">{doc.titulo_es}</p>
+                        {doc.subtitulo_es && (
+                          <p className="text-xs text-slate-400">{doc.subtitulo_es}</p>
+                        )}
+                      </div>
+                      <span className="ml-auto text-slate-300">→</span>
+                    </a>
+                  ))}
+                </div>
               )
             )}
           </div>
@@ -217,8 +217,25 @@ export function Modulo2Usuario({ suscripcion, grupos, docsByNivel }: Props) {
           <p className="mb-4 rounded-lg bg-red-50 px-4 py-2 text-center text-sm text-red-700">{error}</p>
         )}
 
-        {/* Taller tabs */}
-        <div className="mb-3 flex justify-center gap-2">
+        {/* Nivel — selector primario */}
+        <div className="mb-4 grid grid-cols-2 gap-3">
+          {(["basica", "superior"] as const).map(n => (
+            <button
+              key={n}
+              onClick={() => setNivel(n)}
+              className={`rounded-2xl border-2 p-4 text-center transition ${
+                nivel === n
+                  ? "border-brand bg-brand text-white shadow-md"
+                  : "border-slate-200 bg-white text-slate-700 hover:border-brand/40 hover:bg-slate-50"
+              }`}
+            >
+              <p className="font-extrabold">{NIVEL_LABEL[n]}</p>
+            </button>
+          ))}
+        </div>
+
+        {/* Workshop — selector secundario */}
+        <div className="mb-5 flex justify-center gap-2">
           {(["tarde1", "tarde2"] as const).map(t => (
             <button
               key={t}
@@ -226,27 +243,10 @@ export function Modulo2Usuario({ suscripcion, grupos, docsByNivel }: Props) {
               className={`rounded-lg px-5 py-2 text-sm font-semibold transition ${
                 taller === t
                   ? "bg-slate-800 text-white shadow"
-                  : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"
+                  : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
               }`}
             >
               {TALLER_LABEL[t]}
-            </button>
-          ))}
-        </div>
-
-        {/* Nivel tabs */}
-        <div className="mb-5 flex justify-center gap-2">
-          {(["basica", "superior"] as const).map(n => (
-            <button
-              key={n}
-              onClick={() => setNivel(n)}
-              className={`rounded-lg px-5 py-2 text-sm font-semibold transition ${
-                nivel === n
-                  ? "bg-brand text-white shadow"
-                  : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"
-              }`}
-            >
-              {NIVEL_LABEL[n]}
             </button>
           ))}
         </div>
@@ -260,19 +260,18 @@ export function Modulo2Usuario({ suscripcion, grupos, docsByNivel }: Props) {
             {gruposDeNivel.map(grupo => {
               const isFull = grupo.memberCount >= grupo.cupo_max;
               const pct = Math.min(100, Math.round((grupo.memberCount / grupo.cupo_max) * 100));
-              const docs = docsByNivel[nivel];
-              const assignedDocs = docs.filter(d => grupo.asignaciones.some(a => a.doc_codigo === d.codigo));
+              const isW2 = grupo.taller === "tarde2";
 
               return (
                 <div key={grupo.id} className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-                  <div className={`h-1.5 bg-gradient-to-r ${NIVEL_COLOR[nivel]}`} />
+                  <div className={`h-1.5 bg-gradient-to-r ${NIVEL_COLOR[grupo.nivel]}`} />
                   <div className="p-5">
                     <h3 className="font-bold text-slate-800">{grupo.nombre}</h3>
                     {grupo.descripcion && (
                       <p className="mt-1 text-sm text-slate-500">{grupo.descripcion}</p>
                     )}
 
-                    {/* Capacity bar */}
+                    {/* Barra de capacidad */}
                     <div className="mt-3">
                       <div className="mb-1 flex justify-between text-xs text-slate-400">
                         <span>{grupo.memberCount} participantes</span>
@@ -286,9 +285,8 @@ export function Modulo2Usuario({ suscripcion, grupos, docsByNivel }: Props) {
                       </div>
                     </div>
 
-                    {/* Assigned content preview */}
+                    {/* Vista previa del contenido asignado */}
                     {(() => {
-                      const isW2 = grupo.taller === "tarde2";
                       if (isW2) {
                         const items = ANEXO_C_SUBDIMS.filter(s => grupo.asignaciones.some(a => a.doc_codigo === s.id));
                         return items.length > 0 ? (
@@ -302,13 +300,16 @@ export function Modulo2Usuario({ suscripcion, grupos, docsByNivel }: Props) {
                           </div>
                         ) : null;
                       } else {
-                        const items = CAP3_DIMS.filter(d => grupo.asignaciones.some(a => a.doc_codigo === d.id));
+                        const items = docsByNivel[grupo.nivel]
+                          .filter(d => d.kind === "capitulo" && grupo.asignaciones.some(a => a.doc_codigo === d.codigo));
                         return items.length > 0 ? (
                           <div className="mt-3">
-                            <p className="mb-1 text-xs font-medium text-slate-500">Cap. III · Dimensiones:</p>
+                            <p className="mb-1 text-xs font-medium text-slate-500">Contenido:</p>
                             <ul className="space-y-0.5">
                               {items.map(d => (
-                                <li key={d.id} className="text-xs text-slate-600">· {d.num} {d.titulo_es}</li>
+                                <li key={d.codigo} className="text-xs text-slate-600">
+                                  · {d.titulo_es}{d.subtitulo_es ? ` — ${d.subtitulo_es}` : ""}
+                                </li>
                               ))}
                             </ul>
                           </div>
@@ -321,7 +322,7 @@ export function Modulo2Usuario({ suscripcion, grupos, docsByNivel }: Props) {
                       disabled={isFull || isPending}
                       className={`mt-4 w-full rounded-lg py-2 text-sm font-semibold transition ${
                         isFull
-                          ? "bg-slate-100 text-slate-400 cursor-not-allowed"
+                          ? "cursor-not-allowed bg-slate-100 text-slate-400"
                           : "bg-brand text-white hover:bg-brand/90 disabled:opacity-60"
                       }`}
                     >

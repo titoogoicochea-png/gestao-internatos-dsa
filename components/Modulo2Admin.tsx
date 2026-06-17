@@ -3,7 +3,6 @@
 import { useState, useTransition } from "react";
 import type { Doc } from "@/lib/content";
 import { ANEXO_C_DIMS, ANEXO_C_SUBDIMS } from "@/lib/anexo-c-sections";
-import { CAP3_DIMS } from "@/lib/cap3-dims";
 import { createGrupo, deleteGrupo, setAsignaciones } from "@/app/modulo2/actions";
 
 type Asignacion = { doc_codigo: string };
@@ -26,6 +25,7 @@ type Props = {
 };
 
 const NIVEL_LABEL = { basica: "Educación Básica", superior: "Educación Superior" };
+const NIVEL_DESC  = { basica: "Internados de educación básica", superior: "Internados de educación superior" };
 const TALLER_LABEL = { tarde1: "Workshop 1 — Tarde 1", tarde2: "Workshop 2 — Tarde 2" };
 
 export function Modulo2Admin({ grupos, docsByNivel }: Props) {
@@ -39,7 +39,6 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
   const [pendingCodigos, setPendingCodigos] = useState<Record<string, string[]>>({});
 
   const gruposDeNivel = grupos.filter(g => g.taller === taller && g.nivel === nivel);
-  const docs = docsByNivel[nivel];
 
   function codigosFor(grupo: GrupoAdmin): string[] {
     return pendingCodigos[grupo.id] ?? grupo.asignaciones.map(a => a.doc_codigo);
@@ -78,14 +77,14 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
     });
   }
 
-  function handleGuardarCapitulos(grupoId: string) {
+  function handleGuardar(grupoId: string) {
     const codigos = codigosFor(grupos.find(g => g.id === grupoId)!);
     startTransition(async () => {
       try {
         await setAsignaciones(grupoId, codigos);
         setPendingCodigos(prev => { const n = { ...prev }; delete n[grupoId]; return n; });
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Error al guardar capítulos");
+        setError(err instanceof Error ? err.message : "Error al guardar");
       }
     });
   }
@@ -106,7 +105,7 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
         <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-2xl font-extrabold text-slate-800">Grupos de trabajo</h1>
-            <p className="mt-1 text-sm text-slate-500">Crea grupos, asigna capítulos y gestiona participantes.</p>
+            <p className="mt-1 text-sm text-slate-500">Selecciona el nivel, el workshop y gestiona los grupos.</p>
           </div>
           <button
             onClick={() => setShowForm(v => !v)}
@@ -120,41 +119,60 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
           <p className="mb-4 rounded-lg bg-red-50 px-4 py-2 text-sm text-red-700">{error}</p>
         )}
 
+        {/* NIVEL — selector primario */}
+        <div className="mb-5 grid grid-cols-2 gap-3">
+          {(["basica", "superior"] as const).map(n => (
+            <button
+              key={n}
+              onClick={() => { setNivel(n); setExpandedId(null); }}
+              className={`rounded-2xl border-2 p-4 text-left transition ${
+                nivel === n
+                  ? "border-brand bg-brand text-white shadow-md"
+                  : "border-slate-200 bg-white text-slate-700 hover:border-brand/40 hover:bg-slate-50"
+              }`}
+            >
+              <p className="text-base font-extrabold">{NIVEL_LABEL[n]}</p>
+              <p className={`mt-0.5 text-xs ${nivel === n ? "text-white/70" : "text-slate-400"}`}>
+                {NIVEL_DESC[n]}
+              </p>
+            </button>
+          ))}
+        </div>
+
+        {/* WORKSHOP — selector secundario */}
+        <div className="mb-5 flex gap-2">
+          {(["tarde1", "tarde2"] as const).map(t => (
+            <button
+              key={t}
+              onClick={() => { setTaller(t); setExpandedId(null); }}
+              className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
+                taller === t
+                  ? "bg-slate-800 text-white"
+                  : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
+              }`}
+            >
+              {TALLER_LABEL[t]}
+            </button>
+          ))}
+        </div>
+
+        {/* Formulario de creación */}
         {showForm && (
           <form onSubmit={handleCreate} className="mb-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-            <h2 className="mb-4 font-semibold text-slate-800">Nuevo grupo</h2>
+            <div className="mb-4 flex items-center gap-2">
+              <span className="rounded-lg bg-brand/10 px-2.5 py-1 text-xs font-bold text-brand">{NIVEL_LABEL[nivel]}</span>
+              <span className="rounded-lg bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600">{TALLER_LABEL[taller]}</span>
+            </div>
             <div className="grid gap-4 sm:grid-cols-2">
-              <div>
+              <div className="sm:col-span-2">
                 <label className="mb-1 block text-xs font-medium text-slate-600">Nombre del grupo</label>
                 <input
                   required
                   value={form.nombre}
                   onChange={e => setForm(f => ({ ...f, nombre: e.target.value }))}
                   className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
-                  placeholder="Ej. Grupo A — Convivencia"
+                  placeholder="Ej. Grupo A — Identidad Espiritual"
                 />
-              </div>
-              <div>
-                <label className="mb-1 block text-xs font-medium text-slate-600">Workshop</label>
-                <select
-                  value={taller}
-                  onChange={e => setTaller(e.target.value as "tarde1" | "tarde2")}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-brand focus:outline-none"
-                >
-                  <option value="tarde1">Workshop 1 — Tarde 1</option>
-                  <option value="tarde2">Workshop 2 — Tarde 2</option>
-                </select>
-              </div>
-              <div>
-                <label className="mb-1 block text-xs font-medium text-slate-600">Nivel</label>
-                <select
-                  value={nivel}
-                  onChange={e => setNivel(e.target.value as "basica" | "superior")}
-                  className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-brand focus:outline-none"
-                >
-                  <option value="basica">Educación Básica</option>
-                  <option value="superior">Educación Superior</option>
-                </select>
               </div>
               <div className="sm:col-span-2">
                 <label className="mb-1 block text-xs font-medium text-slate-600">Descripción</label>
@@ -191,43 +209,10 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
           </form>
         )}
 
-        {/* Taller tabs */}
-        <div className="mb-3 flex gap-2">
-          {(["tarde1", "tarde2"] as const).map(t => (
-            <button
-              key={t}
-              onClick={() => setTaller(t)}
-              className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
-                taller === t
-                  ? "bg-slate-800 text-white"
-                  : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"
-              }`}
-            >
-              {TALLER_LABEL[t]}
-            </button>
-          ))}
-        </div>
-
-        {/* Nivel tabs */}
-        <div className="mb-5 flex gap-2">
-          {(["basica", "superior"] as const).map(n => (
-            <button
-              key={n}
-              onClick={() => setNivel(n)}
-              className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
-                nivel === n
-                  ? "bg-brand text-white"
-                  : "bg-white border border-slate-200 text-slate-600 hover:bg-slate-50"
-              }`}
-            >
-              {NIVEL_LABEL[n]}
-            </button>
-          ))}
-        </div>
-
+        {/* Lista de grupos */}
         {gruposDeNivel.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center text-slate-400">
-            No hay grupos de {NIVEL_LABEL[nivel].toLowerCase()} todavía.
+            No hay grupos de {NIVEL_LABEL[nivel].toLowerCase()} para {TALLER_LABEL[taller].toLowerCase()} todavía.
           </div>
         ) : (
           <div className="space-y-3">
@@ -236,6 +221,7 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
               const memberCount = grupo.members.length;
               const codigos = codigosFor(grupo);
               const hasPendingChanges = pendingCodigos[grupo.id] !== undefined;
+              const nivelDocs = docsByNivel[grupo.nivel].filter(d => d.kind === "capitulo");
 
               return (
                 <div key={grupo.id} className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
@@ -275,15 +261,17 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
                   {isExpanded && (
                     <div className="border-t border-slate-100 px-5 py-4">
                       <div className="grid gap-6 md:grid-cols-2">
-                        {/* Content assignment */}
+                        {/* Asignación de contenido */}
                         <div>
                           <div className="mb-3 flex items-center justify-between">
                             <h4 className="text-sm font-semibold text-slate-700">
-                              {taller === "tarde1" ? "Capítulos asignados" : "Subdimensiones asignadas"}
+                              {grupo.taller === "tarde1"
+                                ? `Índice — ${NIVEL_LABEL[grupo.nivel]}`
+                                : "Subdimensiones del Anexo C"}
                             </h4>
                             {hasPendingChanges && (
                               <button
-                                onClick={() => handleGuardarCapitulos(grupo.id)}
+                                onClick={() => handleGuardar(grupo.id)}
                                 disabled={isPending}
                                 className="rounded-lg bg-brand px-3 py-1 text-xs font-semibold text-white hover:bg-brand/90 disabled:opacity-60"
                               >
@@ -292,30 +280,27 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
                             )}
                           </div>
 
-                          {taller === "tarde1" ? (
-                            <div>
-                              <div className="mb-3 rounded-lg bg-slate-50 px-3 py-2.5">
-                                <p className="text-xs font-bold text-slate-500 uppercase tracking-wide">Capítulo III — Dimensiones Operativas</p>
-                                <p className="mt-0.5 text-xs text-slate-400">¿Cómo formamos y cuidamos?</p>
-                              </div>
-                              <div className="space-y-1.5">
-                                {CAP3_DIMS.map(dim => (
-                                  <label key={dim.id} className="flex cursor-pointer items-center gap-2.5 rounded-lg px-2 py-1.5 hover:bg-slate-50">
-                                    <input
-                                      type="checkbox"
-                                      checked={codigos.includes(dim.id)}
-                                      onChange={() => toggleCodigo(grupo.id, dim.id, codigos)}
-                                      className="h-4 w-4 rounded border-slate-300 text-brand focus:ring-brand"
-                                    />
-                                    <span className="text-sm text-slate-700">
-                                      <span className="font-medium text-slate-400">{dim.num}</span> {dim.titulo_es}
-                                    </span>
-                                  </label>
-                                ))}
-                              </div>
+                          {grupo.taller === "tarde1" ? (
+                            <div className="space-y-1.5 max-h-72 overflow-y-auto pr-1">
+                              {nivelDocs.map(doc => (
+                                <label key={doc.codigo} className="flex cursor-pointer items-start gap-2.5 rounded-lg px-2 py-2 hover:bg-slate-50">
+                                  <input
+                                    type="checkbox"
+                                    checked={codigos.includes(doc.codigo)}
+                                    onChange={() => toggleCodigo(grupo.id, doc.codigo, codigos)}
+                                    className="mt-0.5 h-4 w-4 rounded border-slate-300 text-brand focus:ring-brand"
+                                  />
+                                  <div>
+                                    <p className="text-sm font-semibold text-slate-700">{doc.titulo_es}</p>
+                                    {doc.subtitulo_es && (
+                                      <p className="text-xs text-slate-400">{doc.subtitulo_es}</p>
+                                    )}
+                                  </div>
+                                </label>
+                              ))}
                             </div>
                           ) : (
-                            <div className="space-y-3">
+                            <div className="space-y-3 max-h-72 overflow-y-auto pr-1">
                               {ANEXO_C_DIMS.map(dim => (
                                 <div key={dim.num}>
                                   <p className="mb-1 text-xs font-bold uppercase tracking-wide text-slate-400">
@@ -342,7 +327,7 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
                           )}
                         </div>
 
-                        {/* Member list */}
+                        {/* Lista de miembros */}
                         <div>
                           <h4 className="mb-3 text-sm font-semibold text-slate-700">
                             Participantes ({memberCount})
