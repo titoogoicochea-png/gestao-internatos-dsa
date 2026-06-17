@@ -3,6 +3,7 @@
 import { useState, useTransition } from "react";
 import type { Doc } from "@/lib/content";
 import { ANEXO_C_DIMS, ANEXO_C_SUBDIMS } from "@/lib/anexo-c-sections";
+import { CAP3_DIMS } from "@/lib/cap3-dims";
 import { createGrupo, deleteGrupo, setAsignaciones } from "@/app/modulo2/actions";
 
 type Asignacion = { doc_codigo: string };
@@ -292,18 +293,26 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
                           </div>
 
                           {taller === "tarde1" ? (
-                            <div className="space-y-1.5">
-                              {docs.map(doc => (
-                                <label key={doc.codigo} className="flex cursor-pointer items-center gap-2.5 rounded-lg px-2 py-1.5 hover:bg-slate-50">
-                                  <input
-                                    type="checkbox"
-                                    checked={codigos.includes(doc.codigo)}
-                                    onChange={() => toggleCodigo(grupo.id, doc.codigo, codigos)}
-                                    className="h-4 w-4 rounded border-slate-300 text-brand focus:ring-brand"
-                                  />
-                                  <span className="text-sm text-slate-700">{doc.titulo_es}</span>
-                                </label>
-                              ))}
+                            <div>
+                              <div className="mb-3 rounded-lg bg-slate-50 px-3 py-2.5">
+                                <p className="text-xs font-bold text-slate-500 uppercase tracking-wide">Capítulo III — Dimensiones Operativas</p>
+                                <p className="mt-0.5 text-xs text-slate-400">¿Cómo formamos y cuidamos?</p>
+                              </div>
+                              <div className="space-y-1.5">
+                                {CAP3_DIMS.map(dim => (
+                                  <label key={dim.id} className="flex cursor-pointer items-center gap-2.5 rounded-lg px-2 py-1.5 hover:bg-slate-50">
+                                    <input
+                                      type="checkbox"
+                                      checked={codigos.includes(dim.id)}
+                                      onChange={() => toggleCodigo(grupo.id, dim.id, codigos)}
+                                      className="h-4 w-4 rounded border-slate-300 text-brand focus:ring-brand"
+                                    />
+                                    <span className="text-sm text-slate-700">
+                                      <span className="font-medium text-slate-400">{dim.num}</span> {dim.titulo_es}
+                                    </span>
+                                  </label>
+                                ))}
+                              </div>
                             </div>
                           ) : (
                             <div className="space-y-3">
