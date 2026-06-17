@@ -87,6 +87,20 @@ export default async function Modulo2Page() {
     }
   }
 
+  // Fetch existing comments for this user in their group
+  const initialComments: Record<string, string> = {};
+  if (suscRow) {
+    const { data: observaciones } = await supabase
+      .from("observaciones")
+      .select("doc_codigo, texto")
+      .eq("usuario_id", user.id)
+      .eq("grupo_id", suscRow.grupo_id)
+      .eq("seccion_id", "main");
+    for (const obs of observaciones ?? []) {
+      initialComments[obs.doc_codigo] = obs.texto;
+    }
+  }
+
   // Fetch all groups for exploration
   const { data: grupos } = await supabase
     .from("grupos")
@@ -116,6 +130,7 @@ export default async function Modulo2Page() {
       suscripcion={suscripcion}
       grupos={gruposPublicos}
       docsByNivel={docsByNivel}
+      initialComments={initialComments}
     />
   );
 }
