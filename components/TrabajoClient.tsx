@@ -203,9 +203,9 @@ function AssignmentBlock({
               {/* Section content */}
               {isOpen && (
                 <div className="border-t border-slate-100 bg-slate-50/50 px-5 py-5">
-                  <div className="grid gap-6 lg:grid-cols-2">
-                    {/* Left: original text */}
-                    <div className="prose prose-sm max-w-none rounded-xl bg-white p-4 shadow-sm ring-1 ring-slate-100">
+                  <div className="flex flex-col gap-5">
+                    {/* Top: original text */}
+                    <div className="prose prose-sm max-w-none rounded-xl bg-white p-5 shadow-sm ring-1 ring-slate-100">
                       {section.content ? (
                         <ReactMarkdown remarkPlugins={[remarkGfm]}>
                           {section.content}
@@ -220,7 +220,7 @@ function AssignmentBlock({
                       )}
                     </div>
 
-                    {/* Right: comment box */}
+                    {/* Bottom: comment box */}
                     <div className="flex flex-col gap-2">
                       <label className="text-xs font-semibold uppercase tracking-wide text-slate-500">
                         Tus comentarios, observaciones y/o sugerencias
@@ -228,23 +228,15 @@ function AssignmentBlock({
                       <textarea
                         value={text}
                         onChange={(e) => onChangeComment(assignment.docCodigo, section.slug, e.target.value)}
-                        rows={10}
+                        rows={6}
                         placeholder="Escribe aquí tus comentarios sobre esta sección..."
-                        className="w-full flex-1 resize-y rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-800 placeholder-slate-300 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
+                        className="w-full resize-y rounded-xl border border-slate-300 bg-white px-4 py-3 text-sm text-slate-800 placeholder-slate-300 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
                       />
                       <div className="flex items-center justify-end gap-2 text-xs">
-                        {status === "saving" && (
-                          <span className="text-slate-400">Guardando…</span>
-                        )}
-                        {status === "saved" && (
-                          <span className="text-emerald-600">✓ Guardado</span>
-                        )}
-                        {status === "error" && (
-                          <span className="text-red-500">Error al guardar</span>
-                        )}
-                        {status === "idle" && text.trim() && (
-                          <span className="text-slate-300">✓ Guardado</span>
-                        )}
+                        {status === "saving" && <span className="text-slate-400">Guardando…</span>}
+                        {status === "saved" && <span className="text-emerald-600">✓ Guardado</span>}
+                        {status === "error" && <span className="text-red-500">Error al guardar</span>}
+                        {status === "idle" && text.trim() && <span className="text-slate-300">✓ Guardado</span>}
                       </div>
                     </div>
                   </div>
