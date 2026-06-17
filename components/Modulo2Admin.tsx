@@ -3,7 +3,7 @@
 import { useState, useTransition } from "react";
 import type { Doc } from "@/lib/content";
 import { ANEXO_C_DIMS, ANEXO_C_SUBDIMS } from "@/lib/anexo-c-sections";
-import { createGrupo, deleteGrupo, setAsignaciones } from "@/app/modulo2/actions";
+import { createGrupo, deleteGrupo, setAsignaciones, updateGrupo } from "@/app/modulo2/actions";
 
 type Asignacion = { doc_codigo: string };
 type Member = { id: string; nombre: string; email: string | null };
@@ -37,6 +37,8 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
   const [error, setError] = useState<string | null>(null);
   const [form, setForm] = useState({ nombre: "", descripcion: "", cupo_max: "20" });
   const [pendingCodigos, setPendingCodigos] = useState<Record<string, string[]>>({});
+  const [editingId, setEditingId] = useState<string | null>(null);
+  const [editForm, setEditForm] = useState({ nombre: "", descripcion: "", cupo_max: "20" });
 
   const gruposDeNivel = grupos.filter(g => g.taller === taller && g.nivel === nivel);
 
@@ -74,6 +76,45 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
       } catch (err) {
         setError(err instanceof Error ? err.message : "Error al eliminar");
       }
+    });
+  }
+
+  function handleStartEdit(grupo: GrupoAdmin) {
+    setEditingId(grupo.id);
+    setEditForm({ nombre: grupo.nombre, descripcion: grupo.descripcion ?? "", cupo_max: String(grupo.cupo_max) });
+  }
+
+  function handleSaveEdit(grupoId: string) {
+    startTransition(async () => {
+      try {
+        await updateGrupo(grupoId, {
+          nombre: editForm.nombre,
+          descripcion: editForm.descripcion,
+          cupo_max: parseInt(editForm.cupo_max),
+        });
+        setEditingId(null);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : "Error al actualizar");
+      }
+    });
+  }
+
+  function getAssignedLabels(grupo: GrupoAdmin): string[] {
+    if (grupo.taller === "tarde2") {
+      return ANEXO_C_SUBDIMS
+        .filter(s => grupo.asignaciones.some(a => a.doc_codigo === s.id))
+        .map(s => `${s.codigo} ${s.titulo_es}`);
+    }
+    const docs = docsByNivel[grupo.nivel];
+    return grupo.asignaciones.map(a => {
+      if (a.doc_codigo.includes("#")) {
+        const [docCode, sectionId] = a.doc_codigo.split("#");
+        const doc = docs.find(d => d.codigo === docCode);
+        const section = doc?.sections_es.find(s => s.id === sectionId);
+        return section?.text ?? a.doc_codigo;
+      }
+      const doc = docs.find(d => d.codigo === a.doc_codigo);
+      return doc ? doc.titulo_es : a.doc_codigo;
     });
   }
 
@@ -218,44 +259,113 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
           <div className="space-y-3">
             {gruposDeNivel.map(grupo => {
               const isExpanded = expandedId === grupo.id;
+              const isEditing = editingId === grupo.id;
               const memberCount = grupo.members.length;
               const codigos = codigosFor(grupo);
               const hasPendingChanges = pendingCodigos[grupo.id] !== undefined;
               const nivelDocs = docsByNivel[grupo.nivel].filter(d => d.kind === "capitulo");
+              const assignedLabels = getAssignedLabels(grupo);
 
               return (
                 <div key={grupo.id} className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
-                  <div className="flex items-center justify-between px-5 py-4">
-                    <div className="min-w-0 flex-1">
-                      <div className="flex items-center gap-3">
-                        <h3 className="font-semibold text-slate-800">{grupo.nombre}</h3>
-                        <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${
-                          memberCount >= grupo.cupo_max
-                            ? "bg-red-100 text-red-700"
-                            : "bg-green-100 text-green-700"
-                        }`}>
-                          {memberCount}/{grupo.cupo_max} cupos
-                        </span>
+                  <div className="px-5 py-4">
+                    {isEditing ? (
+                      <div className="space-y-3">
+                        <div className="grid gap-3 sm:grid-cols-2">
+                          <div className="sm:col-span-2">
+                            <label className="mb-1 block text-xs font-medium text-slate-500">Nombre del grupo</label>
+                            <input
+                              autoFocus
+                              value={editForm.nombre}
+                              onChange={e => setEditForm(f => ({ ...f, nombre: e.target.value }))}
+                              className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
+                            />
+                          </div>
+                          <div className="sm:col-span-2">
+                            <label className="mb-1 block text-xs font-medium text-slate-500">Descripción</label>
+                            <input
+                              value={editForm.descripcion}
+                              onChange={e => setEditForm(f => ({ ...f, descripcion: e.target.value }))}
+                              className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
+                            />
+                          </div>
+                          <div>
+                            <label className="mb-1 block text-xs font-medium text-slate-500">Cupo máximo</label>
+                            <input
+                              type="number"
+                              min={1}
+                              max={200}
+                              value={editForm.cupo_max}
+                              onChange={e => setEditForm(f => ({ ...f, cupo_max: e.target.value }))}
+                              className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
+                            />
+                          </div>
+                        </div>
+                        <div className="flex gap-2 justify-end">
+                          <button
+                            onClick={() => setEditingId(null)}
+                            className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-50"
+                          >
+                            Cancelar
+                          </button>
+                          <button
+                            onClick={() => handleSaveEdit(grupo.id)}
+                            disabled={isPending || !editForm.nombre}
+                            className="rounded-lg bg-brand px-3 py-1.5 text-xs font-semibold text-white hover:bg-brand/90 disabled:opacity-60"
+                          >
+                            {isPending ? "Guardando..." : "Guardar cambios"}
+                          </button>
+                        </div>
                       </div>
-                      {grupo.descripcion && (
-                        <p className="mt-0.5 text-sm text-slate-500 truncate">{grupo.descripcion}</p>
-                      )}
-                    </div>
-                    <div className="ml-4 flex items-center gap-2">
-                      <button
-                        onClick={() => setExpandedId(isExpanded ? null : grupo.id)}
-                        className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-50"
-                      >
-                        {isExpanded ? "Cerrar" : "Gestionar"}
-                      </button>
-                      <button
-                        onClick={() => handleDelete(grupo.id, grupo.nombre)}
-                        disabled={isPending}
-                        className="rounded-lg border border-red-200 px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50 disabled:opacity-40"
-                      >
-                        Eliminar
-                      </button>
-                    </div>
+                    ) : (
+                      <div className="flex items-start justify-between gap-4">
+                        <div className="min-w-0 flex-1">
+                          <div className="flex flex-wrap items-center gap-2">
+                            <h3 className="font-semibold text-slate-800">{grupo.nombre}</h3>
+                            <span className={`rounded-full px-2 py-0.5 text-xs font-semibold ${
+                              memberCount >= grupo.cupo_max
+                                ? "bg-red-100 text-red-700"
+                                : "bg-green-100 text-green-700"
+                            }`}>
+                              {memberCount}/{grupo.cupo_max} cupos
+                            </span>
+                          </div>
+                          {grupo.descripcion && (
+                            <p className="mt-0.5 text-sm text-slate-500 truncate">{grupo.descripcion}</p>
+                          )}
+                          {assignedLabels.length > 0 && !isExpanded && (
+                            <div className="mt-2 flex flex-wrap gap-1.5">
+                              {assignedLabels.map((label, i) => (
+                                <span key={i} className="rounded-md bg-brand/8 px-2 py-0.5 text-xs text-brand font-medium">
+                                  {label}
+                                </span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                        <div className="flex shrink-0 items-center gap-2">
+                          <button
+                            onClick={() => handleStartEdit(grupo)}
+                            className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-50"
+                          >
+                            Editar
+                          </button>
+                          <button
+                            onClick={() => setExpandedId(isExpanded ? null : grupo.id)}
+                            className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-50"
+                          >
+                            {isExpanded ? "Cerrar" : "Gestionar"}
+                          </button>
+                          <button
+                            onClick={() => handleDelete(grupo.id, grupo.nombre)}
+                            disabled={isPending}
+                            className="rounded-lg border border-red-200 px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50 disabled:opacity-40"
+                          >
+                            Eliminar
+                          </button>
+                        </div>
+                      </div>
+                    )}
                   </div>
 
                   {isExpanded && (

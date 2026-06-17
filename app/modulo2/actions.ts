@@ -26,6 +26,15 @@ export async function createGrupo(data: {
   revalidatePath("/modulo2");
 }
 
+export async function updateGrupo(grupoId: string, data: { nombre: string; descripcion: string; cupo_max: number }) {
+  const { supabase, rol } = await getMyRol();
+  if (!["admin", "propietario"].includes(rol)) throw new Error("Sin permiso");
+
+  const { error } = await supabase.from("grupos").update(data).eq("id", grupoId);
+  if (error) throw new Error(error.message);
+  revalidatePath("/modulo2");
+}
+
 export async function deleteGrupo(grupoId: string) {
   const { supabase, rol } = await getMyRol();
   if (!["admin", "propietario"].includes(rol)) throw new Error("Sin permiso");
