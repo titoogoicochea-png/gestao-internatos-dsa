@@ -208,7 +208,16 @@ export function Modulo2Usuario({ suscripcion, grupos, docsByNivel }: Props) {
             )}
           </div>
 
-          <div className="mt-8 border-t border-slate-100 pt-6">
+          <div className="mt-6">
+            <a
+              href="/trabajo"
+              className={`flex items-center justify-center gap-2 rounded-xl bg-gradient-to-r ${NIVEL_COLOR[grupo.nivel]} px-6 py-3 text-sm font-bold text-white shadow-md transition hover:opacity-90`}
+            >
+              Ir al espacio de trabajo →
+            </a>
+          </div>
+
+          <div className="mt-6 border-t border-slate-100 pt-4">
             <button
               onClick={handleLeave}
               disabled={isPending}
