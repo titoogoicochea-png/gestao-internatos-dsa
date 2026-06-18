@@ -1,8 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
+import { useLang } from "./LanguageProvider";
 
 // ── Paleta por dimensión ──────────────────────────────────────────────────────
 const DIM_BG: Record<string, string> = {
@@ -66,8 +67,8 @@ function parseAnexoC(raw: string): { intro: string; dims: Dim[] } {
     if (cs.length === 1) {
       const text = stripMd(cs[0]);
 
-      // Encabezado de Dimensión (excluye filas de TOTAL)
-      const dm = text.match(/DIMENS[ÃA]O\s*(\d+)\s*[—–\-]/i);
+      // Encabezado de Dimensión (ES "DIMENSIÓN" o PT "DIMENSÃO"; excluye filas de TOTAL)
+      const dm = text.match(/DIMENS(?:I[ÓO]N|[ÃA]O)\s*(\d+)\s*[—–\-]/i);
       if (dm && !/\bTOTAL\b/i.test(text)) {
         seenDim = true;
         curSub = null;
@@ -77,8 +78,8 @@ function parseAnexoC(raw: string): { intro: string; dims: Dim[] } {
         continue;
       }
 
-      // Fila "TOTAL DIMENSÃO N" → saltar
-      if (/TOTAL\s+DIMENS[ÃA]O/i.test(text)) continue;
+      // Fila "TOTAL DIMENSIÓN/DIMENSÃO N" → saltar
+      if (/TOTAL\s+DIMENS(?:I[ÓO]N|[ÃA]O)/i.test(text)) continue;
 
       // Encabezado de Subdimensión: comienza con N.M
       const sm = text.match(/^(\d+)\.(\d+)/);
@@ -148,6 +149,61 @@ function Chevron({ open }: { open: boolean }) {
     >
       <polyline points="9 18 15 12 9 6" />
     </svg>
+  );
+}
+
+// ── Render de UNA subdimensión (reutiliza el mismo parser y estilo) ───────────
+export function AnexoCSubdimView({ raw, subdimId }: { raw: string; subdimId: string }) {
+  const { t } = useLang();
+  const { dims } = useMemo(() => parseAnexoC(raw), [raw]);
+  let sub: Subdim | undefined;
+  let dimNum = "1";
+  for (const d of dims) {
+    const found = d.subdims.find((s) => s.id === subdimId);
+    if (found) { sub = found; dimNum = d.num; break; }
+  }
+  if (!sub) {
+    return <p className="text-sm italic text-slate-400">{t("reader.subdim_not_found")}</p>;
+  }
+  const accent = DIM_ACCENT[dimNum] ?? "#2E5A9C";
+  return (
+    <div>
+      <div className="mb-3 rounded-lg px-4 py-2.5 text-sm font-semibold text-white" style={{ background: accent }}>
+        {sub.title}
+      </div>
+      <div className="overflow-x-auto bg-white">
+        <table className="w-full border-collapse text-xs">
+          {sub.headers.length > 0 && (
+            <thead>
+              <tr>
+                {sub.headers.map((h, i) => (
+                  <th key={i}
+                    className="border border-slate-300 px-2 py-2 text-left font-semibold text-white"
+                    style={{ background: accent, minWidth: i === 0 ? "2.5rem" : i >= 5 ? "3rem" : "8rem" }}>
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+          )}
+          <tbody>
+            {sub.rows.map((row, ri) => (
+              <tr key={ri}
+                className={row.isSubtotal ? "font-semibold" : ri % 2 === 0 ? "bg-white" : "bg-slate-50"}
+                style={row.isSubtotal ? { background: accent + "22" } : undefined}>
+                {row.cells.map((cell, ci) => (
+                  <td key={ci}
+                    className="border border-slate-300 px-2 py-1.5 align-top text-slate-700"
+                    style={{ minWidth: ci === 0 ? "2.5rem" : ci >= 5 ? "3rem" : "7rem", maxWidth: ci >= 1 && ci <= 4 ? "18rem" : undefined }}>
+                    <Inline text={cell} />
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
   );
 }
 

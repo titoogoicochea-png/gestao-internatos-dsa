@@ -24,7 +24,7 @@ type Props = {
 };
 
 const NIVEL_LABEL = { basica: "Educación Básica", superior: "Educación Superior" };
-const NIVEL_COLOR = { basica: "from-sky-600 to-brand", superior: "from-emerald-600 to-emerald-800" };
+const NIVEL_COLOR = { basica: "from-[#2F4156] to-[#3e566b]", superior: "from-[#567C8D] to-[#7fa0b2]" };
 const TALLER_LABEL = { tarde1: "Workshop 1 — Tarde 1", tarde2: "Workshop 2 — Tarde 2" };
 
 type SaveStatus = "idle" | "saving" | "saved" | "error";
@@ -69,7 +69,7 @@ export function TrabajoClient({ grupoId, grupoNombre, nivel, taller, assignments
   const commented = Object.values(comments).filter((t) => t.trim()).length;
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-[#EEF1F6]">
       {/* Header */}
       <header className="border-b border-slate-200 bg-white">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
@@ -154,7 +154,7 @@ function AssignmentBlock({
   onChangeComment: (docCodigo: string, seccionId: string, texto: string) => void;
   nivel: "basica" | "superior";
 }) {
-  const NIVEL_COLOR = { basica: "from-sky-600 to-brand", superior: "from-emerald-600 to-emerald-800" };
+  const NIVEL_COLOR = { basica: "from-[#2F4156] to-[#3e566b]", superior: "from-[#567C8D] to-[#7fa0b2]" };
 
   return (
     <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">

@@ -7,6 +7,11 @@ export async function createClient() {
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     {
+      global: {
+        // Nunca cachear las consultas en el Data Cache de Next.js — siempre datos en vivo.
+        // Evita que se sirvan suscripciones/grupos/fases desactualizadas.
+        fetch: (input, init) => fetch(input, { ...init, cache: "no-store" }),
+      },
       cookies: {
         getAll() { return cookieStore.getAll(); },
         setAll(cookiesToSet) {

@@ -58,7 +58,7 @@ export function MarkdownView({ markdown }: { markdown: string }) {
 
             // Banner de una sola columna → dimensión / subdimensión / nota
             if (cols === 1) {
-              const dim = text.match(/DIMENS[ÃA]O\s*(\d+)/i);
+              const dim = text.match(/DIMENS(?:I[ÓO]N|[ÃA]O)\s*(\d+)/i);
               if (dim) {
                 return (
                   <span

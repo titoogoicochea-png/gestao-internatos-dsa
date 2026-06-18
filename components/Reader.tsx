@@ -9,6 +9,29 @@ import { LanguageToggle } from "./LanguageToggle";
 import { MarkdownView } from "./MarkdownView";
 import { AnexoCView } from "./AnexoCView";
 
+const norm = (s: string) => s.trim().toLowerCase().replace(/\s+/g, " ");
+
+// El encabezado de la página ya muestra el título del documento. Quitamos del
+// cuerpo SOLO los encabezados iniciales que repiten ese título (p. ej. "# CAPÍTULO I"
+// o "## NUESTRA ESENCIA"); el texto del contenido queda intacto.
+function stripLeadingTitles(raw: string, doc: Doc, lang: "es" | "pt"): string {
+  const titles = new Set(
+    [docTitle(doc, lang), lang === "es" ? doc.subtitulo_es : doc.subtitulo, doc.titulo_es, doc.titulo_pt]
+      .filter((x): x is string => !!x)
+      .map(norm)
+  );
+  const lines = raw.split("\n");
+  let i = 0;
+  while (i < lines.length) {
+    const line = lines[i];
+    if (line.trim() === "") { i++; continue; }            // saltar líneas en blanco iniciales
+    const m = line.match(/^(#{1,6})\s+(.*)$/);            // ¿encabezado?
+    if (m && titles.has(norm(m[2]))) { i++; continue; }   // sí, y duplica el título → quitar
+    break;                                                 // primer contenido real → parar
+  }
+  return lines.slice(i).join("\n").replace(/^\n+/, "");
+}
+
 export function Reader({ nivel, docs }: { nivel: Nivel; docs: Doc[] }) {
   const { t, lang } = useLang();
   const [activeCodigo, setActiveCodigo] = useState(docs[0]?.codigo ?? "");
@@ -38,11 +61,11 @@ export function Reader({ nivel, docs }: { nivel: Nivel; docs: Doc[] }) {
     <div className="flex h-screen flex-col overflow-hidden">
 
       {/* ── Encabezado ── */}
-      <header className="z-30 shrink-0 border-b border-slate-200 bg-white/95 backdrop-blur">
+      <header className="z-30 shrink-0 bg-gradient-to-r from-[#2F4156] to-[#567C8D] text-white shadow-md backdrop-blur">
         <div className="flex items-center gap-2 px-4 py-3">
           {/* Botón menú móvil */}
           <button
-            className="rounded-md p-2 text-slate-600 hover:bg-slate-100 lg:hidden"
+            className="rounded-md p-2 text-white hover:bg-white/10 lg:hidden"
             onClick={() => setDrawerOpen((v) => !v)}
             aria-label={t("nav.index")}
           >
@@ -50,22 +73,22 @@ export function Reader({ nivel, docs }: { nivel: Nivel; docs: Doc[] }) {
           </button>
           {/* Botón colapsar/expandir sidebar — solo desktop */}
           <button
-            className="hidden rounded-md p-2 text-slate-500 hover:bg-slate-100 hover:text-brand lg:flex"
+            className="hidden rounded-md p-2 text-white hover:bg-white/10 lg:flex"
             onClick={() => setSidebarOpen((v) => !v)}
-            title={sidebarOpen ? "Ocultar índice" : "Mostrar índice"}
-            aria-label={sidebarOpen ? "Ocultar índice" : "Mostrar índice"}
+            title={sidebarOpen ? t("reader.hide_index") : t("reader.show_index")}
+            aria-label={sidebarOpen ? t("reader.hide_index") : t("reader.show_index")}
           >
             {sidebarOpen ? <PanelClose /> : <PanelOpen />}
           </button>
 
           <Link
             href="/"
-            className="hidden items-center gap-1 text-sm font-medium text-slate-500 hover:text-brand sm:inline-flex"
+            className="hidden items-center gap-1 text-sm font-medium text-white/80 hover:text-white sm:inline-flex"
           >
             ← {t("nav.back")}
           </Link>
           <div className="min-w-0 flex-1">
-            <p className="truncate text-sm font-semibold text-brand">
+            <p className="truncate text-sm font-semibold text-white">
               {nivelLabel}
             </p>
           </div>
@@ -105,7 +128,7 @@ export function Reader({ nivel, docs }: { nivel: Nivel; docs: Doc[] }) {
                 <button
                   className="rounded-md p-1 text-slate-500 hover:bg-slate-100"
                   onClick={() => setDrawerOpen(false)}
-                  aria-label="Cerrar índice"
+                  aria-label={t("reader.close_index")}
                 >
                   <X />
                 </button>
@@ -123,26 +146,26 @@ export function Reader({ nivel, docs }: { nivel: Nivel; docs: Doc[] }) {
         )}
 
         {/* ── Contenido principal (scroll independiente) ── */}
-        <main ref={mainRef} className="min-w-0 flex-1 overflow-y-auto">
-          <div className="px-5 py-6 sm:px-10">
+        <main ref={mainRef} className="min-w-0 flex-1 overflow-y-auto bg-[#EEF1F6]">
+          <div className="px-4 py-8 sm:px-8">
             {active && (
-              <article className="mx-auto max-w-3xl">
-                <div className="mb-5">
+              <article className="mx-auto max-w-3xl rounded-2xl border border-slate-200/70 bg-white p-7 shadow-card sm:p-12">
+                <div className="mb-6 border-b border-slate-100 pb-5">
                   {active.badge && active.kind === "capitulo" && (
                     <p className="text-sm font-semibold uppercase tracking-wide text-brand-light">
                       {docTitle(active, lang)}
                     </p>
                   )}
-                  <h1 className="text-2xl font-extrabold leading-tight text-brand sm:text-3xl">
+                  <h1 className="font-display text-3xl font-bold leading-tight tracking-tight text-brand sm:text-[2.2rem]">
                     {(lang === "es" ? active.subtitulo_es : active.subtitulo) ?? docTitle(active, lang)}
                   </h1>
-                  <p className="mt-2 inline-block rounded-md bg-amber-50 px-2 py-1 text-xs text-amber-800">
-                    {t("reader.source")}
+                  <p className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-[#C8D9E6]/50 px-3 py-1 text-xs font-medium text-[#2F4156]">
+                    <span aria-hidden>🌐</span> {t("reader.source")}
                   </p>
                 </div>
                 {active.codigo === "ANEXO_C"
                   ? <AnexoCView raw={lang === "es" ? active.raw_es : active.raw} />
-                  : <MarkdownView markdown={lang === "es" ? active.raw_es : active.raw} />
+                  : <MarkdownView markdown={stripLeadingTitles(lang === "es" ? active.raw_es : active.raw, active, lang)} />
                 }
               </article>
             )}
@@ -212,7 +235,7 @@ function SidebarContent({
               {/* Fila del capítulo: botón de navegación + chevron de acordeón */}
               <div
                 className={`flex items-center rounded-lg transition ${
-                  isActive ? "bg-brand/10" : "hover:bg-slate-100"
+                  isActive ? "bg-[#2F4156]/10 ring-1 ring-inset ring-[#2F4156]/15" : "hover:bg-slate-100"
                 }`}
               >
                 {/* Botón principal — navega al doc */}
@@ -224,10 +247,10 @@ function SidebarContent({
                 >
                   {doc.badge ? (
                     <span
-                      className={`flex h-6 min-w-[1.5rem] items-center justify-center rounded px-1 text-xs font-bold shrink-0 ${
+                      className={`flex h-6 min-w-[1.5rem] items-center justify-center rounded-md px-1 text-xs font-bold shrink-0 ${
                         isActive
-                          ? "bg-brand text-white"
-                          : "bg-slate-200 text-slate-600"
+                          ? "bg-gradient-to-br from-[#2F4156] to-[#567C8D] text-white shadow-sm"
+                          : "bg-[#C8D9E6] text-[#2F4156]"
                       }`}
                     >
                       {doc.badge}
@@ -243,7 +266,7 @@ function SidebarContent({
                     className={`shrink-0 px-2 py-2 text-slate-400 transition hover:text-brand ${
                       isActive ? "text-brand/60" : ""
                     }`}
-                    aria-label={isExpanded ? "Colapsar secciones" : "Expandir secciones"}
+                    aria-label={isExpanded ? t("reader.collapse_sections") : t("reader.expand_sections")}
                   >
                     <Chevron open={isExpanded} />
                   </button>

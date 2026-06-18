@@ -3,8 +3,10 @@
 @tailwind utilities;
 
 :root {
-  --brand: #1f4e79;
-  --brand-light: #2e75b6;
+  --brand: #2f4156;        /* Navy */
+  --brand-light: #567c8d;  /* Teal */
+  --mist: #c8d9e6;         /* Sky Blue */
+  --sand: #f5efeb;         /* Beige */
 }
 
 html {
@@ -12,7 +14,7 @@ html {
 }
 
 body {
-  background: #f7f8fa;
+  background: var(--sand);
   color: #1e293b;
   -webkit-font-smoothing: antialiased;
 }
@@ -32,19 +34,23 @@ body {
   margin-top: 0;
 }
 .doc h1 {
-  font-size: 1.9rem;
-  font-weight: 800;
+  font-family: "Fraunces", Georgia, Cambria, serif;
+  font-size: 2rem;
+  font-weight: 700;
   color: var(--brand);
   margin: 2rem 0 0.5rem;
-  line-height: 1.2;
+  line-height: 1.18;
+  letter-spacing: -0.01em;
 }
 .doc h2 {
-  font-size: 1.5rem;
+  font-family: "Fraunces", Georgia, Cambria, serif;
+  font-size: 1.6rem;
   font-weight: 700;
   color: var(--brand);
   margin: 2rem 0 0.75rem;
   padding-bottom: 0.35rem;
-  border-bottom: 2px solid #e2e8f0;
+  border-bottom: 2px solid #c8d9e6;
+  letter-spacing: -0.005em;
 }
 .doc h3 {
   font-size: 1.25rem;
@@ -60,7 +66,7 @@ body {
 }
 .doc p {
   margin: 0.85rem 0;
-  text-align: justify;
+  text-align: left;
 }
 .doc ul,
 .doc ol {
@@ -78,7 +84,7 @@ body {
 }
 .doc blockquote {
   border-left: 4px solid var(--brand-light);
-  background: #eef4fb;
+  background: #eef3f8;
   margin: 1rem 0;
   padding: 0.6rem 1rem;
   color: #334155;
@@ -111,7 +117,7 @@ body {
   font-size: 0.9rem;
 }
 .doc thead th {
-  background: #1f3a5f;
+  background: #2f4156;
   color: #fff;
   font-weight: 600;
   text-align: left;

@@ -2,7 +2,10 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getDocs } from "@/lib/content";
 import { Modulo2Admin, type GrupoAdmin } from "@/components/Modulo2Admin";
-import { Modulo2Usuario, type GrupoPublico, type MiSuscripcion } from "@/components/Modulo2Usuario";
+import { Modulo2Usuario, type GrupoPublico, type ObservacionItem } from "@/components/Modulo2Usuario";
+
+// Datos mutables (suscripciones, fases) — nunca cachear, siempre leer en vivo
+export const dynamic = "force-dynamic";
 
 export default async function Modulo2Page() {
   const supabase = await createClient();
@@ -22,6 +25,14 @@ export default async function Modulo2Page() {
     basica: getDocs("basica"),
     superior: getDocs("superior"),
   };
+
+  // Estado de apertura de los workshops (por taller)
+  const fases: { tarde1: boolean; tarde2: boolean } = { tarde1: false, tarde2: false };
+  const { data: faseRows } = await supabase.from("fase_taller").select("taller, abierto");
+  for (const f of faseRows ?? []) {
+    const t = f.taller as "tarde1" | "tarde2";
+    if (t === "tarde1" || t === "tarde2") fases[t] = !!f.abierto;
+  }
 
   if (isAdmin) {
     const { data: grupos } = await supabase
@@ -51,57 +62,18 @@ export default async function Modulo2Page() {
       members: membersByGrupo[g.id] ?? [],
     }));
 
-    return <Modulo2Admin grupos={gruposAdmin} docsByNivel={docsByNivel} />;
+    return <Modulo2Admin grupos={gruposAdmin} docsByNivel={docsByNivel} fases={fases} />;
   }
 
-  // Usuario view
-  const { data: suscRow } = await supabase
+  // Usuario view — un participante se inscribe en un grupo por cada workshop
+  const { data: misSuscRows } = await supabase
     .from("suscripciones")
     .select("grupo_id")
-    .eq("usuario_id", user.id)
-    .maybeSingle();
+    .eq("usuario_id", user.id);
 
-  let suscripcion: MiSuscripcion = null;
+  const misGrupoIds = new Set((misSuscRows ?? []).map(s => s.grupo_id));
 
-  if (suscRow) {
-    const { data: grupo } = await supabase
-      .from("grupos")
-      .select("id, nombre, nivel, taller, descripcion, cupo_max, asignaciones(doc_codigo)")
-      .eq("id", suscRow.grupo_id)
-      .single();
-
-    const { count } = await supabase
-      .from("suscripciones")
-      .select("*", { count: "exact", head: true })
-      .eq("grupo_id", suscRow.grupo_id);
-
-    if (grupo) {
-      suscripcion = {
-        grupo: {
-          ...grupo,
-          nivel: grupo.nivel as "basica" | "superior",
-          taller: (grupo.taller ?? "tarde1") as "tarde1" | "tarde2",
-          memberCount: count ?? 0,
-        },
-      };
-    }
-  }
-
-  // Fetch existing comments for this user in their group
-  const initialComments: Record<string, string> = {};
-  if (suscRow) {
-    const { data: observaciones } = await supabase
-      .from("observaciones")
-      .select("doc_codigo, texto")
-      .eq("usuario_id", user.id)
-      .eq("grupo_id", suscRow.grupo_id)
-      .eq("seccion_id", "main");
-    for (const obs of observaciones ?? []) {
-      initialComments[obs.doc_codigo] = obs.texto;
-    }
-  }
-
-  // Fetch all groups for exploration
+  // Fetch all groups for exploration + member counts
   const { data: grupos } = await supabase
     .from("grupos")
     .select("id, nombre, nivel, taller, descripcion, cupo_max, asignaciones(doc_codigo)")
@@ -125,12 +97,30 @@ export default async function Modulo2Page() {
     memberCount: countByGrupo[g.id] ?? 0,
   }));
 
+  const inscritos: GrupoPublico[] = gruposPublicos.filter(g => misGrupoIds.has(g.id));
+
+  // Fetch existing observations for this user across their groups
+  const initialObservaciones: Record<string, ObservacionItem[]> = {};
+  if (misGrupoIds.size > 0) {
+    const { data: observaciones } = await supabase
+      .from("observaciones")
+      .select("id, doc_codigo, tipo, texto")
+      .eq("usuario_id", user.id)
+      .in("grupo_id", Array.from(misGrupoIds))
+      .order("created_at");
+    for (const obs of observaciones ?? []) {
+      if (!initialObservaciones[obs.doc_codigo]) initialObservaciones[obs.doc_codigo] = [];
+      initialObservaciones[obs.doc_codigo].push({ id: obs.id, tipo: obs.tipo ?? "comentario", texto: obs.texto });
+    }
+  }
+
   return (
     <Modulo2Usuario
-      suscripcion={suscripcion}
+      inscritos={inscritos}
       grupos={gruposPublicos}
       docsByNivel={docsByNivel}
-      initialComments={initialComments}
+      initialObservaciones={initialObservaciones}
+      fases={fases}
     />
   );
 }

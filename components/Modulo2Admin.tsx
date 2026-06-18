@@ -3,7 +3,9 @@
 import { useState, useTransition } from "react";
 import type { Doc } from "@/lib/content";
 import { ANEXO_C_DIMS, ANEXO_C_SUBDIMS } from "@/lib/anexo-c-sections";
-import { createGrupo, deleteGrupo, setAsignaciones, updateGrupo } from "@/app/modulo2/actions";
+import { createGrupo, deleteGrupo, setAsignaciones, updateGrupo, setFaseTaller } from "@/app/modulo2/actions";
+import { useLang } from "@/components/LanguageProvider";
+import { SectionHeader } from "@/components/SectionHeader";
 
 type Asignacion = { doc_codigo: string };
 type Member = { id: string; nombre: string; email: string | null };
@@ -22,13 +24,14 @@ export type GrupoAdmin = {
 type Props = {
   grupos: GrupoAdmin[];
   docsByNivel: { basica: Doc[]; superior: Doc[] };
+  fases: { tarde1: boolean; tarde2: boolean };
 };
 
-const NIVEL_LABEL = { basica: "Educación Básica", superior: "Educación Superior" };
-const NIVEL_DESC  = { basica: "Internados de educación básica", superior: "Internados de educación superior" };
-const TALLER_LABEL = { tarde1: "Workshop 1 — Tarde 1", tarde2: "Workshop 2 — Tarde 2" };
-
-export function Modulo2Admin({ grupos, docsByNivel }: Props) {
+export function Modulo2Admin({ grupos, docsByNivel, fases }: Props) {
+  const { t } = useLang();
+  const NIVEL_LABEL = { basica: t("m2a.nivel-basica"), superior: t("m2a.nivel-superior") };
+  const NIVEL_DESC  = { basica: t("m2a.nivel-basica-desc"), superior: t("m2a.nivel-superior-desc") };
+  const TALLER_LABEL = { tarde1: t("m2a.taller-tarde1"), tarde2: t("m2a.taller-tarde2") };
   const [taller, setTaller] = useState<"tarde1" | "tarde2">("tarde1");
   const [nivel, setNivel] = useState<"basica" | "superior">("basica");
   const [showForm, setShowForm] = useState(false);
@@ -39,6 +42,26 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
   const [pendingCodigos, setPendingCodigos] = useState<Record<string, string[]>>({});
   const [editingId, setEditingId] = useState<string | null>(null);
   const [editForm, setEditForm] = useState({ nombre: "", descripcion: "", cupo_max: "20" });
+  const [fasesState, setFasesState] = useState(fases);
+  const [faseSaving, setFaseSaving] = useState<"tarde1" | "tarde2" | null>(null);
+
+  function handleToggleFase(tt: "tarde1" | "tarde2") {
+    const nuevo = !fasesState[tt];
+    if (nuevo === false && !confirm(t("m2a.confirm-cerrar-taller").replace("{taller}", TALLER_LABEL[tt]))) return;
+    setError(null);
+    setFaseSaving(tt);
+    setFasesState(prev => ({ ...prev, [tt]: nuevo }));
+    startTransition(async () => {
+      try {
+        await setFaseTaller(tt, nuevo);
+      } catch (err) {
+        setFasesState(prev => ({ ...prev, [tt]: !nuevo }));
+        setError(err instanceof Error ? err.message : t("m2a.error-cambiar-estado"));
+      } finally {
+        setFaseSaving(null);
+      }
+    });
+  }
 
   const gruposDeNivel = grupos.filter(g => g.taller === taller && g.nivel === nivel);
 
@@ -62,19 +85,19 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
         setForm({ nombre: "", descripcion: "", cupo_max: "20" });
         setShowForm(false);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Error al crear el grupo");
+        setError(err instanceof Error ? err.message : t("m2a.error-crear-grupo"));
       }
     });
   }
 
   function handleDelete(grupoId: string, nombre: string) {
-    if (!confirm(`¿Eliminar el grupo "${nombre}"? Se quitará a todos sus miembros.`)) return;
+    if (!confirm(t("m2a.confirm-eliminar-grupo").replace("{nombre}", nombre))) return;
     startTransition(async () => {
       try {
         await deleteGrupo(grupoId);
         if (expandedId === grupoId) setExpandedId(null);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Error al eliminar");
+        setError(err instanceof Error ? err.message : t("m2a.error-eliminar"));
       }
     });
   }
@@ -94,7 +117,7 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
         });
         setEditingId(null);
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Error al actualizar");
+        setError(err instanceof Error ? err.message : t("m2a.error-actualizar"));
       }
     });
   }
@@ -125,19 +148,19 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
         await setAsignaciones(grupoId, codigos);
         setPendingCodigos(prev => { const n = { ...prev }; delete n[grupoId]; return n; });
       } catch (err) {
-        setError(err instanceof Error ? err.message : "Error al guardar");
+        setError(err instanceof Error ? err.message : t("m2a.error-guardar"));
       }
     });
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <header className="border-b border-slate-200 bg-white">
+    <div className="min-h-screen bg-[#EEF1F6]">
+      <header className="bg-gradient-to-r from-[#2F4156] to-[#567C8D] text-white shadow-md">
         <div className="mx-auto flex max-w-4xl items-center justify-between px-4 py-3">
           <div className="flex items-center gap-3">
-            <a href="/" className="text-sm text-slate-400 hover:text-slate-600">← Inicio</a>
-            <span className="text-slate-300">/</span>
-            <span className="text-sm font-semibold text-brand">Módulo 2 · Grupos de trabajo</span>
+            <a href="/" className="text-sm text-white/80 hover:text-white">← {t("m2a.inicio")}</a>
+            <span className="text-white/40">/</span>
+            <span className="text-sm font-semibold text-white">{t("m2a.breadcrumb-modulo2")}</span>
           </div>
         </div>
       </header>
@@ -145,20 +168,65 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
       <main className="mx-auto max-w-4xl px-4 py-8">
         <div className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h1 className="text-2xl font-extrabold text-slate-800">Grupos de trabajo</h1>
-            <p className="mt-1 text-sm text-slate-500">Selecciona el nivel, el workshop y gestiona los grupos.</p>
+            <h1 className="font-display text-3xl font-bold text-[#2F4156]">{t("m2a.titulo-grupos")}</h1>
+            <p className="mt-1 text-sm text-slate-500">{t("m2a.subtitulo-grupos")}</p>
           </div>
-          <button
-            onClick={() => setShowForm(v => !v)}
-            className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand/90"
-          >
-            {showForm ? "Cancelar" : "+ Crear grupo"}
-          </button>
+          <div className="flex items-center gap-2">
+            <a
+              href="/admin/participantes"
+              className="rounded-lg border border-slate-200 bg-white px-4 py-2 text-sm font-semibold text-slate-600 hover:bg-slate-50"
+            >
+              👥 {t("m2a.ver-participantes")}
+            </a>
+            <button
+              onClick={() => setShowForm(v => !v)}
+              className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand/90"
+            >
+              {showForm ? t("m2a.cancelar") : t("m2a.crear-grupo")}
+            </button>
+          </div>
         </div>
 
         {error && (
           <p className="mb-4 rounded-lg bg-red-50 px-4 py-2 text-sm text-red-700">{error}</p>
         )}
+
+        {/* CONTROL DE APERTURA DE WORKSHOPS */}
+        <div className="mb-6 rounded-2xl border border-slate-200/70 bg-white p-5 shadow-card">
+          <SectionHeader icon="🚦" title={t("m2a.estado-workshops")} subtitle={t("m2a.estado-workshops-desc")} />
+          <div className="grid gap-3 sm:grid-cols-2">
+            {(["tarde1", "tarde2"] as const).map(tt => {
+              const abierto = fasesState[tt];
+              return (
+                <div
+                  key={tt}
+                  className={`flex items-center justify-between rounded-xl border p-3.5 ${
+                    abierto ? "border-emerald-200 bg-emerald-50/60" : "border-slate-200 bg-slate-50"
+                  }`}
+                >
+                  <div>
+                    <p className="text-sm font-semibold text-slate-800">{TALLER_LABEL[tt]}</p>
+                    <p className={`mt-0.5 flex items-center gap-1.5 text-xs font-medium ${abierto ? "text-emerald-600" : "text-slate-400"}`}>
+                      <span className={`h-2 w-2 rounded-full ${abierto ? "bg-emerald-500" : "bg-slate-300"}`} />
+                      {abierto ? t("m2a.estado-abierto") : t("m2a.estado-cerrado")}
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => handleToggleFase(tt)}
+                    disabled={isPending && faseSaving === tt}
+                    className={`shrink-0 rounded-lg px-4 py-2 text-xs font-semibold transition disabled:opacity-50 ${
+                      abierto
+                        ? "border border-red-200 bg-white text-red-600 hover:bg-red-50"
+                        : "bg-emerald-600 text-white hover:bg-emerald-700"
+                    }`}
+                  >
+                    {faseSaving === tt ? "..." : abierto ? t("m2a.cerrar") : t("m2a.abrir-workshop")}
+                  </button>
+                </div>
+              );
+            })}
+          </div>
+        </div>
 
         {/* NIVEL — selector primario */}
         <div className="mb-5 grid grid-cols-2 gap-3">
@@ -182,51 +250,51 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
 
         {/* WORKSHOP — selector secundario */}
         <div className="mb-5 flex gap-2">
-          {(["tarde1", "tarde2"] as const).map(t => (
+          {(["tarde1", "tarde2"] as const).map(tt => (
             <button
-              key={t}
-              onClick={() => { setTaller(t); setExpandedId(null); }}
+              key={tt}
+              onClick={() => { setTaller(tt); setExpandedId(null); }}
               className={`rounded-lg px-4 py-2 text-sm font-semibold transition ${
-                taller === t
+                taller === tt
                   ? "bg-slate-800 text-white"
                   : "border border-slate-200 bg-white text-slate-600 hover:bg-slate-50"
               }`}
             >
-              {TALLER_LABEL[t]}
+              {TALLER_LABEL[tt]}
             </button>
           ))}
         </div>
 
         {/* Formulario de creación */}
         {showForm && (
-          <form onSubmit={handleCreate} className="mb-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
+          <form onSubmit={handleCreate} className="mb-6 rounded-2xl border border-slate-200/70 bg-white p-6 shadow-card">
             <div className="mb-4 flex items-center gap-2">
               <span className="rounded-lg bg-brand/10 px-2.5 py-1 text-xs font-bold text-brand">{NIVEL_LABEL[nivel]}</span>
               <span className="rounded-lg bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-600">{TALLER_LABEL[taller]}</span>
             </div>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="sm:col-span-2">
-                <label className="mb-1 block text-xs font-medium text-slate-600">Nombre del grupo</label>
+                <label className="mb-1 block text-xs font-medium text-slate-600">{t("m2a.label-nombre-grupo")}</label>
                 <input
                   required
                   value={form.nombre}
                   onChange={e => setForm(f => ({ ...f, nombre: e.target.value }))}
                   className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
-                  placeholder="Ej. Grupo A — Identidad Espiritual"
+                  placeholder={t("m2a.placeholder-nombre-grupo")}
                 />
               </div>
               <div className="sm:col-span-2">
-                <label className="mb-1 block text-xs font-medium text-slate-600">Descripción</label>
+                <label className="mb-1 block text-xs font-medium text-slate-600">{t("m2a.label-descripcion")}</label>
                 <textarea
                   value={form.descripcion}
                   onChange={e => setForm(f => ({ ...f, descripcion: e.target.value }))}
                   rows={2}
                   className="w-full rounded-lg border border-slate-300 px-3 py-2 text-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
-                  placeholder="¿Qué temática abordará este grupo?"
+                  placeholder={t("m2a.placeholder-descripcion")}
                 />
               </div>
               <div>
-                <label className="mb-1 block text-xs font-medium text-slate-600">Cupo máximo</label>
+                <label className="mb-1 block text-xs font-medium text-slate-600">{t("m2a.label-cupo-max")}</label>
                 <input
                   type="number"
                   min={1}
@@ -244,7 +312,7 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
                 disabled={isPending}
                 className="rounded-lg bg-brand px-5 py-2 text-sm font-semibold text-white hover:bg-brand/90 disabled:opacity-60"
               >
-                {isPending ? "Creando..." : "Crear grupo"}
+                {isPending ? t("m2a.creando") : t("m2a.crear-grupo-submit")}
               </button>
             </div>
           </form>
@@ -253,7 +321,7 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
         {/* Lista de grupos */}
         {gruposDeNivel.length === 0 ? (
           <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-10 text-center text-slate-400">
-            No hay grupos de {NIVEL_LABEL[nivel].toLowerCase()} para {TALLER_LABEL[taller].toLowerCase()} todavía.
+            {t("m2a.sin-grupos").replace("{nivel}", NIVEL_LABEL[nivel].toLowerCase()).replace("{taller}", TALLER_LABEL[taller].toLowerCase())}
           </div>
         ) : (
           <div className="space-y-3">
@@ -267,13 +335,13 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
               const assignedLabels = getAssignedLabels(grupo);
 
               return (
-                <div key={grupo.id} className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
+                <div key={grupo.id} className="overflow-hidden rounded-2xl border border-slate-200/70 bg-white shadow-card transition-shadow hover:shadow-card-hover">
                   <div className="px-5 py-4">
                     {isEditing ? (
                       <div className="space-y-3">
                         <div className="grid gap-3 sm:grid-cols-2">
                           <div className="sm:col-span-2">
-                            <label className="mb-1 block text-xs font-medium text-slate-500">Nombre del grupo</label>
+                            <label className="mb-1 block text-xs font-medium text-slate-500">{t("m2a.label-nombre-grupo")}</label>
                             <input
                               autoFocus
                               value={editForm.nombre}
@@ -282,7 +350,7 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
                             />
                           </div>
                           <div className="sm:col-span-2">
-                            <label className="mb-1 block text-xs font-medium text-slate-500">Descripción</label>
+                            <label className="mb-1 block text-xs font-medium text-slate-500">{t("m2a.label-descripcion")}</label>
                             <input
                               value={editForm.descripcion}
                               onChange={e => setEditForm(f => ({ ...f, descripcion: e.target.value }))}
@@ -290,7 +358,7 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
                             />
                           </div>
                           <div>
-                            <label className="mb-1 block text-xs font-medium text-slate-500">Cupo máximo</label>
+                            <label className="mb-1 block text-xs font-medium text-slate-500">{t("m2a.label-cupo-max")}</label>
                             <input
                               type="number"
                               min={1}
@@ -306,14 +374,14 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
                             onClick={() => setEditingId(null)}
                             className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-50"
                           >
-                            Cancelar
+                            {t("m2a.cancelar")}
                           </button>
                           <button
                             onClick={() => handleSaveEdit(grupo.id)}
                             disabled={isPending || !editForm.nombre}
                             className="rounded-lg bg-brand px-3 py-1.5 text-xs font-semibold text-white hover:bg-brand/90 disabled:opacity-60"
                           >
-                            {isPending ? "Guardando..." : "Guardar cambios"}
+                            {isPending ? t("m2a.guardando") : t("m2a.guardar-cambios")}
                           </button>
                         </div>
                       </div>
@@ -327,7 +395,7 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
                                 ? "bg-red-100 text-red-700"
                                 : "bg-green-100 text-green-700"
                             }`}>
-                              {memberCount}/{grupo.cupo_max} cupos
+                              {memberCount}/{grupo.cupo_max} {t("m2a.cupos")}
                             </span>
                           </div>
                           {grupo.descripcion && (
@@ -348,20 +416,20 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
                             onClick={() => handleStartEdit(grupo)}
                             className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-50"
                           >
-                            Editar
+                            {t("m2a.editar")}
                           </button>
                           <button
                             onClick={() => setExpandedId(isExpanded ? null : grupo.id)}
                             className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-50"
                           >
-                            {isExpanded ? "Cerrar" : "Gestionar"}
+                            {isExpanded ? t("m2a.cerrar") : t("m2a.gestionar")}
                           </button>
                           <button
                             onClick={() => handleDelete(grupo.id, grupo.nombre)}
                             disabled={isPending}
                             className="rounded-lg border border-red-200 px-3 py-1.5 text-xs font-medium text-red-600 hover:bg-red-50 disabled:opacity-40"
                           >
-                            Eliminar
+                            {t("m2a.eliminar")}
                           </button>
                         </div>
                       </div>
@@ -376,8 +444,8 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
                           <div className="mb-3 flex items-center justify-between">
                             <h4 className="text-sm font-semibold text-slate-700">
                               {grupo.taller === "tarde1"
-                                ? `Índice — ${NIVEL_LABEL[grupo.nivel]}`
-                                : "Subdimensiones del Anexo C"}
+                                ? `${t("m2a.capitulos")} — ${NIVEL_LABEL[grupo.nivel]}`
+                                : t("m2a.subdimensiones-anexo-c")}
                             </h4>
                             {hasPendingChanges && (
                               <button
@@ -385,7 +453,7 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
                                 disabled={isPending}
                                 className="rounded-lg bg-brand px-3 py-1 text-xs font-semibold text-white hover:bg-brand/90 disabled:opacity-60"
                               >
-                                Guardar
+                                {t("m2a.guardar")}
                               </button>
                             )}
                           </div>
@@ -393,41 +461,21 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
                           {grupo.taller === "tarde1" ? (
                             <div className="space-y-1.5 max-h-72 overflow-y-auto pr-1">
                               {nivelDocs.map(doc => {
-                                const dimSections = doc.sections_es.filter(
-                                  s => s.depth === 3 && /^\d+\.\d+/.test(s.text)
-                                );
-                                if (dimSections.length > 0) {
-                                  return (
-                                    <div key={doc.codigo} className="rounded-lg border border-slate-100 bg-slate-50/50 p-2">
-                                      <p className="mb-1.5 px-1 text-xs font-bold text-slate-500">
-                                        {doc.titulo_es}
-                                        {doc.subtitulo_es && <span className="font-normal"> — {doc.subtitulo_es}</span>}
-                                      </p>
-                                      <div className="space-y-1 pl-1">
-                                        {dimSections.map(section => {
-                                          const code = `${doc.codigo}#${section.id}`;
-                                          return (
-                                            <label key={section.id} className="flex cursor-pointer items-center gap-2.5 rounded-lg px-2 py-1.5 hover:bg-white">
-                                              <input
-                                                type="checkbox"
-                                                checked={codigos.includes(code)}
-                                                onChange={() => toggleCodigo(grupo.id, code, codigos)}
-                                                className="h-4 w-4 rounded border-slate-300 text-brand focus:ring-brand"
-                                              />
-                                              <p className="text-sm text-slate-700">{section.text}</p>
-                                            </label>
-                                          );
-                                        })}
-                                      </div>
-                                    </div>
-                                  );
-                                }
+                                const code = doc.codigo;
+                                // marcado si está el capítulo completo o cualquier sección suya (datos antiguos)
+                                const checked = codigos.some(c => c === code || c.startsWith(code + "#"));
+                                const toggleCap = () => {
+                                  const next = checked
+                                    ? codigos.filter(c => c !== code && !c.startsWith(code + "#"))
+                                    : [...codigos.filter(c => !c.startsWith(code + "#")), code];
+                                  setPendingCodigos(prev => ({ ...prev, [grupo.id]: next }));
+                                };
                                 return (
                                   <label key={doc.codigo} className="flex cursor-pointer items-start gap-2.5 rounded-lg px-2 py-2 hover:bg-slate-50">
                                     <input
                                       type="checkbox"
-                                      checked={codigos.includes(doc.codigo)}
-                                      onChange={() => toggleCodigo(grupo.id, doc.codigo, codigos)}
+                                      checked={checked}
+                                      onChange={toggleCap}
                                       className="mt-0.5 h-4 w-4 rounded border-slate-300 text-brand focus:ring-brand"
                                     />
                                     <div>
@@ -445,7 +493,7 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
                               {ANEXO_C_DIMS.map(dim => (
                                 <div key={dim.num}>
                                   <p className="mb-1 text-xs font-bold uppercase tracking-wide text-slate-400">
-                                    Dimensión {dim.num} — {dim.titulo_es}
+                                    {t("m2a.dimension")} {dim.num} — {dim.titulo_es}
                                   </p>
                                   <div className="space-y-1">
                                     {ANEXO_C_SUBDIMS.filter(s => s.dimNum === dim.num).map(sub => (
@@ -471,10 +519,10 @@ export function Modulo2Admin({ grupos, docsByNivel }: Props) {
                         {/* Lista de miembros */}
                         <div>
                           <h4 className="mb-3 text-sm font-semibold text-slate-700">
-                            Participantes ({memberCount})
+                            {t("m2a.participantes")} ({memberCount})
                           </h4>
                           {memberCount === 0 ? (
-                            <p className="text-sm text-slate-400">Ningún participante aún.</p>
+                            <p className="text-sm text-slate-400">{t("m2a.sin-participantes")}</p>
                           ) : (
                             <ul className="space-y-1.5">
                               {grupo.members.map(m => (

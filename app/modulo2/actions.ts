@@ -58,28 +58,124 @@ export async function setAsignaciones(grupoId: string, codigos: string[]) {
   revalidatePath("/modulo2");
 }
 
-export async function joinGrupo(grupoId: string) {
+export type ActionResult = { ok: boolean; error?: string };
+
+export async function joinGrupo(grupoId: string): Promise<ActionResult> {
   const { supabase, user } = await getMyRol();
+
+  // El grupo destino y su workshop
+  const { data: grupo } = await supabase
+    .from("grupos")
+    .select("taller")
+    .eq("id", grupoId)
+    .single();
+  if (!grupo) return { ok: false, error: "El grupo no existe." };
+  const taller = grupo.taller ?? "tarde1";
+
+  // ¿Ya tiene un grupo en ese mismo workshop? (dos pasos, sin embed)
+  const { data: subs } = await supabase
+    .from("suscripciones")
+    .select("grupo_id")
+    .eq("usuario_id", user.id);
+  const otrosIds = (subs ?? []).map((s) => s.grupo_id).filter((id) => id !== grupoId);
+
+  if (otrosIds.length > 0) {
+    const { data: gruposActuales } = await supabase
+      .from("grupos")
+      .select("id, taller")
+      .in("id", otrosIds);
+    const yaEnEseTaller = (gruposActuales ?? []).some((g) => (g.taller ?? "tarde1") === taller);
+    if (yaEnEseTaller) {
+      return { ok: false, error: "Ya perteneces a un grupo de este workshop. Sal de ese grupo antes de unirte a otro." };
+    }
+  }
 
   const { error } = await supabase
     .from("suscripciones")
     .insert({ usuario_id: user.id, grupo_id: grupoId });
 
   if (error) {
-    if (error.code === "23505") throw new Error("Ya perteneces a un grupo.");
-    throw new Error(error.message);
+    if (error.code === "23505") return { ok: false, error: "Ya perteneces a este grupo." };
+    return { ok: false, error: error.message };
   }
   revalidatePath("/modulo2");
+  return { ok: true };
 }
 
-export async function leaveGrupo() {
+export async function leaveGrupo(grupoId: string): Promise<ActionResult> {
   const { supabase, user } = await getMyRol();
 
   const { error } = await supabase
     .from("suscripciones")
     .delete()
+    .eq("usuario_id", user.id)
+    .eq("grupo_id", grupoId);
+
+  if (error) return { ok: false, error: error.message };
+  revalidatePath("/modulo2");
+  return { ok: true };
+}
+
+type SupabaseClient = Awaited<ReturnType<typeof createClient>>;
+
+async function assertWorkshopAbierto(supabase: SupabaseClient, grupoId: string) {
+  const { data: grupo } = await supabase.from("grupos").select("taller").eq("id", grupoId).single();
+  const taller = grupo?.taller ?? "tarde1";
+  const { data: fase } = await supabase.from("fase_taller").select("abierto").eq("taller", taller).maybeSingle();
+  if (!fase?.abierto) {
+    throw new Error("El workshop está cerrado. No puedes guardar ni modificar anotaciones en este momento.");
+  }
+}
+
+export async function setFaseTaller(taller: "tarde1" | "tarde2", abierto: boolean) {
+  const { supabase, rol } = await getMyRol();
+  if (!["admin", "propietario"].includes(rol)) throw new Error("Sin permiso");
+
+  const { error } = await supabase
+    .from("fase_taller")
+    .update({ abierto })
+    .eq("taller", taller);
+  if (error) throw new Error(error.message);
+  revalidatePath("/modulo2");
+}
+
+export async function addObservacion(
+  grupoId: string,
+  docCodigo: string,
+  tipo: string,
+  texto: string
+): Promise<string> {
+  const { supabase, user } = await getMyRol();
+  await assertWorkshopAbierto(supabase, grupoId);
+
+  const { data, error } = await supabase
+    .from("observaciones")
+    .insert({ usuario_id: user.id, grupo_id: grupoId, doc_codigo: docCodigo, tipo, texto, seccion_id: null })
+    .select("id")
+    .single();
+
+  if (error) throw new Error(error.message);
+  return data.id;
+}
+
+export async function deleteObservacion(id: string) {
+  const { supabase, user } = await getMyRol();
+
+  const { data: obs } = await supabase
+    .from("observaciones")
+    .select("grupo_id")
+    .eq("id", id)
+    .eq("usuario_id", user.id)
+    .maybeSingle();
+  if (!obs) return;
+
+  await assertWorkshopAbierto(supabase, obs.grupo_id);
+
+  const { error } = await supabase
+    .from("observaciones")
+    .delete()
+    .eq("id", id)
     .eq("usuario_id", user.id);
 
   if (error) throw new Error(error.message);
-  revalidatePath("/modulo2");
 }

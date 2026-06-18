@@ -4,9 +4,11 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { useLang } from "@/components/LanguageProvider";
 
 export default function RegistroPage() {
   const router = useRouter();
+  const { t } = useLang();
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -20,11 +22,11 @@ export default function RegistroPage() {
     setError(null);
 
     if (password !== password2) {
-      setError("Las contraseñas no coinciden.");
+      setError(t("auth.passwords_mismatch"));
       return;
     }
     if (password.length < 6) {
-      setError("La contraseña debe tener al menos 6 caracteres.");
+      setError(t("auth.password_too_short"));
       return;
     }
 
@@ -38,8 +40,8 @@ export default function RegistroPage() {
 
     if (error) {
       setError(error.message === "User already registered"
-        ? "Ya existe una cuenta con ese correo."
-        : "Error al registrarse. Intenta de nuevo.");
+        ? t("auth.register_error_exists")
+        : t("auth.register_error_generic"));
       setLoading(false);
       return;
     }
@@ -53,37 +55,37 @@ export default function RegistroPage() {
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
           <p className="text-xs font-semibold uppercase tracking-widest text-slate-400">DSA · Internatos</p>
-          <h1 className="mt-2 text-2xl font-extrabold text-brand">Crear cuenta</h1>
-          <p className="mt-1 text-sm text-slate-500">Regístrate para acceder al aplicativo</p>
+          <h1 className="mt-2 text-2xl font-extrabold text-brand">{t("auth.register_title")}</h1>
+          <p className="mt-1 text-sm text-slate-500">{t("auth.register_subtitle")}</p>
         </div>
 
         <form onSubmit={handleRegistro} className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm space-y-5">
           <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">Nombre completo</label>
+            <label className="mb-1 block text-sm font-medium text-slate-700">{t("auth.fullname_label")}</label>
             <input
               type="text"
               required
               value={nombre}
               onChange={e => setNombre(e.target.value)}
               className="w-full rounded-lg border border-slate-300 px-4 py-2.5 text-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
-              placeholder="Tu nombre"
+              placeholder={t("auth.fullname_placeholder")}
             />
           </div>
 
           <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">Correo electrónico</label>
+            <label className="mb-1 block text-sm font-medium text-slate-700">{t("auth.email_label")}</label>
             <input
               type="email"
               required
               value={email}
               onChange={e => setEmail(e.target.value)}
               className="w-full rounded-lg border border-slate-300 px-4 py-2.5 text-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
-              placeholder="tu@correo.com"
+              placeholder={t("auth.email_placeholder")}
             />
           </div>
 
           <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">Contraseña</label>
+            <label className="mb-1 block text-sm font-medium text-slate-700">{t("auth.password_label")}</label>
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
@@ -91,7 +93,7 @@ export default function RegistroPage() {
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 className="w-full rounded-lg border border-slate-300 px-4 py-2.5 pr-10 text-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
-                placeholder="Mínimo 6 caracteres"
+                placeholder={t("auth.password_min_placeholder")}
               />
               <button
                 type="button"
@@ -109,7 +111,7 @@ export default function RegistroPage() {
           </div>
 
           <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">Confirmar contraseña</label>
+            <label className="mb-1 block text-sm font-medium text-slate-700">{t("auth.confirm_password_label")}</label>
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
@@ -117,7 +119,7 @@ export default function RegistroPage() {
                 value={password2}
                 onChange={e => setPassword2(e.target.value)}
                 className="w-full rounded-lg border border-slate-300 px-4 py-2.5 pr-10 text-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
-                placeholder="Repite la contraseña"
+                placeholder={t("auth.confirm_password_placeholder")}
               />
               <button
                 type="button"
@@ -143,14 +145,14 @@ export default function RegistroPage() {
             disabled={loading}
             className="w-full rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand/90 disabled:opacity-60"
           >
-            {loading ? "Registrando..." : "Crear cuenta"}
+            {loading ? t("auth.register_submitting") : t("auth.register_submit")}
           </button>
         </form>
 
         <p className="mt-5 text-center text-sm text-slate-500">
-          ¿Ya tienes cuenta?{" "}
+          {t("auth.have_account")}{" "}
           <Link href="/login" className="font-semibold text-brand hover:underline">
-            Ingresar
+            {t("auth.login_link")}
           </Link>
         </p>
       </div>

@@ -3,9 +3,11 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
+import { useLang } from "@/components/LanguageProvider";
 
 export default function ResetPasswordPage() {
   const router = useRouter();
+  const { t } = useLang();
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -17,11 +19,11 @@ export default function ResetPasswordPage() {
     setError(null);
 
     if (password !== password2) {
-      setError("Las contraseñas no coinciden.");
+      setError(t("auth.passwords_mismatch"));
       return;
     }
     if (password.length < 6) {
-      setError("La contraseña debe tener al menos 6 caracteres.");
+      setError(t("auth.password_too_short"));
       return;
     }
 
@@ -30,7 +32,7 @@ export default function ResetPasswordPage() {
     const { error } = await supabase.auth.updateUser({ password });
 
     if (error) {
-      setError("No se pudo actualizar la contraseña. El enlace puede haber expirado.");
+      setError(t("auth.reset_error"));
       setLoading(false);
       return;
     }
@@ -44,13 +46,13 @@ export default function ResetPasswordPage() {
       <div className="w-full max-w-sm">
         <div className="mb-8 text-center">
           <p className="text-xs font-semibold uppercase tracking-widest text-slate-400">DSA · Internatos</p>
-          <h1 className="mt-2 text-2xl font-extrabold text-brand">Nueva contraseña</h1>
-          <p className="mt-1 text-sm text-slate-500">Elige una contraseña segura</p>
+          <h1 className="mt-2 text-2xl font-extrabold text-brand">{t("auth.reset_title")}</h1>
+          <p className="mt-1 text-sm text-slate-500">{t("auth.reset_subtitle")}</p>
         </div>
 
         <form onSubmit={handleSubmit} className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm space-y-5">
           <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">Nueva contraseña</label>
+            <label className="mb-1 block text-sm font-medium text-slate-700">{t("auth.new_password_label")}</label>
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
@@ -58,7 +60,7 @@ export default function ResetPasswordPage() {
                 value={password}
                 onChange={e => setPassword(e.target.value)}
                 className="w-full rounded-lg border border-slate-300 px-4 py-2.5 pr-10 text-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
-                placeholder="Mínimo 6 caracteres"
+                placeholder={t("auth.password_min_placeholder")}
               />
               <button
                 type="button"
@@ -76,7 +78,7 @@ export default function ResetPasswordPage() {
           </div>
 
           <div>
-            <label className="mb-1 block text-sm font-medium text-slate-700">Confirmar contraseña</label>
+            <label className="mb-1 block text-sm font-medium text-slate-700">{t("auth.confirm_password_label")}</label>
             <div className="relative">
               <input
                 type={showPassword ? "text" : "password"}
@@ -84,7 +86,7 @@ export default function ResetPasswordPage() {
                 value={password2}
                 onChange={e => setPassword2(e.target.value)}
                 className="w-full rounded-lg border border-slate-300 px-4 py-2.5 pr-10 text-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
-                placeholder="Repite la contraseña"
+                placeholder={t("auth.confirm_password_placeholder")}
               />
               <button
                 type="button"
@@ -110,7 +112,7 @@ export default function ResetPasswordPage() {
             disabled={loading}
             className="w-full rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand/90 disabled:opacity-60"
           >
-            {loading ? "Guardando..." : "Cambiar contraseña"}
+            {loading ? t("auth.reset_submitting") : t("auth.reset_submit")}
           </button>
         </form>
       </div>
