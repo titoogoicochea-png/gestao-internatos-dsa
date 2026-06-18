@@ -33,3 +33,7 @@ next-env.d.ts
 # generated content (rebuilt from /content on each build)
 /lib/content.generated.json
 .env.local
+
+# database backups (contienen datos personales — NUNCA subir a GitHub)
+backup-*.sql
+*.dump
