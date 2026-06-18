@@ -9,7 +9,8 @@
     "prebuild": "node scripts/gen-content.mjs",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "backup": "bash scripts/backup-db.sh"
   },
   "dependencies": {
     "@supabase/ssr": "^0.12.0",
