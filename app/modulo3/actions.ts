@@ -67,8 +67,8 @@ function construirPromptIdeasFuerza(nivel: Nivel, taller: Taller, consolidado: I
     "",
   ];
 
-  consolidado.secciones.forEach((s, i) => {
-    partes.push(`### ${unidad === "dimensión" ? "Dimensión" : "Capítulo"} ${i + 1}: ${s.titulo}`);
+  consolidado.secciones.forEach((s) => {
+    partes.push(`### ${s.titulo}`);
     if (s.sintesis) partes.push(s.sintesis);
     s.puntos.forEach((p) => partes.push(`- ${p}`));
     partes.push("");
@@ -88,7 +88,7 @@ function construirPromptIdeasFuerza(nivel: Nivel, taller: Taller, consolidado: I
 }`,
     "",
     "Reglas:",
-    `- Devuelve EXACTAMENTE una entrada por cada ${unidad} recibido, en el mismo orden y con el mismo título.`,
+    `- Devuelve EXACTAMENTE una entrada por cada ${unidad} recibido, en el mismo orden. En "titulo" copia TEXTUALMENTE el título que recibiste tras "### ", sin agregar prefijos como "Capítulo N:" ni numeración.`,
     `- Por cada ${unidad}, entre 2 y 4 IDEAS FUERZA de mejora: frases potentes, accionables y sintéticas que capturen lo esencial de lo que proponen los participantes.`,
     "- Cada idea fuerza es una viñeta breve, redactada como una dirección o acción de mejora clara y contundente.",
     "- No repitas ideas; prioriza lo más relevante. Deja \"sintesis\" vacío.",
