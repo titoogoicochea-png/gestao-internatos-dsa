@@ -5,10 +5,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { useLang } from "@/components/LanguageProvider";
+import { LanguageToggle } from "@/components/LanguageToggle";
 
 export default function LoginPage() {
   const router = useRouter();
-  const { t } = useLang();
+  const { t, setLang } = useLang();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -29,6 +30,11 @@ export default function LoginPage() {
       return;
     }
 
+    // Aplica el idioma guardado en la cuenta (para que siga al usuario en cualquier dispositivo)
+    const { data: { user } } = await supabase.auth.getUser();
+    const idioma = user?.user_metadata?.idioma;
+    if (idioma === "es" || idioma === "pt") setLang(idioma);
+
     router.push("/");
     router.refresh();
   }
@@ -36,6 +42,9 @@ export default function LoginPage() {
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-slate-50 px-4">
       <div className="w-full max-w-sm">
+        <div className="mb-6 flex justify-center">
+          <LanguageToggle />
+        </div>
         {/* Logo / título */}
         <div className="mb-8 text-center">
           <p className="text-xs font-semibold uppercase tracking-widest text-slate-400">DSA · Internatos</p>

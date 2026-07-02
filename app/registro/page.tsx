@@ -5,10 +5,11 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { useLang } from "@/components/LanguageProvider";
+import { LanguageChoice } from "@/components/LanguageChoice";
 
 export default function RegistroPage() {
   const router = useRouter();
-  const { t } = useLang();
+  const { t, lang } = useLang();
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -35,7 +36,7 @@ export default function RegistroPage() {
     const { error } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: { nombre } },
+      options: { data: { nombre, idioma: lang } },
     });
 
     if (error) {
@@ -60,6 +61,11 @@ export default function RegistroPage() {
         </div>
 
         <form onSubmit={handleRegistro} className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm space-y-5">
+          <div>
+            <label className="mb-1.5 block text-sm font-medium text-slate-700">{t("auth.choose_language")}</label>
+            <LanguageChoice />
+          </div>
+
           <div>
             <label className="mb-1 block text-sm font-medium text-slate-700">{t("auth.fullname_label")}</label>
             <input
