@@ -208,42 +208,7 @@ export function Modulo3Admin({ fases, informesIniciales, conteos, rawData, motor
         {/* Motor de IA en escala (compartido por ambos espacios) */}
         <div className="mb-6 rounded-2xl border border-slate-200/70 bg-white p-5 shadow-card">
           <SectionHeader icon="🤖" title={t("m3.motor-ia")} />
-          {/* Automático (escalonado) — recomendado */}
-          <button
-            onClick={() => setMotor("auto")}
-            className={`mb-2 flex w-full items-center justify-between gap-2 rounded-xl border-2 p-3 text-left transition ${
-              motor === "auto" ? "border-brand bg-brand/5" : "border-slate-200 hover:bg-slate-50"
-            }`}
-          >
-            <div>
-              <p className="text-sm font-bold text-[#2F4156]">⚡ {t("m3.motor-auto-label")}</p>
-              <p className="text-xs text-slate-400">{t("m3.motor-auto-desc")}</p>
-            </div>
-            {motor === "auto" && <span className="font-bold text-brand">✓</span>}
-          </button>
-          {/* Motores individuales */}
-          <div className="grid gap-2 sm:grid-cols-2">
-            {MOTOR_OPCIONES.map((m) => {
-              const activo = motoresActivos.includes(m.id);
-              return (
-                <button
-                  key={m.id}
-                  onClick={() => setMotor(m.id)}
-                  className={`flex items-center justify-between gap-2 rounded-xl border p-3 text-left transition ${
-                    motor === m.id ? "border-brand bg-brand/5 ring-1 ring-brand" : "border-slate-200 hover:bg-slate-50"
-                  }`}
-                >
-                  <span className="min-w-0 truncate text-sm font-semibold text-slate-800">{motorLabel(m.id)}</span>
-                  <span className="flex shrink-0 items-center gap-1.5">
-                    {!activo && <span className="text-[10px] text-slate-400">{t("m3.motor-no-config")}</span>}
-                    <span className={`rounded px-1.5 py-0.5 text-[10px] font-bold ${BADGE_STYLE[m.badge]}`}>
-                      {t(`m3.badge-${m.badge.toLowerCase()}`)}
-                    </span>
-                  </span>
-                </button>
-              );
-            })}
-          </div>
+          <MotorSelector value={motor} onChange={setMotor} motoresActivos={motoresActivos} t={t} />
           <p className="mt-2 text-xs text-slate-400">{t("m3.motor-ayuda")}</p>
         </div>
 
@@ -371,6 +336,82 @@ export function Modulo3Admin({ fases, informesIniciales, conteos, rawData, motor
           </section>
         )}
       </main>
+    </div>
+  );
+}
+
+// Selector de motor de IA como desplegable compacto (muestra el elegido; la lista aparece al clic).
+function MotorSelector({
+  value, onChange, motoresActivos, t,
+}: {
+  value: Motor;
+  onChange: (m: Motor) => void;
+  motoresActivos: string[];
+  t: Tfn;
+}) {
+  const [open, setOpen] = useState(false);
+  const selBadge = value === "auto" ? null : MOTOR_OPCIONES.find((o) => o.id === value)?.badge;
+
+  return (
+    <div className="relative">
+      <button
+        type="button"
+        onClick={() => setOpen((o) => !o)}
+        className="flex w-full items-center justify-between gap-2 rounded-xl border-2 border-slate-200 bg-white px-4 py-3 text-left transition hover:border-brand/40"
+      >
+        <span className="flex min-w-0 items-center gap-2">
+          {value === "auto" && <span aria-hidden>⚡</span>}
+          <span className="truncate text-sm font-semibold text-[#2F4156]">
+            {value === "auto" ? t("m3.motor-auto-label") : motorLabel(value)}
+          </span>
+          {selBadge && (
+            <span className={`shrink-0 rounded px-1.5 py-0.5 text-[10px] font-bold ${BADGE_STYLE[selBadge]}`}>
+              {t(`m3.badge-${selBadge.toLowerCase()}`)}
+            </span>
+          )}
+        </span>
+        <span className="shrink-0 text-slate-400">{open ? "▲" : "▼"}</span>
+      </button>
+
+      {open && (
+        <>
+          <div className="fixed inset-0 z-10" onClick={() => setOpen(false)} />
+          <div className="absolute z-20 mt-1 max-h-80 w-full overflow-auto rounded-xl border border-slate-200 bg-white shadow-lg">
+            <button
+              type="button"
+              onClick={() => { onChange("auto"); setOpen(false); }}
+              className={`flex w-full items-center justify-between gap-2 px-4 py-2.5 text-left hover:bg-slate-50 ${value === "auto" ? "bg-brand/5" : ""}`}
+            >
+              <span className="min-w-0">
+                <span className="block text-sm font-bold text-[#2F4156]">⚡ {t("m3.motor-auto-label")}</span>
+                <span className="block text-xs text-slate-400">{t("m3.motor-auto-desc")}</span>
+              </span>
+              {value === "auto" && <span className="shrink-0 font-bold text-brand">✓</span>}
+            </button>
+            <div className="border-t border-slate-100" />
+            {MOTOR_OPCIONES.map((m) => {
+              const activo = motoresActivos.includes(m.id);
+              return (
+                <button
+                  key={m.id}
+                  type="button"
+                  onClick={() => { onChange(m.id); setOpen(false); }}
+                  className={`flex w-full items-center justify-between gap-2 px-4 py-2.5 text-left hover:bg-slate-50 ${value === m.id ? "bg-brand/5" : ""}`}
+                >
+                  <span className="min-w-0 truncate text-sm font-semibold text-slate-800">{motorLabel(m.id)}</span>
+                  <span className="flex shrink-0 items-center gap-1.5">
+                    {!activo && <span className="text-[10px] text-slate-400">{t("m3.motor-no-config")}</span>}
+                    <span className={`rounded px-1.5 py-0.5 text-[10px] font-bold ${BADGE_STYLE[m.badge]}`}>
+                      {t(`m3.badge-${m.badge.toLowerCase()}`)}
+                    </span>
+                    {value === m.id && <span className="font-bold text-brand">✓</span>}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </>
+      )}
     </div>
   );
 }
