@@ -1,7 +1,7 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { Modulo3Admin, type InformeGuardado } from "@/components/Modulo3Admin";
-import type { InformeConsolidado } from "@/lib/llm";
+import { Modulo3Admin } from "@/components/Modulo3Admin";
+import type { ContenidoInforme, InformeConsolidado } from "@/lib/llm";
 import { agruparAportes, type GrupoTema, type Nivel, type Taller } from "@/lib/informe-data";
 
 export const dynamic = "force-dynamic";
@@ -28,13 +28,25 @@ export default async function Modulo3Page() {
   const { data: informesRows } = await supabase
     .from("informes")
     .select("nivel, taller, contenido, modelo, generado_en");
-  const informes: Record<string, InformeGuardado> = {};
+  const informes: Record<string, ContenidoInforme> = {};
   for (const r of informesRows ?? []) {
-    informes[`${r.nivel}__${r.taller}`] = {
-      contenido: r.contenido as InformeConsolidado,
-      modelo: r.modelo as string,
-      generadoEn: r.generado_en as string,
-    };
+    const c = r.contenido as
+      | (ContenidoInforme & { secciones?: unknown })
+      | null;
+    let cont: ContenidoInforme = {};
+    if (c && (c.consolidado || c.ideasFuerza)) {
+      cont = c;
+    } else if (c && Array.isArray(c.secciones)) {
+      // Formato anterior: `contenido` era directamente un InformeConsolidado.
+      cont = {
+        consolidado: {
+          informe: c as unknown as InformeConsolidado,
+          modelo: r.modelo as string,
+          generadoEn: r.generado_en as string,
+        },
+      };
+    }
+    informes[`${r.nivel}__${r.taller}`] = cont;
   }
 
   // Aportes crudos agrupados por capítulo/dimensión, para la lista previa

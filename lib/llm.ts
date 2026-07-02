@@ -27,6 +27,14 @@ export type InformeConsolidado = {
   secciones: SeccionInforme[];
 };
 
+// Cada "espacio" del Módulo 3 (consolidado / ideas fuerza) se guarda con su modelo y fecha.
+export type ParteGuardada = { informe: InformeConsolidado; modelo: string; generadoEn: string };
+
+// Se guardan ambos espacios en el mismo registro `informes` (jsonb contenido) por nivel+taller.
+export type ContenidoInforme = { consolidado?: ParteGuardada; ideasFuerza?: ParteGuardada };
+
+export type EspacioId = "consolidado" | "ideasFuerza";
+
 export function esModeloValido(m: string): m is ModeloId {
   return MODELOS.some((x) => x.id === m);
 }

@@ -3,35 +3,30 @@
 import { useState } from "react";
 import { useLang } from "@/components/LanguageProvider";
 import { SectionHeader } from "@/components/SectionHeader";
-import { generarInforme } from "@/app/modulo3/actions";
-import type { InformeConsolidado, ModeloId } from "@/lib/llm";
+import { generarConsolidado, generarIdeasFuerza } from "@/app/modulo3/actions";
+import type { ContenidoInforme, ModeloId } from "@/lib/llm";
 import type { GrupoTema } from "@/lib/informe-data";
-
-export type InformeGuardado = {
-  contenido: InformeConsolidado;
-  modelo: string;
-  generadoEn: string;
-};
 
 type Props = {
   fases: { tarde1: boolean; tarde2: boolean };
-  informesIniciales: Record<string, InformeGuardado>;
+  informesIniciales: Record<string, ContenidoInforme>;
   conteos: Record<string, number>;
   rawData: Record<string, GrupoTema[]>;
 };
 
-const NIVEL_LABEL = { basica: "Educación Básica", superior: "Educación Superior" };
-const TALLER_LABEL = { tarde1: "Workshop 1 — Tarde 1", tarde2: "Workshop 2 — Tarde 2" };
-
-const MODELOS_UI: { id: ModeloId; label: string; nota: string }[] = [
-  { id: "gemini-2.5-flash", label: "Gemini 2.5 Flash (gratis)", nota: "Rápido · sin costo" },
-  { id: "claude-haiku-4-5-20251001", label: "Claude Haiku 4.5", nota: "Rápido · económico" },
-  { id: "claude-sonnet-4-6", label: "Claude Sonnet 4.6", nota: "Máxima calidad" },
+const MODELOS_UI: { id: ModeloId }[] = [
+  { id: "gemini-2.5-flash" },
+  { id: "claude-haiku-4-5-20251001" },
+  { id: "claude-sonnet-4-6" },
 ];
 
 // Un color por capítulo / dimensión
 const PALETA = ["#2563eb", "#059669", "#d97706", "#7c3aed", "#dc2626", "#0891b2", "#db2777", "#65a30d"];
 const color = (i: number) => PALETA[i % PALETA.length];
+
+type Tfn = (k: string) => string;
+const nivelLabel = (nivel: "basica" | "superior", t: Tfn) => t(nivel === "basica" ? "m3.nivel-basica" : "m3.nivel-superior");
+const tallerLabel = (taller: "tarde1" | "tarde2", t: Tfn) => t(taller === "tarde1" ? "m3.taller-tarde1" : "m3.taller-tarde2");
 
 function fmtFecha(iso: string): string {
   try {
@@ -41,111 +36,94 @@ function fmtFecha(iso: string): string {
   }
 }
 
-function modeloLabel(id: string, t: (key: string) => string): string {
-  const found = MODELOS_UI.find((m) => m.id === id);
-  return found ? t(`m3.modelo-label.${found.id}`) : id;
-}
-
-type Tfn = (k: string) => string;
-const nivelLabel = (nivel: "basica" | "superior", t: Tfn) => t(nivel === "basica" ? "m3.nivel-basica" : "m3.nivel-superior");
-const tallerLabel = (taller: "tarde1" | "tarde2", t: Tfn) => t(taller === "tarde1" ? "m3.taller-tarde1" : "m3.taller-tarde2");
-
-function informeATexto(inf: InformeConsolidado, nivel: keyof typeof NIVEL_LABEL, taller: keyof typeof TALLER_LABEL, t: Tfn): string {
-  const L: string[] = [`# ${t("m3.export-titulo")} — ${nivelLabel(nivel, t)} · ${tallerLabel(taller, t)}`, ""];
-  if (inf.resumenGeneral) L.push(inf.resumenGeneral, "");
-  for (const s of inf.secciones) {
-    L.push(`## ${s.titulo}`);
-    if (s.sintesis) L.push(s.sintesis);
-    if (s.puntos.length) { L.push(""); s.puntos.forEach((o) => L.push(`• ${o}`)); }
-    L.push("");
-  }
-  return L.join("\n");
-}
-
-function informeAHTML(inf: InformeConsolidado, nivel: keyof typeof NIVEL_LABEL, taller: keyof typeof TALLER_LABEL, t: Tfn, lang: string): string {
-  const esc = (s: string) => s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-  const nv = nivelLabel(nivel, t);
-  const tl = tallerLabel(taller, t);
-  const titulo = t("m3.export-titulo");
-  const secciones = inf.secciones
-    .map((s, i) => {
-      const c = color(i);
-      const lista = s.puntos.length
-        ? `<ul style="margin:8px 0 0;padding-left:20px">${s.puntos.map((it) => `<li style="margin:4px 0">${esc(it)}</li>`).join("")}</ul>`
-        : "";
-      return `<section style="border-left:6px solid ${c};background:${c}0d;padding:14px 18px;margin:18px 0;border-radius:10px">
-        <h3 style="margin:0;color:${c}">${esc(s.titulo)}</h3>
-        ${s.sintesis ? `<p style="color:#475569;margin:6px 0 0">${esc(s.sintesis)}</p>` : ""}
-        ${lista}
-      </section>`;
-    })
-    .join("");
-  return `<!doctype html><html lang="${lang === "pt" ? "pt-BR" : "es"}"><head><meta charset="utf-8">
-<title>${esc(titulo)} — ${esc(nv)} · ${esc(tl)}</title>
-<style>body{font-family:system-ui,-apple-system,Arial,sans-serif;max-width:820px;margin:24px auto;padding:0 16px;color:#1e293b;line-height:1.5}h1{color:#0f172a;margin-bottom:2px}</style>
-</head><body>
-<h1>${esc(titulo)}</h1>
-<p style="color:#64748b;margin-top:0"><strong>${esc(nv)}</strong> · ${esc(tl)}</p>
-${inf.resumenGeneral ? `<div style="background:#f1f5f9;padding:14px 18px;border-radius:10px;margin:12px 0"><strong>${esc(t("m3.resumen-general"))}</strong><p style="margin:6px 0 0">${esc(inf.resumenGeneral)}</p></div>` : ""}
-${secciones}
-</body></html>`;
+function modeloLabel(id: string, t: Tfn): string {
+  return MODELOS_UI.some((m) => m.id === id) ? t(`m3.modelo-label.${id}`) : id;
 }
 
 export function Modulo3Admin({ fases, informesIniciales, conteos, rawData }: Props) {
-  const { t, lang } = useLang();
+  const { t } = useLang();
   const [nivel, setNivel] = useState<"basica" | "superior">("basica");
   const [taller, setTaller] = useState<"tarde1" | "tarde2">("tarde1");
   const [modelo, setModelo] = useState<ModeloId>("gemini-2.5-flash");
   const [informes, setInformes] = useState(informesIniciales);
-  const [generating, setGenerating] = useState(false);
+  const [espacio, setEspacio] = useState<1 | 2>(1);
+  const [generating, setGenerating] = useState<null | "consolidado" | "ideasFuerza">(null);
+  const [downloading, setDownloading] = useState<null | "consolidado" | "ideasFuerza">(null);
   const [error, setError] = useState<string | null>(null);
-  const [copiado, setCopiado] = useState(false);
-  const [verAportes, setVerAportes] = useState(true);
+  const [verAportes, setVerAportes] = useState(false);
 
   const key = `${nivel}__${taller}`;
-  const informe = informes[key];
+  const contenido = informes[key] ?? {};
+  const consolidado = contenido.consolidado;
+  const ideasFuerza = contenido.ideasFuerza;
   const conteo = conteos[key] ?? 0;
   const abierto = fases[taller];
   const aportes = rawData[key] ?? [];
   const unidad = taller === "tarde2" ? t("m3.unidad-dimension") : t("m3.unidad-capitulo");
+  const esp1Titulo = taller === "tarde2" ? t("m3.esp1-titulo-dim") : t("m3.esp1-titulo-cap");
+  const subtituloDoc = `${nivelLabel(nivel, t)} · ${tallerLabel(taller, t)}`;
+  const ideasDesactualizadas =
+    !!ideasFuerza && !!consolidado && ideasFuerza.generadoEn < consolidado.generadoEn;
 
-  async function handleGenerar() {
+  function setParte(k: "consolidado" | "ideasFuerza", parte: ContenidoInforme["consolidado"]) {
+    setInformes((prev) => ({ ...prev, [key]: { ...(prev[key] ?? {}), [k]: parte } }));
+  }
+
+  async function handleGenerarConsolidado() {
     setError(null);
-    setGenerating(true);
+    setGenerating("consolidado");
     try {
-      const res = await generarInforme(nivel, taller, modelo);
-      if (!res.ok || !res.informe) {
-        setError(res.error ?? t("m3.error-generar"));
-      } else {
-        setInformes((prev) => ({
-          ...prev,
-          [key]: { contenido: res.informe!, modelo: res.modelo ?? modelo, generadoEn: res.generadoEn ?? new Date().toISOString() },
-        }));
-      }
+      const res = await generarConsolidado(nivel, taller, modelo);
+      if (!res.ok || !res.parte) setError(res.error ?? t("m3.error-generar"));
+      else setParte("consolidado", res.parte);
     } catch (e) {
       setError(e instanceof Error ? e.message : t("m3.error-inesperado"));
     } finally {
-      setGenerating(false);
+      setGenerating(null);
     }
   }
 
-  function handleCopiar() {
-    if (!informe) return;
-    navigator.clipboard.writeText(informeATexto(informe.contenido, nivel, taller, t));
-    setCopiado(true);
-    setTimeout(() => setCopiado(false), 2000);
+  async function handleGenerarIdeas() {
+    setError(null);
+    setGenerating("ideasFuerza");
+    try {
+      const res = await generarIdeasFuerza(nivel, taller, modelo);
+      if (!res.ok || !res.parte) setError(res.error ?? t("m3.error-generar"));
+      else setParte("ideasFuerza", res.parte);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : t("m3.error-inesperado"));
+    } finally {
+      setGenerating(null);
+    }
   }
 
-  function handleDescargar() {
-    if (!informe) return;
-    const blob = new Blob([informeAHTML(informe.contenido, nivel, taller, t, lang)], { type: "text/html;charset=utf-8;" });
-    const url = URL.createObjectURL(blob);
-    const a = document.createElement("a");
-    a.href = url;
-    a.download = `informe-${nivel}-${taller}.html`;
-    a.click();
-    URL.revokeObjectURL(url);
+  async function handleDescargarWord(esp: "consolidado" | "ideasFuerza") {
+    const parte = esp === "consolidado" ? consolidado : ideasFuerza;
+    if (!parte) return;
+    setError(null);
+    setDownloading(esp);
+    try {
+      const { informeADocx, descargarBlob } = await import("@/lib/informe-docx");
+      const tituloDoc = esp === "consolidado" ? esp1Titulo : t("m3.esp2-titulo");
+      const blob = await informeADocx({
+        tituloDoc,
+        subtitulo: subtituloDoc,
+        resumenLabel: t("m3.resumen-general"),
+        informe: parte.informe,
+      });
+      const base = esp === "consolidado" ? "consolidado" : "ideas-fuerza";
+      descargarBlob(blob, `${base}-${nivel}-${taller}.docx`);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : t("m3.error-inesperado"));
+    } finally {
+      setDownloading(null);
+    }
   }
+
+  const btnBrand =
+    "rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand/90 disabled:cursor-not-allowed disabled:opacity-50";
+  const btnWord =
+    "inline-flex items-center gap-1.5 rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-700 disabled:opacity-50";
 
   return (
     <div className="min-h-screen bg-[#EEF1F6]">
@@ -167,7 +145,7 @@ export function Modulo3Admin({ fases, informesIniciales, conteos, rawData }: Pro
           </p>
         </div>
 
-        {/* Selectores */}
+        {/* Selectores nivel + workshop */}
         <div className="mb-4 grid gap-3 sm:grid-cols-2">
           <div className="grid grid-cols-2 gap-2">
             {(["basica", "superior"] as const).map((n) => (
@@ -208,27 +186,7 @@ export function Modulo3Admin({ fases, informesIniciales, conteos, rawData }: Pro
           </p>
         )}
 
-        {/* Aportes recolectados (sin procesar) */}
-        {aportes.length > 0 && (
-          <div className="mb-6">
-            <button
-              onClick={() => setVerAportes((v) => !v)}
-              className="mb-3 flex w-full items-center justify-between rounded-lg bg-slate-100 px-4 py-2 text-left text-sm font-semibold text-slate-700 hover:bg-slate-200"
-            >
-              <span>{t("m3.aportes-recolectados-por")} {unidad} {t("m3.sin-procesar")}</span>
-              <span className="text-slate-400">{verAportes ? "▲" : "▼"}</span>
-            </button>
-            {verAportes && (
-              <div className="space-y-3">
-                {aportes.map((g, i) => (
-                  <TemaCard key={g.clave} c={color(i)} titulo={g.titulo} puntos={g.aportes} />
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-
-        {/* Motor de IA + generar */}
+        {/* Motor de IA (compartido por ambos espacios) */}
         <div className="mb-6 rounded-2xl border border-slate-200/70 bg-white p-5 shadow-card">
           <SectionHeader icon="🤖" title={t("m3.motor-ia")} />
           <div className="grid gap-2 sm:grid-cols-3">
@@ -242,74 +200,182 @@ export function Modulo3Admin({ fases, informesIniciales, conteos, rawData }: Pro
               </button>
             ))}
           </div>
-          <button
-            onClick={handleGenerar}
-            disabled={generating || conteo === 0}
-            className="mt-4 w-full rounded-lg bg-brand py-2.5 text-sm font-semibold text-white hover:bg-brand/90 disabled:cursor-not-allowed disabled:opacity-50"
-          >
-            {generating
-              ? t("m3.btn-analizando")
-              : conteo === 0
-              ? t("m3.btn-sin-aportes")
-              : informe
-              ? t("m3.btn-regenerar")
-              : t("m3.btn-generar")}
-          </button>
-          {generating && <p className="mt-2 text-center text-xs text-slate-400">{t("m3.tiempo-estimado")}</p>}
         </div>
+
+        {/* Aportes crudos (referencia) */}
+        {aportes.length > 0 && (
+          <div className="mb-6">
+            <button
+              onClick={() => setVerAportes((v) => !v)}
+              className="mb-3 flex w-full items-center justify-between rounded-lg bg-slate-100 px-4 py-2 text-left text-sm font-semibold text-slate-700 hover:bg-slate-200"
+            >
+              <span>{t("m3.aportes-recolectados-por")} {unidad} {t("m3.sin-procesar")}</span>
+              <span className="text-slate-400">{verAportes ? "▲" : "▼"}</span>
+            </button>
+            {verAportes && (
+              <div className="space-y-3">
+                {aportes.map((g, i) => (
+                  <TemaColapsable key={g.clave} c={color(i)} titulo={g.titulo} puntos={g.aportes} />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
 
         {error && <p className="mb-4 rounded-lg bg-red-50 px-4 py-2 text-sm text-red-700">{error}</p>}
 
-        {/* Informe consolidado */}
-        {informe && (
-          <div>
-            <div className="mb-4 flex flex-wrap items-center justify-between gap-2">
-              <p className="text-xs text-slate-400">
-                {t("m3.informe-generado-con")} <strong>{modeloLabel(informe.modelo, t)}</strong> · {fmtFecha(informe.generadoEn)}
-              </p>
-              <div className="flex gap-2">
-                <button onClick={handleCopiar} className="rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-slate-50">
-                  {copiado ? t("m3.copiado") : t("m3.copiar-texto")}
-                </button>
-                <button onClick={handleDescargar} className="rounded-lg bg-emerald-600 px-3 py-1.5 text-xs font-semibold text-white hover:bg-emerald-700">
-                  ⬇ {t("m3.descargar-informe")}
-                </button>
-              </div>
-            </div>
+        {/* ── Pestañas de los dos espacios ── */}
+        <div className="mb-5 flex gap-1 rounded-xl bg-slate-100 p-1">
+          <button onClick={() => setEspacio(1)}
+            className={`flex-1 rounded-lg px-3 py-2 text-sm font-semibold transition ${espacio === 1 ? "bg-white text-[#2F4156] shadow-sm" : "text-slate-500 hover:text-slate-700"}`}>
+            {t("m3.espacio-1")} · {esp1Titulo}
+          </button>
+          <button onClick={() => setEspacio(2)}
+            className={`flex-1 rounded-lg px-3 py-2 text-sm font-semibold transition ${espacio === 2 ? "bg-white text-[#2F4156] shadow-sm" : "text-slate-500 hover:text-slate-700"}`}>
+            {t("m3.espacio-2")} · {t("m3.esp2-titulo")}
+          </button>
+        </div>
 
-            {informe.contenido.resumenGeneral && (
-              <div className="mb-5 rounded-2xl border border-slate-200/70 bg-white p-5 shadow-card">
-                <p className="mb-1 text-xs font-bold uppercase tracking-widest text-slate-400">{t("m3.resumen-general")}</p>
-                <p className="text-sm leading-relaxed text-slate-700">{informe.contenido.resumenGeneral}</p>
-              </div>
+        {/* ── Espacio 1: Consolidado ── */}
+        {espacio === 1 && (
+          <section>
+            <p className="mb-3 text-sm text-slate-500">{t("m3.esp1-desc").replace("{u}", unidad)}</p>
+            <div className="mb-4 flex flex-wrap items-center gap-2">
+              <button onClick={handleGenerarConsolidado} disabled={generating !== null || conteo === 0} className={btnBrand}>
+                {generating === "consolidado"
+                  ? t("m3.generando")
+                  : conteo === 0
+                  ? t("m3.btn-sin-aportes")
+                  : consolidado
+                  ? t("m3.regenerar-consolidado")
+                  : t("m3.generar-consolidado")}
+              </button>
+              {consolidado && (
+                <button onClick={() => handleDescargarWord("consolidado")} disabled={downloading !== null} className={btnWord}>
+                  ⬇ {downloading === "consolidado" ? t("m3.generando") : t("m3.descargar-word")}
+                </button>
+              )}
+            </div>
+            {generating === "consolidado" && <p className="mb-3 text-xs text-slate-400">{t("m3.tiempo-estimado")}</p>}
+
+            {consolidado && (
+              <>
+                <p className="mb-3 text-xs text-slate-400">
+                  {t("m3.informe-generado-con")} <strong>{modeloLabel(consolidado.modelo, t)}</strong> · {fmtFecha(consolidado.generadoEn)}
+                </p>
+                {consolidado.informe.resumenGeneral && (
+                  <div className="mb-4 rounded-2xl border border-slate-200/70 bg-white p-5 shadow-card">
+                    <p className="mb-1 text-xs font-bold uppercase tracking-widest text-slate-400">{t("m3.resumen-general")}</p>
+                    <p className="text-sm leading-relaxed text-slate-700">{consolidado.informe.resumenGeneral}</p>
+                  </div>
+                )}
+                <div className="space-y-3">
+                  {consolidado.informe.secciones.map((s, i) => (
+                    <TemaColapsable key={i} c={color(i)} titulo={s.titulo} sintesis={s.sintesis} puntos={s.puntos} />
+                  ))}
+                </div>
+              </>
             )}
+          </section>
+        )}
 
-            <div className="space-y-4">
-              {informe.contenido.secciones.map((s, i) => (
-                <TemaCard key={i} c={color(i)} titulo={s.titulo} sintesis={s.sintesis} puntos={s.puntos} />
-              ))}
+        {/* ── Espacio 2: Ideas fuerza ── */}
+        {espacio === 2 && (
+          <section>
+            <p className="mb-3 text-sm text-slate-500">{t("m3.esp2-desc").replace("{u}", unidad)}</p>
+            {!consolidado && (
+              <p className="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-2 text-sm text-amber-700">{t("m3.esp2-bloqueado")}</p>
+            )}
+            <div className="mb-4 flex flex-wrap items-center gap-2">
+              <button onClick={handleGenerarIdeas} disabled={generating !== null || !consolidado} className={btnBrand}>
+                {generating === "ideasFuerza"
+                  ? t("m3.generando")
+                  : ideasFuerza
+                  ? t("m3.regenerar-ideas")
+                  : t("m3.generar-ideas")}
+              </button>
+              {ideasFuerza && (
+                <button onClick={() => handleDescargarWord("ideasFuerza")} disabled={downloading !== null} className={btnWord}>
+                  ⬇ {downloading === "ideasFuerza" ? t("m3.generando") : t("m3.descargar-word")}
+                </button>
+              )}
             </div>
-          </div>
+            {generating === "ideasFuerza" && <p className="mb-3 text-xs text-slate-400">{t("m3.tiempo-estimado")}</p>}
+
+            {ideasFuerza && (
+              <>
+                <p className="mb-1 text-xs text-slate-400">
+                  {t("m3.informe-generado-con")} <strong>{modeloLabel(ideasFuerza.modelo, t)}</strong> · {fmtFecha(ideasFuerza.generadoEn)}
+                </p>
+                {ideasDesactualizadas && (
+                  <p className="mb-3 text-xs font-medium text-amber-600">⚠ {t("m3.esp2-desactualizado")}</p>
+                )}
+                {ideasFuerza.informe.resumenGeneral && (
+                  <div className="mb-4 mt-2 rounded-2xl border border-slate-200/70 bg-white p-5 shadow-card">
+                    <p className="mb-1 text-xs font-bold uppercase tracking-widest text-slate-400">{t("m3.ideas-fuerza-generales")}</p>
+                    <p className="text-sm leading-relaxed text-slate-700">{ideasFuerza.informe.resumenGeneral}</p>
+                  </div>
+                )}
+                <div className="space-y-3">
+                  {ideasFuerza.informe.secciones.map((s, i) => (
+                    <TemaCard key={i} c={color(i)} titulo={s.titulo} puntos={s.puntos} />
+                  ))}
+                </div>
+              </>
+            )}
+          </section>
         )}
       </main>
     </div>
   );
 }
 
-function TemaCard({
-  c, titulo, sintesis, puntos,
-}: {
-  c: string;
-  titulo: string;
-  sintesis?: string;
-  puntos: string[];
+// Sección desplegable (colapsada por defecto) — usada en el consolidado y en los aportes crudos.
+function TemaColapsable({ c, titulo, sintesis, puntos }: {
+  c: string; titulo: string; sintesis?: string; puntos: string[];
 }) {
+  const { t } = useLang();
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="overflow-hidden rounded-xl border border-slate-200/70 bg-white shadow-card" style={{ borderLeft: `6px solid ${c}` }}>
+      <button
+        onClick={() => setOpen((o) => !o)}
+        className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left"
+        style={{ background: `${c}0d` }}
+      >
+        <h3 className="font-bold" style={{ color: c }}>{titulo}</h3>
+        <div className="flex shrink-0 items-center gap-2">
+          <span className="rounded-full bg-white/70 px-2 py-0.5 text-xs font-semibold" style={{ color: c }}>{puntos.length}</span>
+          <span className="text-sm" style={{ color: c }}>{open ? "▲" : "▼"}</span>
+        </div>
+      </button>
+      {open && (
+        <div className="p-4">
+          {sintesis && <p className="mb-2 text-sm text-slate-600">{sintesis}</p>}
+          {puntos.length === 0 ? (
+            <p className="text-xs italic text-slate-300">{t("m3.sin-aportes")}</p>
+          ) : (
+            <ul className="space-y-1.5">
+              {puntos.map((it, i) => (
+                <li key={i} className="flex gap-2 text-sm leading-snug text-slate-700">
+                  <span style={{ color: c }}>•</span><span>{it}</span>
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Tarjeta expandida (ideas fuerza — contenido breve).
+function TemaCard({ c, titulo, puntos }: { c: string; titulo: string; puntos: string[] }) {
   const { t } = useLang();
   return (
     <div className="overflow-hidden rounded-xl border border-slate-200/70 bg-white shadow-card" style={{ borderLeft: `6px solid ${c}` }}>
       <div className="px-4 py-2.5" style={{ background: `${c}0d` }}>
         <h3 className="font-bold" style={{ color: c }}>{titulo}</h3>
-        {sintesis && <p className="mt-1 text-sm text-slate-600">{sintesis}</p>}
       </div>
       <div className="p-4">
         {puntos.length === 0 ? (
@@ -318,8 +384,7 @@ function TemaCard({
           <ul className="space-y-1.5">
             {puntos.map((it, i) => (
               <li key={i} className="flex gap-2 text-sm leading-snug text-slate-700">
-                <span style={{ color: c }}>•</span>
-                <span>{it}</span>
+                <span style={{ color: c }}>•</span><span>{it}</span>
               </li>
             ))}
           </ul>
