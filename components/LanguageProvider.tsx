@@ -13,38 +13,44 @@ interface LangCtx {
 
 const Ctx = createContext<LangCtx | null>(null);
 
-export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [lang, setLangState] = useState<Lang>("es");
+// Cookie legible por el servidor → permite renderizar SSR en el idioma correcto
+// (sin parpadeo). Se mantiene sincronizada con localStorage y con la cuenta.
+function writeLangCookie(l: Lang) {
+  document.cookie = `lang=${l}; path=/; max-age=31536000; samesite=lax`;
+}
+
+export function LanguageProvider({
+  children,
+  initialLang = "es",
+}: {
+  children: React.ReactNode;
+  initialLang?: Lang;
+}) {
+  // El servidor ya resolvió el idioma (cookie o cuenta) → arrancamos con ese,
+  // así el primer render ya sale en el idioma elegido y no hay cambio visible.
+  const [lang, setLangState] = useState<Lang>(initialLang);
 
   const applyLang = (l: Lang) => {
     setLangState(l);
     document.documentElement.lang = l === "pt" ? "pt-BR" : "es";
   };
 
+  // Migración: usuarios que ya tenían su elección solo en localStorage (sin cookie).
+  // La respetamos y sembramos la cookie para que los próximos loads salgan bien.
   useEffect(() => {
     const stored = window.localStorage.getItem("lang");
-    if (stored === "es" || stored === "pt") {
+    if ((stored === "es" || stored === "pt") && stored !== initialLang) {
       applyLang(stored);
-      return;
+      writeLangCookie(stored);
     }
-    // Sin elección local aún → usa el idioma guardado en la cuenta (si hay sesión).
-    // Así la preferencia sigue al usuario en un dispositivo/navegador nuevo.
-    createClient()
-      .auth.getUser()
-      .then(({ data }) => {
-        const idioma = data.user?.user_metadata?.idioma;
-        if (idioma === "es" || idioma === "pt") {
-          applyLang(idioma);
-          window.localStorage.setItem("lang", idioma);
-        }
-      })
-      .catch(() => {});
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const setLang = (l: Lang) => {
     applyLang(l);
     window.localStorage.setItem("lang", l);
-    // Guarda la preferencia en la cuenta (best-effort; sin sesión simplemente se ignora).
+    writeLangCookie(l);
+    // Guarda la preferencia en la cuenta para que siga al usuario entre dispositivos.
     createClient().auth.updateUser({ data: { idioma: l } }).catch(() => {});
   };
 
