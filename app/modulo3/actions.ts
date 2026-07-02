@@ -3,14 +3,8 @@
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { agruparAportes, type GrupoTema, type Nivel, type Taller } from "@/lib/informe-data";
-import {
-  generarTextoIA,
-  parseInforme,
-  esModeloValido,
-  type InformeConsolidado,
-  type ParteGuardada,
-  type EspacioId,
-} from "@/lib/llm";
+import { parseInforme, type InformeConsolidado, type ParteGuardada, type EspacioId } from "@/lib/llm";
+import { generarConEscalamiento, esMotorValido, type Motor } from "@/lib/ai/motores";
 
 const NIVEL_LABEL = { basica: "Educación Básica", superior: "Educación Superior" };
 const TALLER_LABEL = { tarde1: "Workshop 1 — Tarde 1", tarde2: "Workshop 2 — Tarde 2" };
@@ -158,11 +152,11 @@ export type GenerarResult = {
 
 // ───────────────── Espacio 1: Consolidado ─────────────────
 
-export async function generarConsolidado(nivel: Nivel, taller: Taller, modelo: string): Promise<GenerarResult> {
+export async function generarConsolidado(nivel: Nivel, taller: Taller, motor: string): Promise<GenerarResult> {
   const auth = await requireAdmin();
   if (!auth.ok) return { ok: false, error: auth.error };
   const { supabase, userId } = auth;
-  if (!esModeloValido(modelo)) return { ok: false, error: "Modelo de IA no válido." };
+  if (!esMotorValido(motor)) return { ok: false, error: "Motor de IA no válido." };
 
   const { data: grupos } = await supabase.from("grupos").select("id").eq("nivel", nivel).eq("taller", taller);
   const ids = (grupos ?? []).map((g) => g.id);
@@ -180,8 +174,11 @@ export async function generarConsolidado(nivel: Nivel, taller: Taller, modelo: s
   if (temas.length === 0) return { ok: false, error: "No hay aportes con contenido para consolidar." };
 
   let raw: string;
+  let motorUsado: string;
   try {
-    raw = await generarTextoIA(modelo, SYSTEM_CONSOLIDADO, construirPromptConsolidado(nivel, taller, temas));
+    const r = await generarConEscalamiento({ motor: motor as Motor, systemPrompt: SYSTEM_CONSOLIDADO, userPrompt: construirPromptConsolidado(nivel, taller, temas) });
+    raw = r.text;
+    motorUsado = r.motorUsado;
   } catch (e) {
     return { ok: false, error: e instanceof Error ? e.message : "Error al llamar al motor de IA." };
   }
@@ -190,10 +187,10 @@ export async function generarConsolidado(nivel: Nivel, taller: Taller, modelo: s
   try {
     informe = parseInforme(raw);
   } catch {
-    return { ok: false, error: "La IA devolvió un formato inesperado. Intenta de nuevo o con otro modelo." };
+    return { ok: false, error: "La IA devolvió un formato inesperado. Intenta de nuevo o con otro motor." };
   }
 
-  const parte: ParteGuardada = { informe, modelo, generadoEn: new Date().toISOString() };
+  const parte: ParteGuardada = { informe, modelo: motorUsado, generadoEn: new Date().toISOString() };
   const err = await mergeSaveParte(supabase, nivel, taller, userId, "consolidado", parte);
   if (err) return { ok: false, error: `Se generó el consolidado pero no se pudo guardar: ${err}` };
 
@@ -203,11 +200,11 @@ export async function generarConsolidado(nivel: Nivel, taller: Taller, modelo: s
 
 // ───────────────── Espacio 2: Ideas fuerza ─────────────────
 
-export async function generarIdeasFuerza(nivel: Nivel, taller: Taller, modelo: string): Promise<GenerarResult> {
+export async function generarIdeasFuerza(nivel: Nivel, taller: Taller, motor: string): Promise<GenerarResult> {
   const auth = await requireAdmin();
   if (!auth.ok) return { ok: false, error: auth.error };
   const { supabase, userId } = auth;
-  if (!esModeloValido(modelo)) return { ok: false, error: "Modelo de IA no válido." };
+  if (!esMotorValido(motor)) return { ok: false, error: "Motor de IA no válido." };
 
   const { data: existing } = await supabase
     .from("informes")
@@ -222,8 +219,11 @@ export async function generarIdeasFuerza(nivel: Nivel, taller: Taller, modelo: s
   }
 
   let raw: string;
+  let motorUsado: string;
   try {
-    raw = await generarTextoIA(modelo, SYSTEM_IDEAS, construirPromptIdeasFuerza(nivel, taller, consolidado));
+    const r = await generarConEscalamiento({ motor: motor as Motor, systemPrompt: SYSTEM_IDEAS, userPrompt: construirPromptIdeasFuerza(nivel, taller, consolidado) });
+    raw = r.text;
+    motorUsado = r.motorUsado;
   } catch (e) {
     return { ok: false, error: e instanceof Error ? e.message : "Error al llamar al motor de IA." };
   }
@@ -232,10 +232,10 @@ export async function generarIdeasFuerza(nivel: Nivel, taller: Taller, modelo: s
   try {
     informe = parseInforme(raw);
   } catch {
-    return { ok: false, error: "La IA devolvió un formato inesperado. Intenta de nuevo o con otro modelo." };
+    return { ok: false, error: "La IA devolvió un formato inesperado. Intenta de nuevo o con otro motor." };
   }
 
-  const parte: ParteGuardada = { informe, modelo, generadoEn: new Date().toISOString() };
+  const parte: ParteGuardada = { informe, modelo: motorUsado, generadoEn: new Date().toISOString() };
   const err = await mergeSaveParte(supabase, nivel, taller, userId, "ideasFuerza", parte);
   if (err) return { ok: false, error: `Se generaron las ideas fuerza pero no se pudieron guardar: ${err}` };
 

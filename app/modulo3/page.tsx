@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { Modulo3Admin } from "@/components/Modulo3Admin";
 import type { ContenidoInforme, InformeConsolidado } from "@/lib/llm";
+import { motoresActivos } from "@/lib/ai/motores";
 import { agruparAportes, type GrupoTema, type Nivel, type Taller } from "@/lib/informe-data";
 
 export const dynamic = "force-dynamic";
@@ -70,5 +71,5 @@ export default async function Modulo3Page() {
     conteos[k] = list.length;
   }
 
-  return <Modulo3Admin fases={fases} informesIniciales={informes} conteos={conteos} rawData={rawData} />;
+  return <Modulo3Admin fases={fases} informesIniciales={informes} conteos={conteos} rawData={rawData} motoresActivos={motoresActivos()} />;
 }

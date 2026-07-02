@@ -4,7 +4,8 @@ import { useState } from "react";
 import { useLang } from "@/components/LanguageProvider";
 import { SectionHeader } from "@/components/SectionHeader";
 import { generarConsolidado, generarIdeasFuerza } from "@/app/modulo3/actions";
-import type { ContenidoInforme, ModeloId } from "@/lib/llm";
+import type { ContenidoInforme } from "@/lib/llm";
+import type { Motor, Badge } from "@/lib/ai/motores";
 import type { GrupoTema } from "@/lib/informe-data";
 
 type Props = {
@@ -12,13 +13,33 @@ type Props = {
   informesIniciales: Record<string, ContenidoInforme>;
   conteos: Record<string, number>;
   rawData: Record<string, GrupoTema[]>;
+  motoresActivos?: string[];
 };
 
-const MODELOS_UI: { id: ModeloId }[] = [
-  { id: "gemini-2.5-flash" },
-  { id: "claude-haiku-4-5-20251001" },
-  { id: "claude-sonnet-4-6" },
+// Etiquetas de los motores (nombres de producto, neutros al idioma).
+const MOTOR_LABEL: Record<string, string> = {
+  auto: "Automático",
+  groq: "Groq · Llama 3.3 70B",
+  "gemini-flash": "Gemini 2.5 Flash",
+  deepseek: "DeepSeek Chat",
+  grok: "Grok (xAI)",
+  chatgpt: "ChatGPT · GPT-4o mini",
+  "gemini-pro": "Gemini 2.5 Pro",
+  haiku: "Claude Haiku 4.5",
+  sonnet: "Claude Sonnet 4.6",
+};
+const MOTOR_OPCIONES: { id: Exclude<Motor, "auto">; badge: Badge }[] = [
+  { id: "groq", badge: "GRATIS" },
+  { id: "gemini-flash", badge: "GRATIS" },
+  { id: "deepseek", badge: "BARATO" },
+  { id: "haiku", badge: "BARATO" },
+  { id: "sonnet", badge: "PREMIUM" },
 ];
+const BADGE_STYLE: Record<Badge, string> = {
+  GRATIS: "bg-emerald-100 text-emerald-700",
+  BARATO: "bg-sky-100 text-sky-700",
+  PREMIUM: "bg-amber-100 text-amber-700",
+};
 
 // Un color por capítulo / dimensión
 const PALETA = ["#2563eb", "#059669", "#d97706", "#7c3aed", "#dc2626", "#0891b2", "#db2777", "#65a30d"];
@@ -36,15 +57,13 @@ function fmtFecha(iso: string): string {
   }
 }
 
-function modeloLabel(id: string, t: Tfn): string {
-  return MODELOS_UI.some((m) => m.id === id) ? t(`m3.modelo-label.${id}`) : id;
-}
+const motorLabel = (id: string): string => MOTOR_LABEL[id] ?? id;
 
-export function Modulo3Admin({ fases, informesIniciales, conteos, rawData }: Props) {
+export function Modulo3Admin({ fases, informesIniciales, conteos, rawData, motoresActivos = [] }: Props) {
   const { t } = useLang();
   const [nivel, setNivel] = useState<"basica" | "superior">("basica");
   const [taller, setTaller] = useState<"tarde1" | "tarde2">("tarde1");
-  const [modelo, setModelo] = useState<ModeloId>("gemini-2.5-flash");
+  const [motor, setMotor] = useState<Motor>("auto");
   const [informes, setInformes] = useState(informesIniciales);
   const [espacio, setEspacio] = useState<1 | 2>(1);
   const [generating, setGenerating] = useState<null | "consolidado" | "ideasFuerza">(null);
@@ -73,7 +92,7 @@ export function Modulo3Admin({ fases, informesIniciales, conteos, rawData }: Pro
     setError(null);
     setGenerating("consolidado");
     try {
-      const res = await generarConsolidado(nivel, taller, modelo);
+      const res = await generarConsolidado(nivel, taller, motor);
       if (!res.ok || !res.parte) setError(res.error ?? t("m3.error-generar"));
       else setParte("consolidado", res.parte);
     } catch (e) {
@@ -87,7 +106,7 @@ export function Modulo3Admin({ fases, informesIniciales, conteos, rawData }: Pro
     setError(null);
     setGenerating("ideasFuerza");
     try {
-      const res = await generarIdeasFuerza(nivel, taller, modelo);
+      const res = await generarIdeasFuerza(nivel, taller, motor);
       if (!res.ok || !res.parte) setError(res.error ?? t("m3.error-generar"));
       else setParte("ideasFuerza", res.parte);
     } catch (e) {
@@ -186,20 +205,46 @@ export function Modulo3Admin({ fases, informesIniciales, conteos, rawData }: Pro
           </p>
         )}
 
-        {/* Motor de IA (compartido por ambos espacios) */}
+        {/* Motor de IA en escala (compartido por ambos espacios) */}
         <div className="mb-6 rounded-2xl border border-slate-200/70 bg-white p-5 shadow-card">
           <SectionHeader icon="🤖" title={t("m3.motor-ia")} />
-          <div className="grid gap-2 sm:grid-cols-3">
-            {MODELOS_UI.map((m) => (
-              <button key={m.id} onClick={() => setModelo(m.id)}
-                className={`rounded-xl border p-3 text-left transition ${
-                  modelo === m.id ? "border-brand bg-brand/5 ring-1 ring-brand" : "border-slate-200 hover:bg-slate-50"
-                }`}>
-                <p className="text-sm font-semibold text-slate-800">{t(`m3.modelo-label.${m.id}`)}</p>
-                <p className="text-xs text-slate-400">{t(`m3.modelo-nota.${m.id}`)}</p>
-              </button>
-            ))}
+          {/* Automático (escalonado) — recomendado */}
+          <button
+            onClick={() => setMotor("auto")}
+            className={`mb-2 flex w-full items-center justify-between gap-2 rounded-xl border-2 p-3 text-left transition ${
+              motor === "auto" ? "border-brand bg-brand/5" : "border-slate-200 hover:bg-slate-50"
+            }`}
+          >
+            <div>
+              <p className="text-sm font-bold text-[#2F4156]">⚡ {t("m3.motor-auto-label")}</p>
+              <p className="text-xs text-slate-400">{t("m3.motor-auto-desc")}</p>
+            </div>
+            {motor === "auto" && <span className="font-bold text-brand">✓</span>}
+          </button>
+          {/* Motores individuales */}
+          <div className="grid gap-2 sm:grid-cols-2">
+            {MOTOR_OPCIONES.map((m) => {
+              const activo = motoresActivos.includes(m.id);
+              return (
+                <button
+                  key={m.id}
+                  onClick={() => setMotor(m.id)}
+                  className={`flex items-center justify-between gap-2 rounded-xl border p-3 text-left transition ${
+                    motor === m.id ? "border-brand bg-brand/5 ring-1 ring-brand" : "border-slate-200 hover:bg-slate-50"
+                  }`}
+                >
+                  <span className="min-w-0 truncate text-sm font-semibold text-slate-800">{motorLabel(m.id)}</span>
+                  <span className="flex shrink-0 items-center gap-1.5">
+                    {!activo && <span className="text-[10px] text-slate-400">{t("m3.motor-no-config")}</span>}
+                    <span className={`rounded px-1.5 py-0.5 text-[10px] font-bold ${BADGE_STYLE[m.badge]}`}>
+                      {t(`m3.badge-${m.badge.toLowerCase()}`)}
+                    </span>
+                  </span>
+                </button>
+              );
+            })}
           </div>
+          <p className="mt-2 text-xs text-slate-400">{t("m3.motor-ayuda")}</p>
         </div>
 
         {/* Aportes crudos (referencia) */}
@@ -261,7 +306,7 @@ export function Modulo3Admin({ fases, informesIniciales, conteos, rawData }: Pro
             {consolidado && (
               <>
                 <p className="mb-3 text-xs text-slate-400">
-                  {t("m3.informe-generado-con")} <strong>{modeloLabel(consolidado.modelo, t)}</strong> · {fmtFecha(consolidado.generadoEn)}
+                  {t("m3.informe-generado-con")} <strong>{motorLabel(consolidado.modelo)}</strong> · {fmtFecha(consolidado.generadoEn)}
                 </p>
                 {consolidado.informe.resumenGeneral && (
                   <div className="mb-4 rounded-2xl border border-slate-200/70 bg-white p-5 shadow-card">
@@ -305,7 +350,7 @@ export function Modulo3Admin({ fases, informesIniciales, conteos, rawData }: Pro
             {ideasFuerza && (
               <>
                 <p className="mb-1 text-xs text-slate-400">
-                  {t("m3.informe-generado-con")} <strong>{modeloLabel(ideasFuerza.modelo, t)}</strong> · {fmtFecha(ideasFuerza.generadoEn)}
+                  {t("m3.informe-generado-con")} <strong>{motorLabel(ideasFuerza.modelo)}</strong> · {fmtFecha(ideasFuerza.generadoEn)}
                 </p>
                 {ideasDesactualizadas && (
                   <p className="mb-3 text-xs font-medium text-amber-600">⚠ {t("m3.esp2-desactualizado")}</p>
