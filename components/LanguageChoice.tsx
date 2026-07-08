@@ -2,10 +2,10 @@
 
 import { useLang } from "./LanguageProvider";
 
-// Nombres de idioma en su propia lengua (endónimos), con etiqueta neutra.
+// Nombres de idioma traducidos según el idioma activo (en PT: "Espanhol"), con etiqueta neutra.
 const OPTIONS = [
-  { code: "es", label: "Español", tag: "ES" },
-  { code: "pt", label: "Português", tag: "PT-BR" },
+  { code: "es", key: "auth.lang-es", tag: "ES" },
+  { code: "pt", key: "auth.lang-pt", tag: "PT-BR" },
 ] as const;
 
 /**
@@ -13,7 +13,7 @@ const OPTIONS = [
  * Cambia el idioma de toda la app al instante (vía LanguageProvider).
  */
 export function LanguageChoice() {
-  const { lang, setLang } = useLang();
+  const { lang, setLang, t } = useLang();
   return (
     <div className="grid grid-cols-2 gap-2">
       {OPTIONS.map((o) => {
@@ -37,7 +37,7 @@ export function LanguageChoice() {
             >
               {o.tag}
             </span>
-            {o.label}
+            {t(o.key)}
           </button>
         );
       })}
