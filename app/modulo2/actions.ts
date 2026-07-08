@@ -116,6 +116,60 @@ export async function leaveGrupo(grupoId: string): Promise<ActionResult> {
   return { ok: true };
 }
 
+// --- Gestión de participantes por admin/propietario (panel "Participantes por grupo") ---
+
+export async function adminAddParticipante(grupoId: string, usuarioId: string): Promise<ActionResult> {
+  const { supabase, rol } = await getMyRol();
+  if (!["admin", "propietario"].includes(rol)) return { ok: false, error: "Sin permiso" };
+
+  // Workshop del grupo destino
+  const { data: grupo } = await supabase.from("grupos").select("taller").eq("id", grupoId).single();
+  if (!grupo) return { ok: false, error: "El grupo no existe." };
+  const taller = grupo.taller ?? "tarde1";
+
+  // Regla de negocio: un participante solo puede estar en un grupo por workshop.
+  const { data: subs } = await supabase
+    .from("suscripciones")
+    .select("grupo_id")
+    .eq("usuario_id", usuarioId);
+  const otrosIds = (subs ?? []).map((s) => s.grupo_id).filter((id) => id !== grupoId);
+  if (otrosIds.length > 0) {
+    const { data: gruposActuales } = await supabase
+      .from("grupos")
+      .select("id, taller")
+      .in("id", otrosIds);
+    if ((gruposActuales ?? []).some((g) => (g.taller ?? "tarde1") === taller)) {
+      return { ok: false, error: "Ese participante ya pertenece a un grupo de este workshop." };
+    }
+  }
+
+  const { error } = await supabase
+    .from("suscripciones")
+    .insert({ usuario_id: usuarioId, grupo_id: grupoId });
+  if (error) {
+    if (error.code === "23505") return { ok: false, error: "Ese participante ya está en este grupo." };
+    return { ok: false, error: error.message };
+  }
+  revalidatePath("/admin/participantes");
+  revalidatePath("/modulo2");
+  return { ok: true };
+}
+
+export async function adminRemoveParticipante(grupoId: string, usuarioId: string): Promise<ActionResult> {
+  const { supabase, rol } = await getMyRol();
+  if (!["admin", "propietario"].includes(rol)) return { ok: false, error: "Sin permiso" };
+
+  const { error } = await supabase
+    .from("suscripciones")
+    .delete()
+    .eq("grupo_id", grupoId)
+    .eq("usuario_id", usuarioId);
+  if (error) return { ok: false, error: error.message };
+  revalidatePath("/admin/participantes");
+  revalidatePath("/modulo2");
+  return { ok: true };
+}
+
 type SupabaseClient = Awaited<ReturnType<typeof createClient>>;
 
 async function assertWorkshopAbierto(supabase: SupabaseClient, grupoId: string) {

@@ -1,10 +1,13 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useTransition } from "react";
+import { useRouter } from "next/navigation";
 import { useLang } from "@/components/LanguageProvider";
 import { SectionHeader } from "@/components/SectionHeader";
+import { adminAddParticipante, adminRemoveParticipante } from "@/app/modulo2/actions";
 
 export type Miembro = { id: string; nombre: string; email: string | null };
+export type Usuario = { id: string; nombre: string; email: string | null };
 
 export type GrupoConMiembros = {
   id: string;
@@ -15,7 +18,7 @@ export type GrupoConMiembros = {
   members: Miembro[];
 };
 
-type Props = { grupos: GrupoConMiembros[] };
+type Props = { grupos: GrupoConMiembros[]; usuarios: Usuario[] };
 
 function useToggleSet() {
   const [open, setOpen] = useState<Set<string>>(new Set());
@@ -32,7 +35,108 @@ const NIVEL_COLOR = { basica: "from-[#2F4156] to-[#3e566b]", superior: "from-[#5
 const TALLERES = ["tarde1", "tarde2"] as const;
 const NIVELES = ["basica", "superior"] as const;
 
-export function ParticipantesAdmin({ grupos }: Props) {
+// --- Botón para quitar un participante del grupo ---
+function RemoveButton({ grupoId, miembro }: { grupoId: string; miembro: Miembro }) {
+  const { t } = useLang();
+  const router = useRouter();
+  const [pending, start] = useTransition();
+
+  function remove() {
+    if (!window.confirm(`${t("part.confirm-quitar")}\n\n${miembro.nombre}`)) return;
+    start(async () => {
+      const res = await adminRemoveParticipante(grupoId, miembro.id);
+      if (!res.ok) {
+        window.alert(res.error ?? "Error");
+        return;
+      }
+      router.refresh();
+    });
+  }
+
+  return (
+    <button
+      onClick={remove}
+      disabled={pending}
+      title={t("part.quitar")}
+      aria-label={t("part.quitar")}
+      className="shrink-0 rounded-full px-2 py-0.5 text-xs font-semibold text-red-500 hover:bg-red-50 disabled:opacity-40"
+    >
+      {pending ? "…" : "✕"}
+    </button>
+  );
+}
+
+// --- Selector para añadir un participante al grupo ---
+function AddParticipante({ grupo, usuarios }: { grupo: GrupoConMiembros; usuarios: Usuario[] }) {
+  const { t } = useLang();
+  const router = useRouter();
+  const [pending, start] = useTransition();
+  const [q, setQ] = useState("");
+  const [err, setErr] = useState<string | null>(null);
+
+  const memberIds = new Set(grupo.members.map((m) => m.id));
+  const s = q.trim().toLowerCase();
+  const candidatos = usuarios
+    .filter((u) => !memberIds.has(u.id))
+    .filter((u) => !s || u.nombre.toLowerCase().includes(s) || (u.email ?? "").toLowerCase().includes(s))
+    .slice(0, 8);
+
+  function add(u: Usuario) {
+    setErr(null);
+    start(async () => {
+      const res = await adminAddParticipante(grupo.id, u.id);
+      if (!res.ok) {
+        setErr(res.error ?? "Error");
+        return;
+      }
+      setQ("");
+      router.refresh();
+    });
+  }
+
+  return (
+    <div className="mt-3 border-t border-dashed border-slate-200 pt-3">
+      <label className="mb-1.5 block text-xs font-semibold text-slate-500">+ {t("part.anadir")}</label>
+      <input
+        value={q}
+        onChange={(e) => {
+          setQ(e.target.value);
+          setErr(null);
+        }}
+        placeholder={t("part.anadir-placeholder")}
+        className="w-full rounded-lg border border-slate-200 bg-white px-3 py-1.5 text-sm text-slate-700 outline-none focus:border-[#567C8D] focus:ring-1 focus:ring-[#567C8D]"
+      />
+      {err && <p className="mt-1.5 text-xs font-medium text-red-600">{err}</p>}
+      {q.trim() && (
+        <ul className="mt-1.5 max-h-52 overflow-y-auto rounded-lg border border-slate-100">
+          {candidatos.length === 0 ? (
+            <li className="px-3 py-2 text-xs italic text-slate-400">{t("part.anadir-sin-resultados")}</li>
+          ) : (
+            candidatos.map((u) => (
+              <li key={u.id}>
+                <button
+                  onClick={() => add(u)}
+                  disabled={pending}
+                  className="flex w-full items-center gap-2 px-3 py-1.5 text-left hover:bg-slate-50 disabled:opacity-50"
+                >
+                  <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-slate-100 text-[11px] font-semibold text-slate-600">
+                    {u.nombre.charAt(0).toUpperCase()}
+                  </div>
+                  <div className="min-w-0">
+                    <p className="truncate text-sm text-slate-700">{u.nombre}</p>
+                    {u.email && <p className="truncate text-[11px] text-slate-400">{u.email}</p>}
+                  </div>
+                </button>
+              </li>
+            ))
+          )}
+        </ul>
+      )}
+    </div>
+  );
+}
+
+export function ParticipantesAdmin({ grupos, usuarios }: Props) {
   const { t } = useLang();
   const { open, setOpen, toggle } = useToggleSet();
 
@@ -151,9 +255,8 @@ export function ParticipantesAdmin({ grupos }: Props) {
                           <div key={g.id} className="overflow-hidden rounded-2xl border border-slate-200/70 bg-white shadow-card transition-shadow hover:shadow-card-hover">
                             <div className={`h-1.5 bg-gradient-to-r ${NIVEL_COLOR[g.nivel]}`} />
                             <button
-                              onClick={() => !vacio && toggle(g.id)}
-                              disabled={vacio}
-                              className={`flex w-full items-center justify-between gap-2 p-4 text-left ${vacio ? "cursor-default" : "hover:bg-slate-50"}`}
+                              onClick={() => toggle(g.id)}
+                              className="flex w-full items-center justify-between gap-2 p-4 text-left hover:bg-slate-50"
                             >
                               <h3 className="font-bold text-slate-800">{g.nombre}</h3>
                               <div className="flex items-center gap-2">
@@ -162,25 +265,33 @@ export function ParticipantesAdmin({ grupos }: Props) {
                                 }`}>
                                   {g.members.length}/{g.cupo_max}
                                 </span>
-                                {!vacio && <span className="text-sm text-slate-400">{isOpen ? "▲" : "▼"}</span>}
+                                <span className="text-sm text-slate-400">{isOpen ? "▲" : "▼"}</span>
                               </div>
                             </button>
-                            {vacio ? (
+                            {isOpen ? (
+                              <div className="border-t border-slate-100 p-4">
+                                {vacio ? (
+                                  <p className="text-sm italic text-slate-400">{t("part.sin-participantes-aun")}</p>
+                                ) : (
+                                  <ul className="space-y-1.5">
+                                    {g.members.map((m) => (
+                                      <li key={m.id} className="flex items-center gap-2">
+                                        <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-100 text-xs font-semibold text-slate-600">
+                                          {m.nombre.charAt(0).toUpperCase()}
+                                        </div>
+                                        <div className="min-w-0 flex-1">
+                                          <p className="truncate text-sm font-medium text-slate-700">{m.nombre}</p>
+                                          {m.email && <p className="truncate text-xs text-slate-400">{m.email}</p>}
+                                        </div>
+                                        <RemoveButton grupoId={g.id} miembro={m} />
+                                      </li>
+                                    ))}
+                                  </ul>
+                                )}
+                                <AddParticipante grupo={g} usuarios={usuarios} />
+                              </div>
+                            ) : vacio ? (
                               <p className="px-4 pb-4 text-sm italic text-slate-400">{t("part.sin-participantes-aun")}</p>
-                            ) : isOpen ? (
-                              <ul className="space-y-1.5 border-t border-slate-100 p-4">
-                                {g.members.map((m) => (
-                                  <li key={m.id} className="flex items-center gap-2">
-                                    <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-slate-100 text-xs font-semibold text-slate-600">
-                                      {m.nombre.charAt(0).toUpperCase()}
-                                    </div>
-                                    <div className="min-w-0">
-                                      <p className="truncate text-sm font-medium text-slate-700">{m.nombre}</p>
-                                      {m.email && <p className="truncate text-xs text-slate-400">{m.email}</p>}
-                                    </div>
-                                  </li>
-                                ))}
-                              </ul>
                             ) : null}
                           </div>
                         );

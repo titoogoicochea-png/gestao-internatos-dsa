@@ -1,6 +1,6 @@
 import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
-import { ParticipantesAdmin, type GrupoConMiembros } from "@/components/ParticipantesAdmin";
+import { ParticipantesAdmin, type GrupoConMiembros, type Usuario } from "@/components/ParticipantesAdmin";
 
 export const dynamic = "force-dynamic";
 
@@ -29,6 +29,16 @@ export default async function AdminParticipantesPage() {
     .from("suscripciones")
     .select("grupo_id, profiles(id, nombre, email)");
 
+  const { data: perfiles } = await supabase
+    .from("profiles")
+    .select("id, nombre, email")
+    .order("nombre");
+  const usuarios: Usuario[] = (perfiles ?? []).map((p) => ({
+    id: p.id,
+    nombre: p.nombre ?? "(sin nombre)",
+    email: p.email ?? null,
+  }));
+
   const membersByGrupo: Record<string, { id: string; nombre: string; email: string | null }[]> = {};
   for (const s of suscripciones ?? []) {
     const raw = s.profiles;
@@ -46,5 +56,5 @@ export default async function AdminParticipantesPage() {
     members: (membersByGrupo[g.id] ?? []).sort((a, b) => a.nombre.localeCompare(b.nombre)),
   }));
 
-  return <ParticipantesAdmin grupos={gruposConMiembros} />;
+  return <ParticipantesAdmin grupos={gruposConMiembros} usuarios={usuarios} />;
 }

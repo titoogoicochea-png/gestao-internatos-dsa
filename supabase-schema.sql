@@ -140,6 +140,20 @@ create policy "suscripciones_insert" on public.suscripciones
 drop policy if exists "suscripciones_delete" on public.suscripciones;
 create policy "suscripciones_delete" on public.suscripciones
   for delete to authenticated using (usuario_id = auth.uid());
+-- admin/propietario gestionan las inscripciones de cualquiera (añadir/quitar
+-- participantes de un grupo desde el panel "Participantes por grupo").
+-- Las políticas permisivas se combinan con OR: un usuario sigue gestionando
+-- las suyas, y además admin/propietario gestiona todas.
+drop policy if exists "suscripciones_admin_insert" on public.suscripciones;
+create policy "suscripciones_admin_insert" on public.suscripciones
+  for insert to authenticated with check (
+    (select rol from public.profiles where id = auth.uid()) in ('admin', 'propietario')
+  );
+drop policy if exists "suscripciones_admin_delete" on public.suscripciones;
+create policy "suscripciones_admin_delete" on public.suscripciones
+  for delete to authenticated using (
+    (select rol from public.profiles where id = auth.uid()) in ('admin', 'propietario')
+  );
 
 -- asignaciones: todos leen; solo admin/propietario gestionan
 drop policy if exists "asignaciones_select" on public.asignaciones;
