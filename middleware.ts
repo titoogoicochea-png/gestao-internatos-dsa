@@ -37,6 +37,13 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url);
   }
 
+  // Entró con una contraseña temporal: obligar a crear una nueva antes de usar la app.
+  if (user && user.user_metadata?.debe_cambiar_password && !pathname.startsWith("/auth/")) {
+    const url = request.nextUrl.clone();
+    url.pathname = "/auth/reset-password";
+    return NextResponse.redirect(url);
+  }
+
   if (user && (pathname === "/login" || pathname === "/registro")) {
     const url = request.nextUrl.clone();
     url.pathname = "/";

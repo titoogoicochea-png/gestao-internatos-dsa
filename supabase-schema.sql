@@ -15,9 +15,14 @@
 create table if not exists public.profiles (
   id uuid references auth.users(id) on delete cascade primary key,
   nombre text not null,
+  email text,
+  celular text,
   rol text not null default 'usuario' check (rol in ('usuario', 'admin', 'propietario')),
   created_at timestamptz default now()
 );
+-- Para bases ya existentes:
+alter table public.profiles add column if not exists email   text;
+alter table public.profiles add column if not exists celular text;
 
 -- Grupos de trabajo: un grupo pertenece a un nivel y a un workshop (taller)
 create table if not exists public.grupos (
@@ -213,11 +218,13 @@ create policy "informes_manage" on public.informes
 create or replace function public.handle_new_user()
 returns trigger as $$
 begin
-  insert into public.profiles (id, nombre, rol)
+  insert into public.profiles (id, nombre, rol, email, celular)
   values (
     new.id,
     coalesce(new.raw_user_meta_data->>'nombre', split_part(new.email, '@', 1)),
-    'usuario'
+    'usuario',
+    new.email,
+    nullif(new.raw_user_meta_data->>'celular', '')
   );
   return new;
 end;

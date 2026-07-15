@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { useLang } from "@/components/LanguageProvider";
@@ -13,6 +13,15 @@ export default function ResetPasswordPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [forced, setForced] = useState(false);
+
+  // Detecta si llegó obligado por una contraseña temporal.
+  useEffect(() => {
+    const supabase = createClient();
+    supabase.auth.getUser().then(({ data }) => {
+      if (data.user?.user_metadata?.debe_cambiar_password) setForced(true);
+    });
+  }, []);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -29,7 +38,11 @@ export default function ResetPasswordPage() {
 
     setLoading(true);
     const supabase = createClient();
-    const { error } = await supabase.auth.updateUser({ password });
+    // Cambia la contraseña y limpia la marca de "debe cambiar".
+    const { error } = await supabase.auth.updateUser({
+      password,
+      data: { debe_cambiar_password: false },
+    });
 
     if (error) {
       setError(t("auth.reset_error"));
@@ -41,6 +54,13 @@ export default function ResetPasswordPage() {
     router.refresh();
   }
 
+  async function handleLogout() {
+    const supabase = createClient();
+    await supabase.auth.signOut();
+    router.push("/login");
+    router.refresh();
+  }
+
   return (
     <div className="flex min-h-screen flex-col items-center justify-center bg-slate-50 px-4">
       <div className="w-full max-w-sm">
@@ -49,6 +69,12 @@ export default function ResetPasswordPage() {
           <h1 className="mt-2 text-2xl font-extrabold text-brand">{t("auth.reset_title")}</h1>
           <p className="mt-1 text-sm text-slate-500">{t("auth.reset_subtitle")}</p>
         </div>
+
+        {forced && (
+          <p className="mb-4 rounded-lg bg-amber-50 px-4 py-3 text-center text-sm text-amber-700">
+            {t("auth.reset_forced_banner")}
+          </p>
+        )}
 
         <form onSubmit={handleSubmit} className="rounded-2xl border border-slate-200 bg-white p-8 shadow-sm space-y-5">
           <div>
@@ -115,6 +141,17 @@ export default function ResetPasswordPage() {
             {loading ? t("auth.reset_submitting") : t("auth.reset_submit")}
           </button>
         </form>
+
+        {forced && (
+          <p className="mt-5 text-center">
+            <button
+              onClick={handleLogout}
+              className="text-xs text-slate-400 hover:text-brand hover:underline"
+            >
+              {t("auth.reset_logout")}
+            </button>
+          </p>
+        )}
       </div>
     </div>
   );

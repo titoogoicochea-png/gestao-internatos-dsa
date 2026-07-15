@@ -6,12 +6,14 @@ import { useRouter } from "next/navigation";
 import { createClient } from "@/lib/supabase/client";
 import { useLang } from "@/components/LanguageProvider";
 import { LanguageChoice } from "@/components/LanguageChoice";
+import { PhoneInput } from "@/components/PhoneInput";
 
 export default function RegistroPage() {
   const router = useRouter();
   const { t, lang } = useLang();
   const [nombre, setNombre] = useState("");
   const [email, setEmail] = useState("");
+  const [celular, setCelular] = useState("");
   const [password, setPassword] = useState("");
   const [password2, setPassword2] = useState("");
   const [error, setError] = useState<string | null>(null);
@@ -22,6 +24,10 @@ export default function RegistroPage() {
     e.preventDefault();
     setError(null);
 
+    if (!celular) {
+      setError(t("auth.phone_required"));
+      return;
+    }
     if (password !== password2) {
       setError(t("auth.passwords_mismatch"));
       return;
@@ -36,7 +42,7 @@ export default function RegistroPage() {
     const { error } = await supabase.auth.signUp({
       email,
       password,
-      options: { data: { nombre, idioma: lang } },
+      options: { data: { nombre, idioma: lang, celular } },
     });
 
     if (error) {
@@ -88,6 +94,12 @@ export default function RegistroPage() {
               className="w-full rounded-lg border border-slate-300 px-4 py-2.5 text-sm focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20"
               placeholder={t("auth.email_placeholder")}
             />
+          </div>
+
+          <div>
+            <label className="mb-1 block text-sm font-medium text-slate-700">{t("auth.phone_label")}</label>
+            <PhoneInput value={celular} onChange={setCelular} placeholder={t("auth.phone_placeholder")} />
+            <p className="mt-1 text-xs text-slate-400">{t("auth.phone_help")}</p>
           </div>
 
           <div>

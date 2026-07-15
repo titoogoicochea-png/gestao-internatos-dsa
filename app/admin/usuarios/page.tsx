@@ -14,11 +14,11 @@ export default async function AdminUsuariosPage() {
     .eq("id", user.id)
     .single();
 
-  if (myProfile?.rol !== "propietario") redirect("/");
+  if (myProfile?.rol !== "propietario" && myProfile?.rol !== "admin") redirect("/");
 
   const { data: profiles } = await supabase
     .from("profiles")
-    .select("id, nombre, email, rol, created_at")
+    .select("id, nombre, email, celular, rol, created_at")
     .order("created_at", { ascending: true });
 
   // Grupos a los que pertenece cada usuario
@@ -38,6 +38,11 @@ export default async function AdminUsuariosPage() {
   }
 
   return (
-    <UsersAdmin profiles={profiles ?? []} currentUserId={user.id} gruposByUser={gruposByUser} />
+    <UsersAdmin
+      profiles={profiles ?? []}
+      currentUserId={user.id}
+      currentUserRole={myProfile.rol}
+      gruposByUser={gruposByUser}
+    />
   );
 }
