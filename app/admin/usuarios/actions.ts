@@ -38,21 +38,18 @@ async function assertCanManage(callerRol: string, targetId: string) {
 }
 
 export async function updateUserRole(userId: string, newRol: "admin" | "usuario") {
-  const supabase = await createClient();
+  const { userId: callerId, rol } = await requireManager();
+  if (userId === callerId) throw new Error("No puedes cambiar tu propio rol");
 
-  const { data: { user } } = await supabase.auth.getUser();
-  if (!user) throw new Error("No autenticado");
+  // Admin y propietario pueden cambiar roles, pero nunca los de un propietario
+  // (cuenta protegida: no se puede degradar ni tocar al dueño).
+  const target = await assertCanManage(rol, userId);
+  if (target.rol === "propietario") {
+    throw new Error("No puedes cambiar el rol de un propietario");
+  }
 
-  const { data: myProfile } = await supabase
-    .from("profiles")
-    .select("rol")
-    .eq("id", user.id)
-    .single();
-
-  if (myProfile?.rol !== "propietario") throw new Error("Sin permiso");
-  if (userId === user.id) throw new Error("No puedes cambiar tu propio rol");
-
-  const { error } = await supabase
+  const admin = createAdminClient();
+  const { error } = await admin
     .from("profiles")
     .update({ rol: newRol })
     .eq("id", userId);

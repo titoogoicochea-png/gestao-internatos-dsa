@@ -134,7 +134,7 @@ export function UsersAdmin({
                 {filtered.map(profile => {
                   const isMe = profile.id === currentUserId;
                   const manage = canManage(profile);
-                  const canToggleRole = currentUserRole === "propietario" && !isMe && profile.rol !== "propietario";
+                  const canToggleRole = canManage(profile) && !isMe && profile.rol !== "propietario";
                   const hasActions = manage || canToggleRole;
 
                   return (
