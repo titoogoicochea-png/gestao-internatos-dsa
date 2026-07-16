@@ -333,6 +333,13 @@ export function Modulo2Admin({ grupos, docsByNivel, fases }: Props) {
               const hasPendingChanges = pendingCodigos[grupo.id] !== undefined;
               const nivelDocs = docsByNivel[grupo.nivel].filter(d => d.kind === "capitulo");
               const assignedLabels = getAssignedLabels(grupo);
+              // Tarde 1: capítulos asignados (deduplicados) con sus datos, para mostrar
+              // el detalle de temas (capítulo + subtítulo + secciones) como lo ve el usuario.
+              const capsTarde1: Doc[] = grupo.taller === "tarde1"
+                ? Array.from(new Set(grupo.asignaciones.map(a => a.doc_codigo.split("#")[0])))
+                    .map(code => nivelDocs.find(d => d.codigo === code))
+                    .filter((d): d is Doc => !!d)
+                : [];
 
               return (
                 <div key={grupo.id} className="overflow-hidden rounded-2xl border border-slate-200/70 bg-white shadow-card transition-shadow hover:shadow-card-hover">
@@ -401,7 +408,32 @@ export function Modulo2Admin({ grupos, docsByNivel, fases }: Props) {
                           {grupo.descripcion && (
                             <p className="mt-0.5 text-sm text-slate-500 truncate">{grupo.descripcion}</p>
                           )}
-                          {assignedLabels.length > 0 && !isExpanded && (
+                          {/* Tarde 1: detalle de temas (capítulo + subtítulo + secciones) */}
+                          {!isExpanded && grupo.taller === "tarde1" && capsTarde1.length > 0 && (
+                            <div className="mt-2 space-y-1.5">
+                              <p className="text-xs font-medium text-slate-500">{t("m2u.contenido-label")}</p>
+                              {capsTarde1.map(doc => {
+                                const secs = doc.sections_es.filter(s => s.depth === 3 && /^\d+\.\d+/.test(s.text));
+                                return (
+                                  <div key={doc.codigo}>
+                                    <p className="text-xs font-semibold text-slate-700">
+                                      {doc.titulo_es}{doc.subtitulo_es ? ` — ${doc.subtitulo_es}` : ""}
+                                    </p>
+                                    {secs.length > 0 && (
+                                      <ul className="mt-0.5 space-y-0.5 pl-3">
+                                        {secs.map((s, i) => (
+                                          <li key={i} className="text-xs text-slate-500">· {s.text}</li>
+                                        ))}
+                                      </ul>
+                                    )}
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          )}
+
+                          {/* Tarde 2: subdimensiones asignadas como etiquetas */}
+                          {!isExpanded && grupo.taller === "tarde2" && assignedLabels.length > 0 && (
                             <div className="mt-2 flex flex-wrap gap-1.5">
                               {assignedLabels.map((label, i) => (
                                 <span key={i} className="rounded-md bg-brand/8 px-2 py-0.5 text-xs text-brand font-medium">
