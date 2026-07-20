@@ -41,7 +41,10 @@ export function Reader({ nivel, docs }: { nivel: Nivel; docs: Doc[] }) {
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
   const mainRef = useRef<HTMLElement>(null);
-  const active = docs.find((d) => d.codigo === activeCodigo) ?? docs[0];
+  const activeIndex = Math.max(0, docs.findIndex((d) => d.codigo === activeCodigo));
+  const active = docs[activeIndex] ?? docs[0];
+  const prevDoc = docs[activeIndex - 1];
+  const nextDoc = docs[activeIndex + 1];
 
   // Al cambiar documento, llevar el contenido al inicio (sin mover el sidebar)
   useEffect(() => {
@@ -167,6 +170,57 @@ export function Reader({ nivel, docs }: { nivel: Nivel; docs: Doc[] }) {
                   ? <AnexoCView raw={lang === "es" ? active.raw_es : active.raw} />
                   : <MarkdownView markdown={stripLeadingTitles(lang === "es" ? active.raw_es : active.raw, active, lang)} />
                 }
+
+                {/* Navegación entre capítulos — evita volver al índice */}
+                {(prevDoc || nextDoc) && (
+                  <div className="mt-10 flex flex-col gap-3 border-t border-slate-100 pt-6 sm:flex-row sm:items-stretch sm:justify-between">
+                    {prevDoc ? (
+                      <button
+                        onClick={() => selectDoc(prevDoc.codigo)}
+                        className="group inline-flex min-w-0 items-center gap-3 rounded-2xl border border-slate-200 bg-white px-5 py-3 text-left text-brand shadow-sm transition-all hover:-translate-y-0.5 hover:border-[#567C8D]/40 hover:shadow-card sm:max-w-[48%]"
+                      >
+                        <span
+                          aria-hidden
+                          className="shrink-0 text-lg transition-transform group-hover:-translate-x-0.5"
+                        >
+                          ←
+                        </span>
+                        <span className="min-w-0">
+                          <span className="block text-xs font-medium uppercase tracking-wide text-slate-400">
+                            {t("reader.prev_up")}
+                          </span>
+                          <span className="block truncate text-sm font-semibold">
+                            {docTitle(prevDoc, lang)}
+                          </span>
+                        </span>
+                      </button>
+                    ) : (
+                      <span className="hidden sm:block" />
+                    )}
+
+                    {nextDoc && (
+                      <button
+                        onClick={() => selectDoc(nextDoc.codigo)}
+                        className="group inline-flex min-w-0 items-center gap-3 rounded-2xl bg-gradient-to-r from-[#2F4156] to-[#567C8D] px-5 py-3 text-right text-white shadow-md transition-all hover:-translate-y-0.5 hover:shadow-card-hover sm:max-w-[48%] sm:ml-auto"
+                      >
+                        <span className="min-w-0">
+                          <span className="block text-xs font-medium uppercase tracking-wide text-white/70">
+                            {t("reader.next_up")}
+                          </span>
+                          <span className="block truncate text-sm font-semibold">
+                            {docTitle(nextDoc, lang)}
+                          </span>
+                        </span>
+                        <span
+                          aria-hidden
+                          className="shrink-0 text-lg transition-transform group-hover:translate-x-0.5"
+                        >
+                          →
+                        </span>
+                      </button>
+                    )}
+                  </div>
+                )}
               </article>
             )}
           </div>
