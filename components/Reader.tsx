@@ -104,7 +104,7 @@ export function Reader({ nivel, docs }: { nivel: Nivel; docs: Doc[] }) {
 
         {/* ── Sidebar desktop (sticky via flex column) ── */}
         {sidebarOpen && (
-          <aside className="hidden lg:flex lg:w-72 lg:shrink-0 lg:flex-col lg:border-r lg:border-slate-200 lg:bg-white">
+          <aside className="hidden lg:flex lg:w-[23rem] lg:shrink-0 lg:flex-col lg:border-r lg:border-slate-200 lg:bg-white">
             <SidebarContent
               docs={docs}
               active={active}
@@ -152,14 +152,14 @@ export function Reader({ nivel, docs }: { nivel: Nivel; docs: Doc[] }) {
         <main ref={mainRef} className="min-w-0 flex-1 overflow-y-auto bg-[#EEF1F6]">
           <div className="px-4 py-8 sm:px-8">
             {active && (
-              <article className="mx-auto max-w-3xl rounded-2xl border border-slate-200/70 bg-white p-7 shadow-card sm:p-12">
+              <article className="mx-auto max-w-4xl rounded-2xl border border-slate-200/70 bg-white p-7 shadow-card sm:p-12">
                 <div className="mb-6 border-b border-slate-100 pb-5">
                   {active.badge && active.kind === "capitulo" && (
                     <p className="text-sm font-semibold uppercase tracking-wide text-brand-light">
                       {docTitle(active, lang)}
                     </p>
                   )}
-                  <h1 className="font-display text-3xl font-bold leading-tight tracking-tight text-brand sm:text-[2.2rem]">
+                  <h1 className="font-display text-4xl font-bold leading-tight tracking-tight text-brand sm:text-[2.7rem]">
                     {(lang === "es" ? active.subtitulo_es : active.subtitulo) ?? docTitle(active, lang)}
                   </h1>
                   <p className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-[#C8D9E6]/50 px-3 py-1 text-xs font-medium text-[#2F4156]">
@@ -274,7 +274,7 @@ function SidebarContent({
 
   return (
     <nav className="flex-1 overflow-y-auto px-3 py-4">
-      <p className="mb-3 px-2 text-xs font-semibold uppercase tracking-wider text-slate-400">
+      <p className="mb-3 px-2 text-sm font-semibold uppercase tracking-wider text-slate-400">
         {t("nav.index")}
       </p>
       <ul className="space-y-0.5">
@@ -295,13 +295,13 @@ function SidebarContent({
                 {/* Botón principal — navega al doc */}
                 <button
                   onClick={() => onSelect(doc.codigo)}
-                  className={`flex min-w-0 flex-1 items-center gap-2 px-2 py-2 text-left text-sm ${
+                  className={`flex min-w-0 flex-1 items-center gap-2.5 px-2.5 py-2.5 text-left text-base ${
                     isActive ? "font-semibold text-brand" : "text-slate-700"
                   }`}
                 >
                   {doc.badge ? (
                     <span
-                      className={`flex h-6 min-w-[1.5rem] items-center justify-center rounded-md px-1 text-xs font-bold shrink-0 ${
+                      className={`flex h-7 min-w-[1.85rem] items-center justify-center rounded-md px-1 text-sm font-bold shrink-0 ${
                         isActive
                           ? "bg-gradient-to-br from-[#2F4156] to-[#567C8D] text-white shadow-sm"
                           : "bg-[#C8D9E6] text-[#2F4156]"
@@ -337,7 +337,7 @@ function SidebarContent({
                         <a
                           href={`#${s.id}`}
                           onClick={onAnchorClick}
-                          className="block truncate rounded px-2 py-1 text-xs text-slate-500 hover:bg-slate-100 hover:text-brand"
+                          className="block truncate rounded px-2 py-1.5 text-sm text-slate-500 hover:bg-slate-100 hover:text-brand"
                           title={s.text}
                         >
                           {s.text}

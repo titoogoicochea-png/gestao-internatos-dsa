@@ -26,8 +26,8 @@ body {
 
 /* ---------- Tipografía del documento (prosa) ---------- */
 .doc {
-  font-size: 1.02rem;
-  line-height: 1.75;
+  font-size: 1.2rem;
+  line-height: 1.8;
   color: #1f2937;
 }
 .doc > :first-child {
@@ -35,7 +35,7 @@ body {
 }
 .doc h1 {
   font-family: "Fraunces", Georgia, Cambria, serif;
-  font-size: 2rem;
+  font-size: 2.4rem;
   font-weight: 700;
   color: var(--brand);
   margin: 2rem 0 0.5rem;
@@ -44,7 +44,7 @@ body {
 }
 .doc h2 {
   font-family: "Fraunces", Georgia, Cambria, serif;
-  font-size: 1.6rem;
+  font-size: 1.9rem;
   font-weight: 700;
   color: var(--brand);
   margin: 2rem 0 0.75rem;
@@ -53,13 +53,13 @@ body {
   letter-spacing: -0.005em;
 }
 .doc h3 {
-  font-size: 1.25rem;
+  font-size: 1.5rem;
   font-weight: 700;
   color: #0f2c47;
   margin: 1.75rem 0 0.5rem;
 }
 .doc h4 {
-  font-size: 1.08rem;
+  font-size: 1.28rem;
   font-weight: 700;
   color: #334155;
   margin: 1.4rem 0 0.4rem;
