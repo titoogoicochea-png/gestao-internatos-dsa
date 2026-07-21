@@ -387,7 +387,7 @@ export function Modulo2Usuario({ inscritos, grupos, docsByNivel, initialObservac
                         {/* Contenido */}
                         <div className="m2doc min-h-0 overflow-y-auto p-6">
                           {content ? (
-                            <div className="max-w-[70ch]">
+                            <div className="max-w-none">
                               <MarkdownView markdown={content} />
                             </div>
                           ) : (
