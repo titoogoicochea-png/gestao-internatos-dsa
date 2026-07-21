@@ -170,16 +170,16 @@ export function Modulo2Usuario({ inscritos, grupos, docsByNivel, initialObservac
     return (
       <div className="flex min-h-0 flex-col gap-4 overflow-y-auto bg-slate-50/60 p-4">
         <div className="flex flex-col gap-2">
-          <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">
+          <p className="text-sm font-semibold uppercase tracking-wide text-slate-400">
             {t("m2u.observaciones-sugerencias-comentarios")}
           </p>
           <textarea rows={5} value={currentDraft}
             onChange={(e) => setDrafts((prev) => ({ ...prev, [key]: e.target.value }))}
             onKeyDown={(e) => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) { e.preventDefault(); handleAdd(grupoId, key); } }}
             placeholder={t("m2u.escribe-observacion-placeholder")}
-            className="w-full resize-none rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-800 placeholder-slate-300 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20" />
+            className="w-full resize-none rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-base text-slate-800 placeholder-slate-300 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20" />
           <button onClick={() => handleAdd(grupoId, key)} disabled={!currentDraft.trim() || isSaving}
-            className="rounded-lg bg-brand px-4 py-2 text-xs font-semibold text-white transition hover:bg-brand/90 disabled:opacity-40">
+            className="rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand/90 disabled:opacity-40">
             {isSaving ? t("m2u.guardando") : t("m2u.agregar")}
           </button>
           <p className="text-right text-xs text-slate-400">{t("m2u.atajo-guardar")}</p>
@@ -187,12 +187,12 @@ export function Modulo2Usuario({ inscritos, grupos, docsByNivel, initialObservac
 
         {cardItems.length > 0 && (
           <div className="flex flex-col gap-2">
-            <p className="text-xs font-semibold uppercase tracking-wide text-slate-400">{t("m2u.mis-aportes")} ({cardItems.length})</p>
+            <p className="text-sm font-semibold uppercase tracking-wide text-slate-400">{t("m2u.mis-aportes")} ({cardItems.length})</p>
             {cardItems.map((obsItem) => (
               <div key={obsItem.id} className="rounded-xl border border-slate-200 bg-white p-3">
                 <div className="flex items-start justify-between gap-2">
-                  <p className="text-sm text-slate-700 whitespace-pre-wrap">{obsItem.texto}</p>
-                  <button onClick={() => handleDelete(key, obsItem.id)} className="shrink-0 text-slate-400 hover:text-red-500 text-base leading-none" title={t("m2u.eliminar")}>×</button>
+                  <p className="text-base text-slate-700 whitespace-pre-wrap">{obsItem.texto}</p>
+                  <button onClick={() => handleDelete(key, obsItem.id)} className="shrink-0 text-slate-400 hover:text-red-500 text-lg leading-none" title={t("m2u.eliminar")}>×</button>
                 </div>
               </div>
             ))}
@@ -238,13 +238,13 @@ export function Modulo2Usuario({ inscritos, grupos, docsByNivel, initialObservac
         <div className="mb-4 rounded-b-2xl border border-t-0 border-slate-200/70 bg-white p-5 shadow-card">
           <div className="flex items-start justify-between gap-3">
             <div>
-              <span className="text-xs font-bold uppercase tracking-widest text-slate-400">{t(NIVEL_LABEL_KEY[grupo.nivel])}</span>
-              <h3 className="text-lg font-extrabold text-slate-800">{grupo.nombre}</h3>
-              {grupo.descripcion && <p className="mt-1 text-sm text-slate-600">{grupo.descripcion}</p>}
-              <p className="mt-1 text-xs text-slate-400">{grupo.memberCount}/{grupo.cupo_max} {t("m2u.participantes")}</p>
+              <span className="text-sm font-bold uppercase tracking-widest text-slate-400">{t(NIVEL_LABEL_KEY[grupo.nivel])}</span>
+              <h3 className="text-2xl font-extrabold text-slate-800">{grupo.nombre}</h3>
+              {grupo.descripcion && <p className="mt-1 text-base text-slate-600">{grupo.descripcion}</p>}
+              <p className="mt-1 text-sm text-slate-400">{grupo.memberCount}/{grupo.cupo_max} {t("m2u.participantes")}</p>
             </div>
             <button onClick={() => handleLeave(grupo.id)} disabled={isPending}
-              className="shrink-0 text-xs text-slate-400 hover:text-red-600 disabled:opacity-40">
+              className="shrink-0 text-sm text-slate-400 hover:text-red-600 disabled:opacity-40">
               {t("m2u.salir")}
             </button>
           </div>
@@ -287,7 +287,7 @@ export function Modulo2Usuario({ inscritos, grupos, docsByNivel, initialObservac
                       <div className={`h-8 w-1.5 shrink-0 rounded-full ${abierto ? `bg-gradient-to-b ${NIVEL_COLOR[grupo.nivel]}` : "bg-slate-200"}`} />
                       <div className="min-w-0 flex-1">
                         <p className="text-xs font-bold text-slate-400">{sub.codigo} · {t("m2u.dim-abrev")} {sub.dimNum}</p>
-                        <p className={`text-sm font-semibold ${abierto ? "text-slate-800" : "text-slate-500"}`}>{lang === "pt" ? sub.titulo_pt : sub.titulo_es}</p>
+                        <p className={`text-lg font-semibold ${abierto ? "text-slate-800" : "text-slate-500"}`}>{lang === "pt" ? sub.titulo_pt : sub.titulo_es}</p>
                       </div>
                       <div className="flex items-center gap-2">
                         {!abierto ? (
@@ -307,7 +307,7 @@ export function Modulo2Usuario({ inscritos, grupos, docsByNivel, initialObservac
 
                     {isOpen && (
                       <div className="border-t border-slate-100">
-                        <div className="grid grid-cols-1 lg:h-[72vh] lg:grid-cols-[1fr_340px] lg:divide-x lg:divide-slate-100">
+                        <div className="grid grid-cols-1 lg:h-[72vh] lg:grid-cols-[1fr_400px] lg:divide-x lg:divide-slate-100">
                           {/* Contenido de la subdimensión (igual que en el Módulo 1) */}
                           <div className="min-h-0 overflow-y-auto p-6">
                             <div className="mb-3">
@@ -359,10 +359,10 @@ export function Modulo2Usuario({ inscritos, grupos, docsByNivel, initialObservac
                       {item.type === "section" ? (
                         <>
                           <p className="text-xs font-semibold text-slate-400">{lang === "pt" ? item.doc.titulo_pt : item.doc.titulo_es}</p>
-                          <p className={`text-sm font-semibold ${abierto ? "text-slate-800" : "text-slate-500"}`}>{getSectionTitle(item.doc, item.sectionId, lang)}</p>
+                          <p className={`text-lg font-semibold ${abierto ? "text-slate-800" : "text-slate-500"}`}>{getSectionTitle(item.doc, item.sectionId, lang)}</p>
                         </>
                       ) : (
-                        <p className={`text-sm font-semibold ${abierto ? "text-slate-800" : "text-slate-500"}`}>{lang === "pt" ? item.doc.titulo_pt : item.doc.titulo_es}</p>
+                        <p className={`text-lg font-semibold ${abierto ? "text-slate-800" : "text-slate-500"}`}>{lang === "pt" ? item.doc.titulo_pt : item.doc.titulo_es}</p>
                       )}
                     </div>
                     <div className="flex items-center gap-2">
@@ -383,7 +383,7 @@ export function Modulo2Usuario({ inscritos, grupos, docsByNivel, initialObservac
 
                   {isOpen && (
                     <div className="border-t border-slate-100">
-                      <div className="grid grid-cols-1 lg:h-[72vh] lg:grid-cols-[1fr_340px] lg:divide-x lg:divide-slate-100">
+                      <div className="grid grid-cols-1 lg:h-[72vh] lg:grid-cols-[1fr_400px] lg:divide-x lg:divide-slate-100">
                         {/* Contenido */}
                         <div className="min-h-0 overflow-y-auto p-6">
                           {content ? (
@@ -435,10 +435,10 @@ export function Modulo2Usuario({ inscritos, grupos, docsByNivel, initialObservac
             <div key={grupo.id} className="overflow-hidden rounded-2xl border border-slate-200/70 bg-white shadow-card transition-all duration-200 hover:-translate-y-1 hover:shadow-card-hover">
               <div className={`h-1.5 bg-gradient-to-r ${NIVEL_COLOR[grupo.nivel]}`} />
               <div className="p-5">
-                <h3 className="font-bold text-slate-800">{grupo.nombre}</h3>
-                {grupo.descripcion && <p className="mt-1 text-sm text-slate-500">{grupo.descripcion}</p>}
+                <h3 className="text-xl font-bold text-slate-800">{grupo.nombre}</h3>
+                {grupo.descripcion && <p className="mt-1 text-base text-slate-500">{grupo.descripcion}</p>}
                 <div className="mt-3">
-                  <div className="mb-1 flex justify-between text-xs text-slate-400">
+                  <div className="mb-1 flex justify-between text-sm text-slate-400">
                     <span>{grupo.memberCount} {t("m2u.participantes")}</span>
                     <span>{isFull ? t("m2u.completo") : `${grupo.cupo_max - grupo.memberCount} ${t("m2u.cupos-disponibles")}`}</span>
                   </div>
@@ -487,7 +487,7 @@ export function Modulo2Usuario({ inscritos, grupos, docsByNivel, initialObservac
                 })()}
 
                 <button onClick={() => handleJoin(grupo.id)} disabled={isFull || isPending}
-                  className={`mt-4 w-full rounded-lg py-2 text-sm font-semibold transition ${isFull ? "cursor-not-allowed bg-slate-100 text-slate-400" : "bg-brand text-white hover:bg-brand/90 disabled:opacity-60"}`}>
+                  className={`mt-4 w-full rounded-lg py-3 text-base font-semibold transition ${isFull ? "cursor-not-allowed bg-slate-100 text-slate-400" : "bg-brand text-white hover:bg-brand/90 disabled:opacity-60"}`}>
                   {isFull ? t("m2u.grupo-completo") : joiningId === grupo.id ? t("m2u.uniendose") : t("m2u.unirme-a-este-grupo")}
                 </button>
               </div>
@@ -525,9 +525,9 @@ export function Modulo2Usuario({ inscritos, grupos, docsByNivel, initialObservac
       <header className="bg-gradient-to-r from-[#2F4156] to-[#567C8D] text-white shadow-md">
         <div className="mx-auto flex max-w-[1280px] items-center justify-between px-4 py-3">
           <div className="flex items-center gap-3">
-            <a href="/" className="text-sm text-white/80 hover:text-white">← {t("m2u.inicio")}</a>
+            <a href="/" className="text-base text-white/80 hover:text-white">← {t("m2u.inicio")}</a>
             <span className="text-white/40">/</span>
-            <span className="text-sm font-semibold text-white">{t("m2u.modulo-2-mi-participacion")}</span>
+            <span className="text-base font-semibold text-white">{t("m2u.modulo-2-mi-participacion")}</span>
           </div>
           <LanguageToggle />
         </div>
@@ -542,8 +542,8 @@ export function Modulo2Usuario({ inscritos, grupos, docsByNivel, initialObservac
             <div className="mb-4 flex items-start gap-3 rounded-2xl border border-brand/20 bg-brand/5 p-4">
               <span className="text-lg leading-none">📌</span>
               <div>
-                <p className="text-sm font-semibold text-slate-800">{t("m2u.debes-inscribirte-titulo")}</p>
-                <p className="mt-0.5 text-sm text-slate-600">
+                <p className="text-base font-semibold text-slate-800">{t("m2u.debes-inscribirte-titulo")}</p>
+                <p className="mt-0.5 text-base text-slate-600">
                   {t("m2u.tu-participacion-requiere-1")} <strong>{t("m2u.workshop-1")}</strong> {t("m2u.tu-participacion-requiere-2")} <strong>{t("m2u.workshop-2")}</strong>.
                   {" "}{t("m2u.elige-tu-nivel")}
                 </p>
@@ -553,7 +553,7 @@ export function Modulo2Usuario({ inscritos, grupos, docsByNivel, initialObservac
               {(["basica", "superior"] as const).map((n) => (
                 <button key={n} onClick={() => setNivel(n)}
                   className={`rounded-2xl border-2 p-3 text-center transition ${nivel === n ? "border-brand bg-brand text-white shadow-md" : "border-slate-200 bg-white text-slate-700 hover:border-brand/40 hover:bg-slate-50"}`}>
-                  <p className="font-extrabold">{t(NIVEL_LABEL_KEY[n])}</p>
+                  <p className="text-lg font-extrabold">{t(NIVEL_LABEL_KEY[n])}</p>
                 </button>
               ))}
             </div>

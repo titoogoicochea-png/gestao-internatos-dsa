@@ -158,7 +158,7 @@ export function Modulo3Admin({ fases, informesIniciales, conteos, rawData, motor
 
       <main className="mx-auto max-w-4xl px-4 py-8">
         <div className="mb-6">
-          <h1 className="font-display text-3xl font-bold text-[#2F4156]">{t("m3.titulo")}</h1>
+          <h1 className="font-display text-4xl font-bold text-[#2F4156]">{t("m3.titulo")}</h1>
           <p className="mt-1 text-sm text-slate-500">
             {t("m3.intro-prefijo")} ({taller === "tarde2" ? t("m3.intro-orden-dimension") : t("m3.intro-orden-capitulo")}) {t("m3.intro-sufijo")}
           </p>
@@ -276,7 +276,7 @@ export function Modulo3Admin({ fases, informesIniciales, conteos, rawData, motor
                 {consolidado.informe.resumenGeneral && (
                   <div className="mb-4 rounded-2xl border border-slate-200/70 bg-white p-5 shadow-card">
                     <p className="mb-1 text-xs font-bold uppercase tracking-widest text-slate-400">{t("m3.resumen-general")}</p>
-                    <p className="text-sm leading-relaxed text-slate-700">{consolidado.informe.resumenGeneral}</p>
+                    <p className="text-base leading-relaxed text-slate-700">{consolidado.informe.resumenGeneral}</p>
                   </div>
                 )}
                 <div className="space-y-3">
@@ -323,7 +323,7 @@ export function Modulo3Admin({ fases, informesIniciales, conteos, rawData, motor
                 {ideasFuerza.informe.resumenGeneral && (
                   <div className="mb-4 mt-2 rounded-2xl border border-slate-200/70 bg-white p-5 shadow-card">
                     <p className="mb-1 text-xs font-bold uppercase tracking-widest text-slate-400">{t("m3.ideas-fuerza-generales")}</p>
-                    <p className="text-sm leading-relaxed text-slate-700">{ideasFuerza.informe.resumenGeneral}</p>
+                    <p className="text-base leading-relaxed text-slate-700">{ideasFuerza.informe.resumenGeneral}</p>
                   </div>
                 )}
                 <div className="space-y-3">
@@ -429,7 +429,7 @@ function TemaColapsable({ c, titulo, sintesis, puntos }: {
         className="flex w-full items-center justify-between gap-3 px-4 py-3 text-left"
         style={{ background: `${c}0d` }}
       >
-        <h3 className="font-bold" style={{ color: c }}>{titulo}</h3>
+        <h3 className="text-lg font-bold" style={{ color: c }}>{titulo}</h3>
         <div className="flex shrink-0 items-center gap-2">
           <span className="rounded-full bg-white/70 px-2 py-0.5 text-xs font-semibold" style={{ color: c }}>{puntos.length}</span>
           <span className="text-sm" style={{ color: c }}>{open ? "▲" : "▼"}</span>
@@ -443,7 +443,7 @@ function TemaColapsable({ c, titulo, sintesis, puntos }: {
           ) : (
             <ul className="space-y-1.5">
               {puntos.map((it, i) => (
-                <li key={i} className="flex gap-2 text-sm leading-snug text-slate-700">
+                <li key={i} className="flex gap-2 text-base leading-snug text-slate-700">
                   <span style={{ color: c }}>•</span><span>{it}</span>
                 </li>
               ))}
@@ -461,7 +461,7 @@ function TemaCard({ c, titulo, puntos }: { c: string; titulo: string; puntos: st
   return (
     <div className="overflow-hidden rounded-xl border border-slate-200/70 bg-white shadow-card" style={{ borderLeft: `6px solid ${c}` }}>
       <div className="px-4 py-2.5" style={{ background: `${c}0d` }}>
-        <h3 className="font-bold" style={{ color: c }}>{titulo}</h3>
+        <h3 className="text-lg font-bold" style={{ color: c }}>{titulo}</h3>
       </div>
       <div className="p-4">
         {puntos.length === 0 ? (
@@ -469,7 +469,7 @@ function TemaCard({ c, titulo, puntos }: { c: string; titulo: string; puntos: st
         ) : (
           <ul className="space-y-1.5">
             {puntos.map((it, i) => (
-              <li key={i} className="flex gap-2 text-sm leading-snug text-slate-700">
+              <li key={i} className="flex gap-2 text-base leading-snug text-slate-700">
                 <span style={{ color: c }}>•</span><span>{it}</span>
               </li>
             ))}
