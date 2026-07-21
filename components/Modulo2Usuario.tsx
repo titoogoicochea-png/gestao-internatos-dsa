@@ -177,7 +177,7 @@ export function Modulo2Usuario({ inscritos, grupos, docsByNivel, initialObservac
             onChange={(e) => setDrafts((prev) => ({ ...prev, [key]: e.target.value }))}
             onKeyDown={(e) => { if (e.key === "Enter" && (e.metaKey || e.ctrlKey)) { e.preventDefault(); handleAdd(grupoId, key); } }}
             placeholder={t("m2u.escribe-observacion-placeholder")}
-            className="w-full resize-none rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-base text-slate-800 placeholder-slate-300 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20" />
+            className="w-full resize-none rounded-xl border border-slate-300 bg-white px-3 py-2.5 text-sm text-slate-800 placeholder-slate-300 focus:border-brand focus:outline-none focus:ring-2 focus:ring-brand/20" />
           <button onClick={() => handleAdd(grupoId, key)} disabled={!currentDraft.trim() || isSaving}
             className="rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-brand/90 disabled:opacity-40">
             {isSaving ? t("m2u.guardando") : t("m2u.agregar")}
@@ -191,7 +191,7 @@ export function Modulo2Usuario({ inscritos, grupos, docsByNivel, initialObservac
             {cardItems.map((obsItem) => (
               <div key={obsItem.id} className="rounded-xl border border-slate-200 bg-white p-3">
                 <div className="flex items-start justify-between gap-2">
-                  <p className="text-base text-slate-700 whitespace-pre-wrap">{obsItem.texto}</p>
+                  <p className="text-sm text-slate-700 whitespace-pre-wrap">{obsItem.texto}</p>
                   <button onClick={() => handleDelete(key, obsItem.id)} className="shrink-0 text-slate-400 hover:text-red-500 text-lg leading-none" title={t("m2u.eliminar")}>×</button>
                 </div>
               </div>
@@ -239,7 +239,7 @@ export function Modulo2Usuario({ inscritos, grupos, docsByNivel, initialObservac
           <div className="flex items-start justify-between gap-3">
             <div>
               <span className="text-sm font-bold uppercase tracking-widest text-slate-400">{t(NIVEL_LABEL_KEY[grupo.nivel])}</span>
-              <h3 className="text-2xl font-extrabold text-slate-800">{grupo.nombre}</h3>
+              <h3 className="text-xl font-extrabold text-slate-800">{grupo.nombre}</h3>
               {grupo.descripcion && <p className="mt-1 text-base text-slate-600">{grupo.descripcion}</p>}
               <p className="mt-1 text-sm text-slate-400">{grupo.memberCount}/{grupo.cupo_max} {t("m2u.participantes")}</p>
             </div>
@@ -287,7 +287,7 @@ export function Modulo2Usuario({ inscritos, grupos, docsByNivel, initialObservac
                       <div className={`h-8 w-1.5 shrink-0 rounded-full ${abierto ? `bg-gradient-to-b ${NIVEL_COLOR[grupo.nivel]}` : "bg-slate-200"}`} />
                       <div className="min-w-0 flex-1">
                         <p className="text-xs font-bold text-slate-400">{sub.codigo} · {t("m2u.dim-abrev")} {sub.dimNum}</p>
-                        <p className={`text-lg font-semibold ${abierto ? "text-slate-800" : "text-slate-500"}`}>{lang === "pt" ? sub.titulo_pt : sub.titulo_es}</p>
+                        <p className={`text-base font-semibold ${abierto ? "text-slate-800" : "text-slate-500"}`}>{lang === "pt" ? sub.titulo_pt : sub.titulo_es}</p>
                       </div>
                       <div className="flex items-center gap-2">
                         {!abierto ? (
@@ -307,9 +307,9 @@ export function Modulo2Usuario({ inscritos, grupos, docsByNivel, initialObservac
 
                     {isOpen && (
                       <div className="border-t border-slate-100">
-                        <div className="grid grid-cols-1 lg:h-[72vh] lg:grid-cols-[1fr_400px] lg:divide-x lg:divide-slate-100">
+                        <div className="grid grid-cols-1 lg:h-[72vh] lg:grid-cols-[1fr_480px] lg:divide-x lg:divide-slate-100">
                           {/* Contenido de la subdimensión (igual que en el Módulo 1) */}
-                          <div className="min-h-0 overflow-y-auto p-6">
+                          <div className="m2doc min-h-0 overflow-y-auto p-6">
                             <div className="mb-3">
                               <a href={`/${grupo.nivel}?doc=ANEXO_C`} target="_blank" rel="noopener noreferrer" className="text-sm font-medium text-brand hover:underline">
                                 {t("m2u.abrir-anexo-c-completo")} →
@@ -359,10 +359,10 @@ export function Modulo2Usuario({ inscritos, grupos, docsByNivel, initialObservac
                       {item.type === "section" ? (
                         <>
                           <p className="text-xs font-semibold text-slate-400">{lang === "pt" ? item.doc.titulo_pt : item.doc.titulo_es}</p>
-                          <p className={`text-lg font-semibold ${abierto ? "text-slate-800" : "text-slate-500"}`}>{getSectionTitle(item.doc, item.sectionId, lang)}</p>
+                          <p className={`text-base font-semibold ${abierto ? "text-slate-800" : "text-slate-500"}`}>{getSectionTitle(item.doc, item.sectionId, lang)}</p>
                         </>
                       ) : (
-                        <p className={`text-lg font-semibold ${abierto ? "text-slate-800" : "text-slate-500"}`}>{lang === "pt" ? item.doc.titulo_pt : item.doc.titulo_es}</p>
+                        <p className={`text-base font-semibold ${abierto ? "text-slate-800" : "text-slate-500"}`}>{lang === "pt" ? item.doc.titulo_pt : item.doc.titulo_es}</p>
                       )}
                     </div>
                     <div className="flex items-center gap-2">
@@ -383,9 +383,9 @@ export function Modulo2Usuario({ inscritos, grupos, docsByNivel, initialObservac
 
                   {isOpen && (
                     <div className="border-t border-slate-100">
-                      <div className="grid grid-cols-1 lg:h-[72vh] lg:grid-cols-[1fr_400px] lg:divide-x lg:divide-slate-100">
+                      <div className="grid grid-cols-1 lg:h-[72vh] lg:grid-cols-[1fr_480px] lg:divide-x lg:divide-slate-100">
                         {/* Contenido */}
-                        <div className="min-h-0 overflow-y-auto p-6">
+                        <div className="m2doc min-h-0 overflow-y-auto p-6">
                           {content ? (
                             <div className="max-w-[70ch]">
                               <MarkdownView markdown={content} />
@@ -523,7 +523,7 @@ export function Modulo2Usuario({ inscritos, grupos, docsByNivel, initialObservac
   return (
     <div className="min-h-screen bg-[#EEF1F6]">
       <header className="bg-gradient-to-r from-[#2F4156] to-[#567C8D] text-white shadow-md">
-        <div className="mx-auto flex max-w-[1280px] items-center justify-between px-4 py-3">
+        <div className="mx-auto flex max-w-[1720px] items-center justify-between px-4 py-3">
           <div className="flex items-center gap-3">
             <a href="/" className="text-base text-white/80 hover:text-white">← {t("m2u.inicio")}</a>
             <span className="text-white/40">/</span>
@@ -533,7 +533,7 @@ export function Modulo2Usuario({ inscritos, grupos, docsByNivel, initialObservac
         </div>
       </header>
 
-      <main className="mx-auto max-w-[1280px] px-4 py-8">
+      <main className="mx-auto max-w-[1720px] px-4 py-8">
         {error && <p className="mb-4 rounded-lg bg-red-50 px-4 py-2 text-sm text-red-700">{error}</p>}
 
         {/* Recordatorio + selector de nivel cuando falta inscribirse */}

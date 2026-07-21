@@ -33,6 +33,26 @@ body {
 .doc > :first-child {
   margin-top: 0;
 }
+/* Documento dentro del Módulo 2 (workshop): más compacto que en el lector del Módulo 1 */
+.m2doc .doc {
+  font-size: 1.12rem;
+  line-height: 1.6;
+}
+.m2doc .doc h1 {
+  font-size: 1.8rem;
+  margin: 1.2rem 0 0.4rem;
+}
+.m2doc .doc h2 {
+  font-size: 1.45rem;
+  margin: 1.3rem 0 0.5rem;
+}
+.m2doc .doc h3 {
+  font-size: 1.22rem;
+  margin: 1.1rem 0 0.4rem;
+}
+.m2doc .doc h4 {
+  font-size: 1.08rem;
+}
 .doc h1 {
   font-family: "Fraunces", Georgia, Cambria, serif;
   font-size: 2.9rem;
