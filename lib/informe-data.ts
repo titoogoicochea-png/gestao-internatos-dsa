@@ -57,3 +57,23 @@ export function agruparAportes(nivel: Nivel, taller: Taller, obs: ObsRow[]): Gru
 
   return Array.from(mapa.values()).sort((a, b) => a.orden - b.orden);
 }
+
+// Título legible del capítulo/sección (Workshop 1) o subdimensión (Workshop 2)
+// a partir del `doc_codigo` guardado en cada observación.
+export function temaLabel(nivel: Nivel, taller: Taller, docCodigo: string): string {
+  if (taller === "tarde2") {
+    const sub = ANEXO_C_SUBDIMS.find((s) => s.id === docCodigo);
+    return sub ? `${sub.codigo} ${sub.titulo_es}` : docCodigo;
+  }
+  const docs = getDocs(nivel);
+  const [code, sectionId] = docCodigo.includes("#")
+    ? docCodigo.split("#")
+    : [docCodigo, null];
+  const doc = docs.find((d) => d.codigo === code);
+  if (!doc) return docCodigo;
+  if (sectionId) {
+    const sec = doc.sections_es.find((s) => s.id === sectionId);
+    if (sec) return `${doc.titulo_es} · ${sec.text}`;
+  }
+  return doc.subtitulo_es ? `${doc.titulo_es} — ${doc.subtitulo_es}` : doc.titulo_es;
+}

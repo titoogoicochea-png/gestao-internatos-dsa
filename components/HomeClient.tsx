@@ -38,6 +38,14 @@ export function HomeClient({ nombre, rol }: { nombre: string; rol: string }) {
               <LanguageToggle />
               {isAdmin && (
                 <a
+                  href="/respuestas"
+                  className="hidden rounded-lg border border-white/30 px-3 py-1.5 text-xs font-medium text-white/90 transition hover:bg-white/10 sm:block"
+                >
+                  Respuestas
+                </a>
+              )}
+              {isAdmin && (
+                <a
                   href="/admin/usuarios"
                   className="hidden rounded-lg border border-white/30 px-3 py-1.5 text-xs font-medium text-white/90 transition hover:bg-white/10 sm:block"
                 >
