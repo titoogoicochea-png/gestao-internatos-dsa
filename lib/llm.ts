@@ -3,6 +3,7 @@
 
 export type SeccionInforme = {
   titulo: string;
+  codigo?: string; // doc_codigo del capítulo/dimensión (para mapear al documento original)
   sintesis?: string;
   // Consolidado: aportes clasificados en dos listas de viñetas.
   observaciones?: string[];
@@ -10,6 +11,9 @@ export type SeccionInforme = {
   // Ideas fuerza / formato anterior / aportes crudos: una sola lista.
   puntos?: string[];
 };
+
+// Un capítulo del documento reconstruido con IA (markdown), por doc_codigo.
+export type DocReconstruido = { markdown: string; modelo: string; generadoEn: string };
 
 export type InformeConsolidado = {
   resumenGeneral: string;
@@ -20,7 +24,12 @@ export type InformeConsolidado = {
 export type ParteGuardada = { informe: InformeConsolidado; modelo: string; generadoEn: string };
 
 // Se guardan ambos espacios en el mismo registro `informes` (jsonb contenido) por nivel+taller.
-export type ContenidoInforme = { consolidado?: ParteGuardada; ideasFuerza?: ParteGuardada };
+// La reconstrucción del documento se guarda en la fila (nivel, 'tarde1'), por doc_codigo.
+export type ContenidoInforme = {
+  consolidado?: ParteGuardada;
+  ideasFuerza?: ParteGuardada;
+  reconstruccion?: Record<string, DocReconstruido>;
+};
 
 export type EspacioId = "consolidado" | "ideasFuerza";
 

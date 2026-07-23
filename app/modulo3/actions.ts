@@ -288,6 +288,7 @@ export async function generarConsolidadoTema(
     return { ok: false, error: "La IA devolvió un formato inesperado en este capítulo." };
   }
   if (!seccion.titulo) seccion.titulo = tema.titulo;
+  seccion.codigo = tema.clave;
   return { ok: true, seccion, modelo: motorUsado };
 }
 

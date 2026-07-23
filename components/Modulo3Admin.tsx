@@ -217,9 +217,14 @@ export function Modulo3Admin({ fases, informesIniciales, conteos, rawData, motor
             <span className="text-white/40">/</span>
             <span className="text-sm font-semibold text-white">{t("m3.breadcrumb")}</span>
           </div>
-          <a href="/respuestas" className="rounded-lg border border-white/30 px-3 py-1.5 text-xs font-medium text-white/90 transition hover:bg-white/10">
-            Ver respuestas por grupo →
-          </a>
+          <div className="flex items-center gap-2">
+            <a href="/respuestas" className="rounded-lg border border-white/30 px-3 py-1.5 text-xs font-medium text-white/90 transition hover:bg-white/10">
+              Respuestas
+            </a>
+            <a href="/reconstruir" className="rounded-lg border border-white/30 px-3 py-1.5 text-xs font-medium text-white/90 transition hover:bg-white/10">
+              Reconstruir documento →
+            </a>
+          </div>
         </div>
       </header>
 

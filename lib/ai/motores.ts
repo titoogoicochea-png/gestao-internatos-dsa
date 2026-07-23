@@ -16,7 +16,7 @@ import { leerEnv, callGemini, callAnthropic, callOpenAICompat } from "./provider
 export type Motor =
   | "auto"
   | "groq" | "gemini-flash" | "deepseek" | "grok" | "chatgpt"
-  | "gemini-pro" | "haiku" | "sonnet";
+  | "gemini-pro" | "haiku" | "sonnet" | "opus";
 
 export type MotorReal = Exclude<Motor, "auto">;
 export type Badge = "GRATIS" | "BARATO" | "PREMIUM";
@@ -42,6 +42,7 @@ export const MOTORES: Record<MotorReal, MotorDef> = {
   "gemini-pro":   { label: "Gemini 2.5 Pro",       badge: "BARATO", proveedor: "google",        model: "gemini-2.5-pro",          envKey: "GEMINI_API_KEY",    envKeyAlt: "GOOGLE_API_KEY", maxTokens: 16000 },
   "haiku":        { label: "Claude Haiku 4.5",     badge: "BARATO", proveedor: "anthropic",     model: "claude-haiku-4-5-20251001", envKey: "ANTHROPIC_API_KEY", maxTokens: 16000 },
   "sonnet":       { label: "Claude Sonnet 4.6",    badge: "PREMIUM",proveedor: "anthropic",     model: "claude-sonnet-4-6",       envKey: "ANTHROPIC_API_KEY", maxTokens: 16000 },
+  "opus":         { label: "Claude Opus 4.8",      badge: "PREMIUM",proveedor: "anthropic",     model: "claude-opus-4-8",         envKey: "ANTHROPIC_API_KEY", maxTokens: 32000 },
 };
 
 // Orden de escalamiento (gratis → pago, hasta Sonnet). Grok/ChatGPT quedan fuera
@@ -90,6 +91,7 @@ async function llamarMotor(p: {
 // ─── Orden de intentos según el motor de partida ─────────────────────────────
 export function escaleraDesde(motorInicial: Motor): MotorReal[] {
   if (motorInicial === "auto") return [...ESCALERA];
+  if (motorInicial === "opus") return ["opus", "sonnet"]; // premium máximo → respaldo Sonnet
   const idx = ESCALERA.indexOf(motorInicial as MotorReal);
   if (idx >= 0) return ESCALERA.slice(idx);              // en la escalera: continúa hacia Sonnet
   return [motorInicial as MotorReal, "haiku", "sonnet"]; // fuera (ej. gemini-pro): escala a premium
