@@ -203,6 +203,20 @@ export async function generarConsolidado(nivel: Nivel, taller: Taller, motor: st
   return { ok: true, parte };
 }
 
+// ───────────────── Limpiar informe (consolidado + ideas fuerza) ─────────────────
+
+export async function limpiarInforme(nivel: Nivel, taller: Taller): Promise<{ ok: boolean; error?: string }> {
+  const auth = await requireAdmin();
+  if (!auth.ok) return { ok: false, error: auth.error };
+  const { supabase } = auth;
+
+  const { error } = await supabase.from("informes").delete().eq("nivel", nivel).eq("taller", taller);
+  if (error) return { ok: false, error: error.message };
+
+  revalidatePath("/modulo3");
+  return { ok: true };
+}
+
 // ───────────────── Espacio 2: Ideas fuerza ─────────────────
 
 export async function generarIdeasFuerza(nivel: Nivel, taller: Taller, motor: string): Promise<GenerarResult> {

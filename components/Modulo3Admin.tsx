@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { useLang } from "@/components/LanguageProvider";
 import { SectionHeader } from "@/components/SectionHeader";
-import { generarConsolidado, generarIdeasFuerza } from "@/app/modulo3/actions";
+import { generarConsolidado, generarIdeasFuerza, limpiarInforme } from "@/app/modulo3/actions";
 import type { ContenidoInforme } from "@/lib/llm";
 import type { Motor, Badge } from "@/lib/ai/motores";
 import type { GrupoTema } from "@/lib/informe-data";
@@ -68,6 +68,7 @@ export function Modulo3Admin({ fases, informesIniciales, conteos, rawData, motor
   const [espacio, setEspacio] = useState<1 | 2>(1);
   const [generating, setGenerating] = useState<null | "consolidado" | "ideasFuerza">(null);
   const [downloading, setDownloading] = useState<null | "consolidado" | "ideasFuerza">(null);
+  const [limpiando, setLimpiando] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [verAportes, setVerAportes] = useState(false);
 
@@ -93,7 +94,8 @@ export function Modulo3Admin({ fases, informesIniciales, conteos, rawData, motor
     setGenerating("consolidado");
     try {
       const res = await generarConsolidado(nivel, taller, motor);
-      if (!res.ok || !res.parte) setError(res.error ?? t("m3.error-generar"));
+      if (!res) setError(t("m3.error-timeout"));
+      else if (!res.ok || !res.parte) setError(res.error ?? t("m3.error-generar"));
       else setParte("consolidado", res.parte);
     } catch (e) {
       setError(e instanceof Error ? e.message : t("m3.error-inesperado"));
@@ -102,12 +104,28 @@ export function Modulo3Admin({ fases, informesIniciales, conteos, rawData, motor
     }
   }
 
+  async function handleLimpiar() {
+    if (!confirm(t("m3.confirmar-limpiar"))) return;
+    setError(null);
+    setLimpiando(true);
+    try {
+      const res = await limpiarInforme(nivel, taller);
+      if (!res || !res.ok) setError(res?.error ?? t("m3.error-generar"));
+      else setInformes((prev) => ({ ...prev, [key]: {} }));
+    } catch (e) {
+      setError(e instanceof Error ? e.message : t("m3.error-inesperado"));
+    } finally {
+      setLimpiando(false);
+    }
+  }
+
   async function handleGenerarIdeas() {
     setError(null);
     setGenerating("ideasFuerza");
     try {
       const res = await generarIdeasFuerza(nivel, taller, motor);
-      if (!res.ok || !res.parte) setError(res.error ?? t("m3.error-generar"));
+      if (!res) setError(t("m3.error-timeout"));
+      else if (!res.ok || !res.parte) setError(res.error ?? t("m3.error-generar"));
       else setParte("ideasFuerza", res.parte);
     } catch (e) {
       setError(e instanceof Error ? e.message : t("m3.error-inesperado"));
@@ -268,6 +286,12 @@ export function Modulo3Admin({ fases, informesIniciales, conteos, rawData, motor
               {consolidado && (
                 <button onClick={() => handleDescargarWord("consolidado")} disabled={downloading !== null} className={btnWord}>
                   ⬇ {downloading === "consolidado" ? t("m3.generando") : t("m3.descargar-word")}
+                </button>
+              )}
+              {(consolidado || ideasFuerza) && (
+                <button onClick={handleLimpiar} disabled={limpiando || generating !== null}
+                  className="rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-600 transition hover:border-red-300 hover:bg-red-50 hover:text-red-600 disabled:opacity-50">
+                  {limpiando ? t("m3.limpiando") : t("m3.limpiar")}
                 </button>
               )}
             </div>
