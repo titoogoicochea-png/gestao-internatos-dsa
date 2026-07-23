@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { MarkdownView } from "@/components/MarkdownView";
-import { listarDocsReconstruir, reconstruirDoc, guardarReconstruccion } from "@/app/reconstruir/actions";
+import { reconstruirDoc, guardarReconstruccion, limpiarReconstruccion } from "@/app/reconstruir/actions";
 
 type Lang = "es" | "pt";
 
@@ -17,6 +17,7 @@ export type DocData = {
   original_pt: string;
   reconstruido_es: string | null;
   reconstruido_pt: string | null;
+  reconstruible: boolean;
   modelo: string | null;
   generadoEn: string | null;
 };
@@ -36,6 +37,8 @@ export function ReconstruirAdmin({ niveles, isAdmin }: { niveles: NivelData[]; i
   const [nivel, setNivel] = useState<"basica" | "superior">("basica");
   const [lang, setLang] = useState<Lang>("es");
   const [generating, setGenerating] = useState(false);
+  const [genCode, setGenCode] = useState<string | null>(null);
+  const [limpiando, setLimpiando] = useState(false);
   const [progreso, setProgreso] = useState<{ done: number; total: number; titulo?: string } | null>(null);
   const [downloading, setDownloading] = useState<Lang | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -52,68 +55,98 @@ export function ReconstruirAdmin({ niveles, isAdmin }: { niveles: NivelData[]; i
     setActiveCodigo(datos.find((x) => x.nivel === n)!.docs[0]?.codigo ?? "");
   }
 
+  const tituloDe = (codigo: string) => docs.find((d) => d.codigo === codigo)?.titulo ?? codigo;
+
+  // Reconstruye UN apartado (ES + PT) y lo GUARDA de inmediato (no se pierde avance).
+  async function reconstruirUno(codigo: string): Promise<{ hechos: number; error?: string }> {
+    const langs: Lang[] = ["es", "pt"];
+    const items: { codigo: string; lang: Lang; markdown: string; modelo: string }[] = [];
+    let primerError: string | undefined;
+    for (const l of langs) {
+      const call = () => reconstruirDoc(nivel, codigo, l, "opus").catch((e) => ({ ok: false, error: e instanceof Error ? e.message : String(e) }));
+      let res = await call();
+      if (!res || !res.ok || !("markdown" in res) || !res.markdown) res = await call();
+      if (res && res.ok && "markdown" in res && res.markdown) {
+        items.push({ codigo, lang: l, markdown: res.markdown, modelo: ("modelo" in res && res.modelo) ? res.modelo : "opus" });
+      } else if (!primerError) {
+        primerError = (res && "error" in res && res.error) ? res.error : "sin respuesta (posible tiempo de espera o límite de la IA)";
+      }
+    }
+    if (items.length > 0) {
+      const g = await guardarReconstruccion(nivel, items).catch(() => undefined);
+      if (!g || !g.ok) return { hechos: 0, error: g?.error ?? "No se pudo guardar." };
+      const now = new Date().toISOString();
+      setDatos((prev) => prev.map((n) => n.nivel !== nivel ? n : {
+        ...n,
+        docs: n.docs.map((d) => {
+          if (d.codigo !== codigo) return d;
+          const es = items.find((x) => x.lang === "es");
+          const pt = items.find((x) => x.lang === "pt");
+          return {
+            ...d,
+            reconstruido_es: es ? es.markdown : d.reconstruido_es,
+            reconstruido_pt: pt ? pt.markdown : d.reconstruido_pt,
+            modelo: items[0].modelo,
+            generadoEn: now,
+          };
+        }),
+      }));
+    }
+    return { hechos: items.length, error: primerError };
+  }
+
+  // Un apartado suelto
+  async function handleGenerarApartado(codigo: string) {
+    setError(null); setAviso(null); setGenCode(codigo);
+    try {
+      const r = await reconstruirUno(codigo);
+      if (r.hechos === 2) setAviso(`Reconstruido: ${tituloDe(codigo)} (ES + PT).`);
+      else if (r.hechos === 1) setError(`${tituloDe(codigo)}: solo se logró un idioma. Detalle: ${r.error ?? "desconocido"}`);
+      else setError(`${tituloDe(codigo)}: no se pudo reconstruir. Detalle: ${r.error ?? "desconocido"}`);
+    } finally {
+      setGenCode(null);
+    }
+  }
+
+  // Todos los apartados reconstruibles (guardando cada uno al terminar)
   async function handleGenerar() {
     setError(null); setAviso(null); setGenerating(true); setProgreso(null);
     try {
-      const lista = await listarDocsReconstruir(nivel);
-      if (!lista) { setError("La operación no respondió (tiempo de espera). Intenta de nuevo."); return; }
-      if (!lista.ok || !lista.docs || lista.docs.length === 0) { setError(lista.error ?? "No se pudo iniciar la reconstrucción."); return; }
-
-      const objetivos = lista.docs;
-      const langs: Lang[] = ["es", "pt"];
-      const total = objetivos.length * langs.length;
-      let done = 0;
-      setProgreso({ done: 0, total });
-
-      const items: { codigo: string; lang: Lang; markdown: string; modelo: string }[] = [];
+      const objetivos = docs.filter((d) => d.reconstruible);
+      if (objetivos.length === 0) { setError("No hay apartados con aportes para reconstruir."); return; }
+      setProgreso({ done: 0, total: objetivos.length });
       const fallidos: string[] = [];
-
-      for (const obj of objetivos) {
-        for (const l of langs) {
-          setProgreso({ done, total, titulo: `${obj.titulo} · ${l.toUpperCase()}` });
-          let res = await reconstruirDoc(nivel, obj.codigo, l, "opus").catch(() => undefined);
-          if (!res || !res.ok || !res.markdown) {
-            res = await reconstruirDoc(nivel, obj.codigo, l, "opus").catch(() => undefined);
-          }
-          if (res && res.ok && res.markdown) {
-            items.push({ codigo: obj.codigo, lang: l, markdown: res.markdown, modelo: res.modelo ?? "opus" });
-          } else {
-            fallidos.push(`${obj.titulo} (${l.toUpperCase()})`);
-          }
-          done++;
-          setProgreso({ done, total });
-        }
+      let primerError: string | undefined;
+      for (let i = 0; i < objetivos.length; i++) {
+        setProgreso({ done: i, total: objetivos.length, titulo: objetivos[i].titulo });
+        const r = await reconstruirUno(objetivos[i].codigo);
+        if (r.hechos < 2) { fallidos.push(objetivos[i].titulo); if (!primerError) primerError = r.error; }
+        setProgreso({ done: i + 1, total: objetivos.length });
       }
-
-      if (items.length > 0) {
-        const g = await guardarReconstruccion(nivel, items);
-        if (!g || !g.ok) { setError(g?.error ?? "Se reconstruyó pero no se pudo guardar."); return; }
-        const now = new Date().toISOString();
-        setDatos((prev) => prev.map((n) =>
-          n.nivel !== nivel ? n : {
-            ...n,
-            docs: n.docs.map((d) => {
-              const es = items.find((x) => x.codigo === d.codigo && x.lang === "es");
-              const pt = items.find((x) => x.codigo === d.codigo && x.lang === "pt");
-              if (!es && !pt) return d;
-              return {
-                ...d,
-                reconstruido_es: es ? es.markdown : d.reconstruido_es,
-                reconstruido_pt: pt ? pt.markdown : d.reconstruido_pt,
-                modelo: (es || pt)?.modelo ?? d.modelo,
-                generadoEn: now,
-              };
-            }),
-          }
-        ));
-        setActiveCodigo(objetivos[0].codigo);
-      }
-      if (fallidos.length) setError(`No se pudieron reconstruir: ${fallidos.join(", ")}. Vuelve a intentar.`);
-      else if (items.length) setAviso(`Reconstrucción completa en español y portugués.`);
+      if (fallidos.length) setError(`No se completaron: ${fallidos.join(", ")}.${primerError ? ` Detalle del primer fallo: ${primerError}` : ""}`);
+      else setAviso("Reconstrucción completa en español y portugués. Lo generado se guardó apartado por apartado.");
     } catch (e) {
       setError(e instanceof Error ? e.message : "Error inesperado.");
     } finally {
       setGenerating(false); setProgreso(null);
+    }
+  }
+
+  async function handleLimpiar() {
+    if (!confirm(`¿Borrar la reconstrucción guardada de ${nivelLabel(nivel)}? Podrás generarla de nuevo. No afecta a las respuestas ni al consolidado.`)) return;
+    setError(null); setAviso(null); setLimpiando(true);
+    try {
+      const r = await limpiarReconstruccion(nivel);
+      if (!r || !r.ok) { setError(r?.error ?? "No se pudo limpiar."); return; }
+      setDatos((prev) => prev.map((n) => n.nivel !== nivel ? n : {
+        ...n,
+        docs: n.docs.map((d) => ({ ...d, reconstruido_es: null, reconstruido_pt: null, modelo: null, generadoEn: null })),
+      }));
+      setAviso("Reconstrucción borrada. Puedes generarla de nuevo.");
+    } catch (e) {
+      setError(e instanceof Error ? e.message : "Error inesperado.");
+    } finally {
+      setLimpiando(false);
     }
   }
 
@@ -181,12 +214,6 @@ export function ReconstruirAdmin({ niveles, isAdmin }: { niveles: NivelData[]; i
           </div>
           {isAdmin && (
           <div className="flex flex-wrap items-center gap-2">
-            <button onClick={handleGenerar} disabled={generating || !actual.tieneConsolidado}
-              className="rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand/90 disabled:cursor-not-allowed disabled:opacity-50">
-              {generating
-                ? progreso ? `Reconstruyendo ${progreso.done}/${progreso.total}…` : "Reconstruyendo…"
-                : reconCount > 0 ? "Regenerar (ES + PT) con Opus 4.8" : "Reconstruir (ES + PT) con Opus 4.8"}
-            </button>
             <button onClick={() => handleDescargar("es")} disabled={downloading !== null}
               className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-700 disabled:opacity-50">
               ⬇ {downloading === "es" ? "Generando…" : "Word (Español)"}
@@ -194,6 +221,10 @@ export function ReconstruirAdmin({ niveles, isAdmin }: { niveles: NivelData[]; i
             <button onClick={() => handleDescargar("pt")} disabled={downloading !== null}
               className="inline-flex items-center gap-1.5 rounded-lg bg-emerald-700 px-4 py-2.5 text-sm font-semibold text-white hover:bg-emerald-800 disabled:opacity-50">
               ⬇ {downloading === "pt" ? "Gerando…" : "Word (Português)"}
+            </button>
+            <button onClick={handleLimpiar} disabled={limpiando || generating || genCode !== null || reconCount === 0}
+              className="rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-600 transition hover:border-red-300 hover:bg-red-50 hover:text-red-600 disabled:opacity-50">
+              {limpiando ? "Limpiando…" : "Limpiar"}
             </button>
           </div>
           )}
@@ -227,6 +258,49 @@ export function ReconstruirAdmin({ niveles, isAdmin }: { niveles: NivelData[]; i
               ? "Documento reconstruido disponible. Selecciona un apartado en el índice y elige el idioma (Español / Português)."
               : "Este nivel aún no tiene apartados reconstruidos; se muestra el texto original."}
         </p>
+
+        {/* Generación por apartado (solo admin) */}
+        {isAdmin && (
+          <div className="mb-6 rounded-2xl bg-white p-4 shadow-card ring-1 ring-slate-200/60">
+            <div className="mb-3 flex flex-wrap items-center justify-between gap-2">
+              <h3 className="font-display text-base font-bold text-[#2F4156]">Generación por apartado · Opus 4.8</h3>
+              <button onClick={handleGenerar} disabled={generating || genCode !== null || limpiando || !actual.tieneConsolidado}
+                className="rounded-lg bg-brand px-4 py-2 text-sm font-semibold text-white hover:bg-brand/90 disabled:opacity-50">
+                {generating ? (progreso ? `Reconstruyendo ${progreso.done}/${progreso.total}…` : "Reconstruyendo…") : "Reconstruir todo (ES + PT)"}
+              </button>
+            </div>
+            {docs.filter((d) => d.reconstruible).length === 0 ? (
+              <p className="text-sm text-slate-400">No hay apartados con aportes para reconstruir en este nivel.</p>
+            ) : (
+              <ul className="divide-y divide-slate-100">
+                {docs.filter((d) => d.reconstruible).map((d) => {
+                  const both = !!d.reconstruido_es && !!d.reconstruido_pt;
+                  const some = (!!d.reconstruido_es || !!d.reconstruido_pt) && !both;
+                  return (
+                    <li key={d.codigo} className="flex items-center justify-between gap-3 py-2">
+                      <div className="flex min-w-0 items-center gap-2">
+                        {d.badge && <span className="flex h-6 min-w-[1.6rem] items-center justify-center rounded-md bg-[#C8D9E6] px-1 text-xs font-bold text-[#2F4156]">{d.badge}</span>}
+                        <span className="truncate text-sm text-slate-700">{d.titulo}</span>
+                        {both ? (
+                          <span className="shrink-0 rounded-full bg-emerald-100 px-2 py-0.5 text-xs font-semibold text-emerald-700">ES ✓ · PT ✓</span>
+                        ) : some ? (
+                          <span className="shrink-0 rounded-full bg-amber-100 px-2 py-0.5 text-xs font-semibold text-amber-700">{d.reconstruido_es ? "ES ✓" : "ES —"} · {d.reconstruido_pt ? "PT ✓" : "PT —"}</span>
+                        ) : (
+                          <span className="shrink-0 rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-500">pendiente</span>
+                        )}
+                      </div>
+                      <button onClick={() => handleGenerarApartado(d.codigo)} disabled={generating || genCode !== null || limpiando}
+                        className="shrink-0 rounded-lg border border-brand/30 px-3 py-1.5 text-xs font-semibold text-brand transition hover:bg-brand/5 disabled:opacity-50">
+                        {genCode === d.codigo ? "Generando…" : both ? "Regenerar" : "Generar"}
+                      </button>
+                    </li>
+                  );
+                })}
+              </ul>
+            )}
+            <p className="mt-2 text-xs text-slate-400">Cada apartado se guarda apenas termina (no se pierde el avance). Presentación, Anexo B y Referencias se incluyen íntegros en el Word.</p>
+          </div>
+        )}
 
         {/* Lector estilo Módulo 1 */}
         <div className="grid grid-cols-1 overflow-hidden rounded-2xl border border-slate-200/70 bg-white shadow-card lg:grid-cols-[20rem_1fr] lg:h-[72vh]">

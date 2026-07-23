@@ -2,6 +2,7 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getDocs, NIVEIS } from "@/lib/content";
 import type { ContenidoInforme } from "@/lib/llm";
+import { feedbackDeSecciones } from "@/lib/reconstruir-shared";
 import { ReconstruirAdmin, type NivelData } from "@/components/ReconstruirAdmin";
 
 export const dynamic = "force-dynamic";
@@ -26,6 +27,8 @@ export default async function ReconstruirPage() {
     const cont = contByKey.get(`${nivel}__tarde1`) ?? {};
     const cont2 = contByKey.get(`${nivel}__tarde2`) ?? {};
     const recon = cont.reconstruccion ?? {};
+    const w1 = cont.consolidado?.informe.secciones ?? [];
+    const w2 = cont2.consolidado?.informe.secciones ?? [];
     const docs = getDocs(nivel).map((d) => {
       const r = recon[d.codigo];
       return {
@@ -38,6 +41,7 @@ export default async function ReconstruirPage() {
         original_pt: d.raw,
         reconstruido_es: r?.es ?? r?.markdown ?? null,
         reconstruido_pt: r?.pt ?? null,
+        reconstruible: !!feedbackDeSecciones(d, w1, w2),
         modelo: r?.modelo ?? null,
         generadoEn: r?.generadoEn ?? null,
       };

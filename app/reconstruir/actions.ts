@@ -6,6 +6,7 @@ import { getDocs, type Doc } from "@/lib/content";
 import type { Nivel, Taller } from "@/lib/informe-data";
 import type { ContenidoInforme, SeccionInforme } from "@/lib/llm";
 import { generarConEscalamiento, esMotorValido, type Motor } from "@/lib/ai/motores";
+import { displayTitulo, matchCapitulo, feedbackAnexoC, type FB } from "@/lib/reconstruir-shared";
 
 const NIVEL_LABEL = { basica: "Educación Básica", superior: "Educación Superior" };
 type Lang = "es" | "pt";
@@ -29,50 +30,6 @@ async function cargarConsolidado(supabase: SupabaseClient, nivel: Nivel, taller:
   const { data } = await supabase.from("informes").select("contenido").eq("nivel", nivel).eq("taller", taller).maybeSingle();
   const cont = (data?.contenido ?? {}) as ContenidoInforme;
   return cont.consolidado?.informe.secciones ?? null;
-}
-
-const norm = (s: string) => s.trim().toLowerCase().replace(/\s+/g, " ");
-const displayTitulo = (d: Doc) => (d.subtitulo_es ? `${d.titulo_es} — ${d.subtitulo_es}` : d.titulo_es);
-
-type FB = { observaciones: string[]; sugerencias: string[] };
-
-// Empareja un capítulo (doc) con su sección del consolidado de Workshop 1.
-function matchCapitulo(secciones: SeccionInforme[], doc: Doc): FB | null {
-  let sec = secciones.find((s) => s.codigo && s.codigo === doc.codigo);
-  if (!sec) {
-    const t1 = norm(displayTitulo(doc));
-    const t2 = norm(doc.titulo_es);
-    sec = secciones.find((s) => {
-      const st = norm(s.titulo);
-      return st === t1 || st === t2 || st.includes(t2);
-    });
-  }
-  if (!sec) return null;
-  const observaciones = sec.observaciones ?? [];
-  const sugerencias = sec.sugerencias ?? [];
-  const puntos = sec.puntos ?? [];
-  if (!observaciones.length && !sugerencias.length && !puntos.length) return null;
-  if (!observaciones.length && !sugerencias.length) return { observaciones: puntos, sugerencias: [] };
-  return { observaciones, sugerencias };
-}
-
-// Agrega TODO el feedback del Workshop 2 (dimensiones) para reconstruir el Anexo C.
-function feedbackAnexoC(secciones: SeccionInforme[]): FB | null {
-  const observaciones: string[] = [];
-  const sugerencias: string[] = [];
-  for (const s of secciones) {
-    const pre = s.titulo ? `[${s.titulo}] ` : "";
-    const obs = s.observaciones ?? [];
-    const sug = s.sugerencias ?? [];
-    if (!obs.length && !sug.length) {
-      for (const p of s.puntos ?? []) observaciones.push(pre + p);
-    } else {
-      for (const o of obs) observaciones.push(pre + o);
-      for (const g of sug) sugerencias.push(pre + g);
-    }
-  }
-  if (!observaciones.length && !sugerencias.length) return null;
-  return { observaciones, sugerencias };
 }
 
 async function feedbackDeDoc(supabase: SupabaseClient, nivel: Nivel, doc: Doc): Promise<FB | null> {
@@ -218,6 +175,33 @@ export async function guardarReconstruccion(
   const contenido = { ...prev, reconstruccion: recon };
   const { error } = await supabase.from("informes").upsert(
     { nivel, taller: "tarde1", contenido, modelo, generado_por: userId, generado_en: now },
+    { onConflict: "nivel,taller" }
+  );
+  if (error) return { ok: false, error: error.message };
+
+  revalidatePath("/reconstruir");
+  return { ok: true };
+}
+
+// Borra toda la reconstrucción guardada de un nivel (para empezar de cero).
+export async function limpiarReconstruccion(nivel: Nivel): Promise<{ ok: boolean; error?: string }> {
+  const auth = await requireAdmin();
+  if (!auth.ok) return { ok: false, error: auth.error };
+  const { supabase, userId } = auth;
+
+  const { data: existing } = await supabase
+    .from("informes")
+    .select("contenido")
+    .eq("nivel", nivel)
+    .eq("taller", "tarde1")
+    .maybeSingle();
+  if (!existing) { revalidatePath("/reconstruir"); return { ok: true }; }
+
+  const cont = { ...((existing.contenido ?? {}) as ContenidoInforme) };
+  delete cont.reconstruccion;
+
+  const { error } = await supabase.from("informes").upsert(
+    { nivel, taller: "tarde1", contenido: cont, generado_por: userId, generado_en: new Date().toISOString() },
     { onConflict: "nivel,taller" }
   );
   if (error) return { ok: false, error: error.message };
