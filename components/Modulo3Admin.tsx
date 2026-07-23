@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { useLang } from "@/components/LanguageProvider";
 import { SectionHeader } from "@/components/SectionHeader";
-import { listarTemasConsolidado, generarConsolidadoTema, guardarConsolidado, generarIdeasFuerza, limpiarInforme } from "@/app/modulo3/actions";
-import type { ContenidoInforme, SeccionInforme } from "@/lib/llm";
+import { listarTemasConsolidado, generarConsolidadoTema, guardarConsolidado, generarIdeasFuerzaNivel, generarIdeasFuerzaGlobal, limpiarInforme } from "@/app/modulo3/actions";
+import type { ContenidoInforme, SeccionInforme, ParteGuardada } from "@/lib/llm";
 import type { Motor, Badge } from "@/lib/ai/motores";
 import type { GrupoTema } from "@/lib/informe-data";
 
@@ -66,8 +66,8 @@ export function Modulo3Admin({ fases, informesIniciales, conteos, rawData, motor
   const [motor, setMotor] = useState<Motor>("auto");
   const [informes, setInformes] = useState(informesIniciales);
   const [espacio, setEspacio] = useState<1 | 2>(1);
-  const [generating, setGenerating] = useState<null | "consolidado" | "ideasFuerza">(null);
-  const [downloading, setDownloading] = useState<null | "consolidado" | "ideasFuerza">(null);
+  const [generating, setGenerating] = useState<string | null>(null);
+  const [downloading, setDownloading] = useState<string | null>(null);
   const [limpiando, setLimpiando] = useState(false);
   const [progreso, setProgreso] = useState<{ done: number; total: number } | null>(null);
   const [error, setError] = useState<string | null>(null);
@@ -76,15 +76,19 @@ export function Modulo3Admin({ fases, informesIniciales, conteos, rawData, motor
   const key = `${nivel}__${taller}`;
   const contenido = informes[key] ?? {};
   const consolidado = contenido.consolidado;
-  const ideasFuerza = contenido.ideasFuerza;
   const conteo = conteos[key] ?? 0;
   const abierto = fases[taller];
   const aportes = rawData[key] ?? [];
   const unidad = taller === "tarde2" ? t("m3.unidad-dimension") : t("m3.unidad-capitulo");
   const esp1Titulo = taller === "tarde2" ? t("m3.esp1-titulo-dim") : t("m3.esp1-titulo-cap");
   const subtituloDoc = `${nivelLabel(nivel, t)} · ${tallerLabel(taller, t)}`;
-  const ideasDesactualizadas =
-    !!ideasFuerza && !!consolidado && ideasFuerza.generadoEn < consolidado.generadoEn;
+
+  // Ideas fuerza por nivel (combina Workshop 1 + 2) y global (ambos niveles)
+  const ideasNivel = informes[`${nivel}__tarde1`]?.ideasFuerzaNivel;
+  const ideasGlobal = informes["basica__tarde1"]?.ideasFuerzaGlobal;
+  const ideasBasica = informes["basica__tarde1"]?.ideasFuerzaNivel;
+  const ideasSuperior = informes["superior__tarde1"]?.ideasFuerzaNivel;
+  const nivelTieneConsolidado = !!informes[`${nivel}__tarde1`]?.consolidado || !!informes[`${nivel}__tarde2`]?.consolidado;
 
   function setParte(k: "consolidado" | "ideasFuerza", parte: ContenidoInforme["consolidado"]) {
     setInformes((prev) => ({ ...prev, [key]: { ...(prev[key] ?? {}), [k]: parte } }));
@@ -155,7 +159,12 @@ export function Modulo3Admin({ fases, informesIniciales, conteos, rawData, motor
     try {
       const res = await limpiarInforme(nivel, taller);
       if (!res || !res.ok) setError(res?.error ?? t("m3.error-generar"));
-      else setInformes((prev) => ({ ...prev, [key]: {} }));
+      else setInformes((prev) => {
+        const cur = { ...(prev[key] ?? {}) };
+        delete cur.consolidado;
+        delete cur.ideasFuerza;
+        return { ...prev, [key]: cur };
+      });
     } catch (e) {
       setError(e instanceof Error ? e.message : t("m3.error-inesperado"));
     } finally {
@@ -163,14 +172,14 @@ export function Modulo3Admin({ fases, informesIniciales, conteos, rawData, motor
     }
   }
 
-  async function handleGenerarIdeas() {
+  async function handleGenerarIdeasNivel() {
     setError(null);
-    setGenerating("ideasFuerza");
+    setGenerating("ideasNivel");
     try {
-      const res = await generarIdeasFuerza(nivel, taller, motor);
+      const res = await generarIdeasFuerzaNivel(nivel, motor);
       if (!res) setError(t("m3.error-timeout"));
       else if (!res.ok || !res.parte) setError(res.error ?? t("m3.error-generar"));
-      else setParte("ideasFuerza", res.parte);
+      else setInformes((prev) => ({ ...prev, [`${nivel}__tarde1`]: { ...(prev[`${nivel}__tarde1`] ?? {}), ideasFuerzaNivel: res.parte } }));
     } catch (e) {
       setError(e instanceof Error ? e.message : t("m3.error-inesperado"));
     } finally {
@@ -178,24 +187,52 @@ export function Modulo3Admin({ fases, informesIniciales, conteos, rawData, motor
     }
   }
 
-  async function handleDescargarWord(esp: "consolidado" | "ideasFuerza") {
-    const parte = esp === "consolidado" ? consolidado : ideasFuerza;
+  async function handleGenerarIdeasGlobal() {
+    setError(null);
+    setGenerating("ideasGlobal");
+    try {
+      const res = await generarIdeasFuerzaGlobal(motor);
+      if (!res) setError(t("m3.error-timeout"));
+      else if (!res.ok || !res.parte) setError(res.error ?? t("m3.error-generar"));
+      else setInformes((prev) => ({ ...prev, ["basica__tarde1"]: { ...(prev["basica__tarde1"] ?? {}), ideasFuerzaGlobal: res.parte } }));
+    } catch (e) {
+      setError(e instanceof Error ? e.message : t("m3.error-inesperado"));
+    } finally {
+      setGenerating(null);
+    }
+  }
+
+  async function handleDescargarWord(esp: "consolidado") {
+    const parte = consolidado;
     if (!parte) return;
     setError(null);
     setDownloading(esp);
     try {
       const { informeADocx, descargarBlob } = await import("@/lib/informe-docx");
-      const tituloDoc = esp === "consolidado" ? esp1Titulo : t("m3.esp2-titulo");
       const blob = await informeADocx({
-        tituloDoc,
+        tituloDoc: esp1Titulo,
         subtitulo: subtituloDoc,
         resumenLabel: t("m3.resumen-general"),
         informe: parte.informe,
         observacionesLabel: t("m3.observaciones"),
         sugerenciasLabel: t("m3.sugerencias"),
       });
-      const base = esp === "consolidado" ? "consolidado" : "ideas-fuerza";
-      descargarBlob(blob, `${base}-${nivel}-${taller}.docx`);
+      descargarBlob(blob, `consolidado-${nivel}-${taller}.docx`);
+    } catch (e) {
+      setError(e instanceof Error ? e.message : t("m3.error-inesperado"));
+    } finally {
+      setDownloading(null);
+    }
+  }
+
+  async function descargarInforme(parte: ParteGuardada | undefined, tituloDoc: string, subtitulo: string, base: string, dlKey: string) {
+    if (!parte) return;
+    setError(null);
+    setDownloading(dlKey);
+    try {
+      const { informeADocx, descargarBlob } = await import("@/lib/informe-docx");
+      const blob = await informeADocx({ tituloDoc, subtitulo, resumenLabel: t("m3.resumen-general"), informe: parte.informe });
+      descargarBlob(blob, `${base}.docx`);
     } catch (e) {
       setError(e instanceof Error ? e.message : t("m3.error-inesperado"));
     } finally {
@@ -339,7 +376,7 @@ export function Modulo3Admin({ fases, informesIniciales, conteos, rawData, motor
                   ⬇ {downloading === "consolidado" ? t("m3.generando") : t("m3.descargar-word")}
                 </button>
               )}
-              {(consolidado || ideasFuerza) && (
+              {consolidado && (
                 <button onClick={handleLimpiar} disabled={limpiando || generating !== null}
                   className="rounded-lg border border-slate-300 px-4 py-2.5 text-sm font-semibold text-slate-600 transition hover:border-red-300 hover:bg-red-50 hover:text-red-600 disabled:opacity-50">
                   {limpiando ? t("m3.limpiando") : t("m3.limpiar")}
@@ -383,50 +420,82 @@ export function Modulo3Admin({ fases, informesIniciales, conteos, rawData, motor
           </section>
         )}
 
-        {/* ── Espacio 2: Ideas fuerza ── */}
+        {/* ── Espacio 2: Ideas fuerza (por nivel + consolidado global) ── */}
         {espacio === 2 && (
-          <section>
-            <p className="mb-3 text-sm text-slate-500">{t("m3.esp2-desc").replace("{u}", unidad)}</p>
-            {!consolidado && (
-              <p className="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-2 text-sm text-amber-700">{t("m3.esp2-bloqueado")}</p>
-            )}
-            <div className="mb-4 flex flex-wrap items-center gap-2">
-              <button onClick={handleGenerarIdeas} disabled={generating !== null || !consolidado} className={btnBrand}>
-                {generating === "ideasFuerza"
-                  ? t("m3.generando")
-                  : ideasFuerza
-                  ? t("m3.regenerar-ideas")
-                  : t("m3.generar-ideas")}
-              </button>
-              {ideasFuerza && (
-                <button onClick={() => handleDescargarWord("ideasFuerza")} disabled={downloading !== null} className={btnWord}>
-                  ⬇ {downloading === "ideasFuerza" ? t("m3.generando") : t("m3.descargar-word")}
+          <section className="space-y-6">
+            {/* Ideas fuerza del nivel (combina Workshop 1 + 2) */}
+            <div>
+              <h3 className="font-display text-lg font-bold text-[#2F4156]">Ideas fuerza de {nivelLabel(nivel, t)}</h3>
+              <p className="mb-3 text-sm text-slate-500">Un solo resumen del nivel, combinando el Workshop 1 (capítulos) y el Workshop 2 (dimensiones del Anexo C).</p>
+              {!nivelTieneConsolidado && (
+                <p className="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-2 text-sm text-amber-700">Primero genera el consolidado (Workshop 1 y/o 2) de este nivel en el Espacio 1.</p>
+              )}
+              <div className="mb-4 flex flex-wrap items-center gap-2">
+                <button onClick={handleGenerarIdeasNivel} disabled={generating !== null || !nivelTieneConsolidado} className={btnBrand}>
+                  {generating === "ideasNivel" ? t("m3.generando") : ideasNivel ? "Regenerar ideas fuerza del nivel" : "Generar ideas fuerza del nivel"}
                 </button>
+                {ideasNivel && (
+                  <button onClick={() => descargarInforme(ideasNivel, `Ideas fuerza — ${nivelLabel(nivel, t)}`, nivelLabel(nivel, t), `ideas-fuerza-${nivel}`, "dlNivel")} disabled={downloading !== null} className={btnWord}>
+                    ⬇ {downloading === "dlNivel" ? t("m3.generando") : t("m3.descargar-word")}
+                  </button>
+                )}
+              </div>
+              {ideasNivel && (
+                <>
+                  <p className="mb-1 text-xs text-slate-400">{t("m3.informe-generado-con")} <strong>{motorLabel(ideasNivel.modelo)}</strong> · {fmtFecha(ideasNivel.generadoEn)}</p>
+                  {ideasNivel.informe.resumenGeneral && (
+                    <div className="mb-4 mt-2 rounded-2xl border border-slate-200/70 bg-white p-5 shadow-card">
+                      <p className="mb-1 text-xs font-bold uppercase tracking-widest text-slate-400">{t("m3.ideas-fuerza-generales")}</p>
+                      <p className="text-base leading-relaxed text-slate-700">{ideasNivel.informe.resumenGeneral}</p>
+                    </div>
+                  )}
+                  <div className="space-y-3">
+                    {ideasNivel.informe.secciones.map((s, i) => (
+                      <TemaCard key={i} c={color(i)} titulo={s.titulo} puntos={s.puntos} />
+                    ))}
+                  </div>
+                </>
               )}
             </div>
-            {generating === "ideasFuerza" && <p className="mb-3 text-xs text-slate-400">{t("m3.tiempo-estimado")}</p>}
 
-            {ideasFuerza && (
-              <>
-                <p className="mb-1 text-xs text-slate-400">
-                  {t("m3.informe-generado-con")} <strong>{motorLabel(ideasFuerza.modelo)}</strong> · {fmtFecha(ideasFuerza.generadoEn)}
-                </p>
-                {ideasDesactualizadas && (
-                  <p className="mb-3 text-xs font-medium text-amber-600">⚠ {t("m3.esp2-desactualizado")}</p>
+            {/* Consolidado global (ambos niveles) */}
+            <div className="rounded-2xl bg-white p-5 shadow-card ring-1 ring-brand/15">
+              <h3 className="font-display text-lg font-bold text-[#2F4156]">Consolidado global · Básica + Superior</h3>
+              <p className="mb-3 text-sm text-slate-500">Une las ideas fuerza de ambos niveles en un único resumen para toda la red de internados de la DSA.</p>
+              <div className="mb-3 flex flex-wrap items-center gap-2 text-xs">
+                <span className={`rounded-full px-2.5 py-1 font-semibold ${ideasBasica ? "bg-emerald-100 text-emerald-700" : "bg-slate-100 text-slate-500"}`}>Básica: {ideasBasica ? "lista ✓" : "pendiente"}</span>
+                <span className={`rounded-full px-2.5 py-1 font-semibold ${ideasSuperior ? "bg-emerald-100 text-emerald-700" : "bg-slate-100 text-slate-500"}`}>Superior: {ideasSuperior ? "lista ✓" : "pendiente"}</span>
+              </div>
+              {!ideasBasica && !ideasSuperior && (
+                <p className="mb-3 rounded-lg border border-amber-200 bg-amber-50 px-4 py-2 text-sm text-amber-700">Genera primero las ideas fuerza de cada nivel (arriba), para ambos niveles.</p>
+              )}
+              <div className="flex flex-wrap items-center gap-2">
+                <button onClick={handleGenerarIdeasGlobal} disabled={generating !== null || (!ideasBasica && !ideasSuperior)} className={btnBrand}>
+                  {generating === "ideasGlobal" ? t("m3.generando") : ideasGlobal ? "Regenerar consolidado global" : "Consolidar los dos niveles"}
+                </button>
+                {ideasGlobal && (
+                  <button onClick={() => descargarInforme(ideasGlobal, "Ideas fuerza — Consolidado global (DSA)", "Educación Básica y Superior", "ideas-fuerza-global", "dlGlobal")} disabled={downloading !== null} className={btnWord}>
+                    ⬇ {downloading === "dlGlobal" ? t("m3.generando") : t("m3.descargar-word")}
+                  </button>
                 )}
-                {ideasFuerza.informe.resumenGeneral && (
-                  <div className="mb-4 mt-2 rounded-2xl border border-slate-200/70 bg-white p-5 shadow-card">
-                    <p className="mb-1 text-xs font-bold uppercase tracking-widest text-slate-400">{t("m3.ideas-fuerza-generales")}</p>
-                    <p className="text-base leading-relaxed text-slate-700">{ideasFuerza.informe.resumenGeneral}</p>
+              </div>
+              {ideasGlobal && (
+                <div className="mt-4">
+                  <p className="mb-1 text-xs text-slate-400">{t("m3.informe-generado-con")} <strong>{motorLabel(ideasGlobal.modelo)}</strong> · {fmtFecha(ideasGlobal.generadoEn)}</p>
+                  {ideasGlobal.informe.resumenGeneral && (
+                    <div className="mb-4 mt-2 rounded-2xl border border-slate-200/70 bg-white p-5 shadow-card">
+                      <p className="mb-1 text-xs font-bold uppercase tracking-widest text-slate-400">{t("m3.ideas-fuerza-generales")}</p>
+                      <p className="text-base leading-relaxed text-slate-700">{ideasGlobal.informe.resumenGeneral}</p>
+                    </div>
+                  )}
+                  <div className="space-y-3">
+                    {ideasGlobal.informe.secciones.map((s, i) => (
+                      <TemaCard key={i} c={color(i)} titulo={s.titulo} puntos={s.puntos} />
+                    ))}
                   </div>
-                )}
-                <div className="space-y-3">
-                  {ideasFuerza.informe.secciones.map((s, i) => (
-                    <TemaCard key={i} c={color(i)} titulo={s.titulo} puntos={s.puntos} />
-                  ))}
                 </div>
-              </>
-            )}
+              )}
+            </div>
           </section>
         )}
       </main>

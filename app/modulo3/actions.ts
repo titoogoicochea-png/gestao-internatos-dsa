@@ -3,7 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { agruparAportes, type GrupoTema, type Nivel, type Taller } from "@/lib/informe-data";
-import { parseInforme, parseSeccion, type InformeConsolidado, type SeccionInforme, type ParteGuardada, type EspacioId } from "@/lib/llm";
+import { parseInforme, parseSeccion, type InformeConsolidado, type SeccionInforme, type ParteGuardada, type EspacioId, type ContenidoInforme } from "@/lib/llm";
 import { generarConEscalamiento, esMotorValido, type Motor } from "@/lib/ai/motores";
 
 const NIVEL_LABEL = { basica: "Educación Básica", superior: "Educación Superior" };
@@ -158,7 +158,7 @@ async function mergeSaveParte(
   nivel: Nivel,
   taller: Taller,
   userId: string,
-  parte: EspacioId,
+  parte: EspacioId | "ideasFuerzaNivel" | "ideasFuerzaGlobal",
   guardada: ParteGuardada
 ): Promise<string | null> {
   const { data: existing } = await supabase
@@ -316,9 +316,26 @@ export async function guardarConsolidado(
 export async function limpiarInforme(nivel: Nivel, taller: Taller): Promise<{ ok: boolean; error?: string }> {
   const auth = await requireAdmin();
   if (!auth.ok) return { ok: false, error: auth.error };
-  const { supabase } = auth;
+  const { supabase, userId } = auth;
 
-  const { error } = await supabase.from("informes").delete().eq("nivel", nivel).eq("taller", taller);
+  // Borra SOLO el consolidado (y las ideas fuerza por taller heredadas), conservando
+  // ideas fuerza por nivel/global y la reconstrucción del documento.
+  const { data: existing } = await supabase
+    .from("informes")
+    .select("contenido")
+    .eq("nivel", nivel)
+    .eq("taller", taller)
+    .maybeSingle();
+  if (!existing) { revalidatePath("/modulo3"); return { ok: true }; }
+
+  const cont = { ...((existing.contenido ?? {}) as ContenidoInforme) };
+  delete cont.consolidado;
+  delete cont.ideasFuerza;
+
+  const { error } = await supabase.from("informes").upsert(
+    { nivel, taller, contenido: cont, generado_por: userId, generado_en: new Date().toISOString() },
+    { onConflict: "nivel,taller" }
+  );
   if (error) return { ok: false, error: error.message };
 
   revalidatePath("/modulo3");
@@ -366,6 +383,147 @@ export async function generarIdeasFuerza(nivel: Nivel, taller: Taller, motor: st
   const err = await mergeSaveParte(supabase, nivel, taller, userId, "ideasFuerza", parte);
   if (err) return { ok: false, error: `Se generaron las ideas fuerza pero no se pudieron guardar: ${err}` };
 
+  revalidatePath("/modulo3");
+  return { ok: true, parte };
+}
+
+// ─────────── Ideas fuerza por NIVEL (combina Workshop 1 + 2) y GLOBAL (ambos niveles) ───────────
+
+async function cargarSecciones(supabase: SupabaseClient, nivel: Nivel, taller: Taller): Promise<SeccionInforme[]> {
+  const { data } = await supabase.from("informes").select("contenido").eq("nivel", nivel).eq("taller", taller).maybeSingle();
+  const cont = (data?.contenido ?? {}) as ContenidoInforme;
+  return cont.consolidado?.informe.secciones ?? [];
+}
+
+function seccionesATexto(secciones: SeccionInforme[]): string {
+  return secciones
+    .map((s) => {
+      const lines = [`### ${s.titulo}`];
+      const obs = s.observaciones ?? [];
+      const sug = s.sugerencias ?? [];
+      const pts = s.puntos ?? [];
+      if (obs.length) { lines.push("Observaciones:"); obs.forEach((o) => lines.push(`- ${o}`)); }
+      if (sug.length) { lines.push("Sugerencias:"); sug.forEach((x) => lines.push(`- ${x}`)); }
+      if (!obs.length && !sug.length) pts.forEach((p) => lines.push(`- ${p}`));
+      return lines.join("\n");
+    })
+    .join("\n\n");
+}
+
+function informeATexto(inf: InformeConsolidado): string {
+  const lines: string[] = [];
+  if (inf.resumenGeneral) lines.push(inf.resumenGeneral, "");
+  for (const s of inf.secciones) {
+    lines.push(`### ${s.titulo}`);
+    [...(s.puntos ?? []), ...(s.observaciones ?? []), ...(s.sugerencias ?? [])].forEach((p) => lines.push(`- ${p}`));
+  }
+  return lines.join("\n");
+}
+
+const SYSTEM_IDEAS_NIVEL =
+  "Eres un consultor experto en gestión educativa adventista. A partir del consolidado de aportes de los DOS workshops de un nivel (capítulos del referencial y dimensiones del Anexo C), destilas las IDEAS FUERZA DE MEJORA del nivel: pocas ideas potentes, accionables y memorables, agrupadas por temas, integrando lo común de ambos workshops. Redactas claro y contundente en español. No inventas nada fuera de los aportes.";
+
+const SYSTEM_IDEAS_GLOBAL =
+  "Eres un consultor experto en gestión educativa adventista. A partir de las ideas fuerza de mejora de Educación Básica y de Educación Superior, produces un ÚNICO resumen consolidado para toda la red de internados de la División Sudamericana. Integras lo común en ideas unificadas y señalas explícitamente lo específico de cada nivel cuando corresponde. Redactas claro y contundente en español. No inventas nada fuera de lo recibido.";
+
+function construirPromptIdeasNivel(nivel: Nivel, w1: SeccionInforme[], w2: SeccionInforme[]): string {
+  return [
+    `Nivel: ${NIVEL_LABEL[nivel]}.`,
+    "",
+    "CONSOLIDADO DEL WORKSHOP 1 (capítulos del referencial):",
+    w1.length ? seccionesATexto(w1) : "(sin aportes)",
+    "",
+    "CONSOLIDADO DEL WORKSHOP 2 (dimensiones del Anexo C):",
+    w2.length ? seccionesATexto(w2) : "(sin aportes)",
+    "",
+    "Devuelve ÚNICAMENTE un objeto JSON válido (sin markdown ni texto adicional):",
+    `{ "resumenGeneral": "2 a 4 oraciones con las ideas fuerza globales de mejora del nivel.", "secciones": [ { "titulo": "tema de mejora", "puntos": ["idea fuerza 1", "idea fuerza 2"] } ] }`,
+    "",
+    "Reglas:",
+    "- Integra AMBOS workshops en un SOLO resumen del nivel; agrupa por TEMAS de mejora (no por capítulo), entre 4 y 8 temas.",
+    "- Cada idea fuerza es una viñeta breve, accionable y contundente.",
+    "- No repitas ideas; prioriza lo más relevante y transversal.",
+    "- No inventes: básate solo en los consolidados. Responde en español.",
+  ].join("\n");
+}
+
+function construirPromptIdeasGlobal(bas: InformeConsolidado | null, sup: InformeConsolidado | null): string {
+  return [
+    "IDEAS FUERZA DE EDUCACIÓN BÁSICA:",
+    bas ? informeATexto(bas) : "(sin datos)",
+    "",
+    "IDEAS FUERZA DE EDUCACIÓN SUPERIOR:",
+    sup ? informeATexto(sup) : "(sin datos)",
+    "",
+    "Devuelve ÚNICAMENTE un objeto JSON válido (sin markdown ni texto adicional):",
+    `{ "resumenGeneral": "2 a 4 oraciones con las ideas fuerza consolidadas de toda la red.", "secciones": [ { "titulo": "tema de mejora", "puntos": ["idea fuerza 1", "idea fuerza 2"] } ] }`,
+    "",
+    "Reglas:",
+    "- Produce UN ÚNICO resumen consolidado para toda la red de internados de la DSA (ambos niveles).",
+    "- Integra lo común en ideas unificadas; cuando algo sea específico de un nivel, indícalo entre paréntesis (p. ej. \"(especialmente en Educación Superior)\").",
+    "- Agrupa por TEMAS de mejora, entre 4 y 8 temas; cada viñeta breve, accionable y contundente.",
+    "- No inventes: básate solo en lo recibido. Responde en español.",
+  ].join("\n");
+}
+
+export async function generarIdeasFuerzaNivel(nivel: Nivel, motor: string): Promise<GenerarResult> {
+  const auth = await requireAdmin();
+  if (!auth.ok) return { ok: false, error: auth.error };
+  const { supabase, userId } = auth;
+  if (!esMotorValido(motor)) return { ok: false, error: "Motor de IA no válido." };
+
+  const w1 = await cargarSecciones(supabase, nivel, "tarde1");
+  const w2 = await cargarSecciones(supabase, nivel, "tarde2");
+  if (!w1.length && !w2.length) return { ok: false, error: "Primero genera el consolidado (Workshop 1 y/o 2) de este nivel." };
+
+  let raw: string;
+  let motorUsado: string;
+  try {
+    const r = await generarConEscalamiento({ motor: motor as Motor, systemPrompt: SYSTEM_IDEAS_NIVEL, userPrompt: construirPromptIdeasNivel(nivel, w1, w2) });
+    raw = r.text; motorUsado = r.motorUsado;
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : "Error al llamar al motor de IA." };
+  }
+  let informe: InformeConsolidado;
+  try { informe = parseInforme(raw); } catch { return { ok: false, error: "La IA devolvió un formato inesperado. Intenta de nuevo." }; }
+
+  const parte: ParteGuardada = { informe, modelo: motorUsado, generadoEn: new Date().toISOString() };
+  const err = await mergeSaveParte(supabase, nivel, "tarde1", userId, "ideasFuerzaNivel", parte);
+  if (err) return { ok: false, error: `Se generó pero no se pudo guardar: ${err}` };
+  revalidatePath("/modulo3");
+  return { ok: true, parte };
+}
+
+export async function generarIdeasFuerzaGlobal(motor: string): Promise<GenerarResult> {
+  const auth = await requireAdmin();
+  if (!auth.ok) return { ok: false, error: auth.error };
+  const { supabase, userId } = auth;
+  if (!esMotorValido(motor)) return { ok: false, error: "Motor de IA no válido." };
+
+  const cargarIdeasNivel = async (nivel: Nivel): Promise<InformeConsolidado | null> => {
+    const { data } = await supabase.from("informes").select("contenido").eq("nivel", nivel).eq("taller", "tarde1").maybeSingle();
+    const cont = (data?.contenido ?? {}) as ContenidoInforme;
+    return cont.ideasFuerzaNivel?.informe ?? null;
+  };
+  const bas = await cargarIdeasNivel("basica");
+  const sup = await cargarIdeasNivel("superior");
+  if (!bas && !sup) return { ok: false, error: "Primero genera las ideas fuerza de cada nivel (Básica y Superior)." };
+
+  let raw: string;
+  let motorUsado: string;
+  try {
+    const r = await generarConEscalamiento({ motor: motor as Motor, systemPrompt: SYSTEM_IDEAS_GLOBAL, userPrompt: construirPromptIdeasGlobal(bas, sup) });
+    raw = r.text; motorUsado = r.motorUsado;
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : "Error al llamar al motor de IA." };
+  }
+  let informe: InformeConsolidado;
+  try { informe = parseInforme(raw); } catch { return { ok: false, error: "La IA devolvió un formato inesperado. Intenta de nuevo." }; }
+
+  const parte: ParteGuardada = { informe, modelo: motorUsado, generadoEn: new Date().toISOString() };
+  // El resumen global se guarda en la fila canónica basica/tarde1.
+  const err = await mergeSaveParte(supabase, "basica", "tarde1", userId, "ideasFuerzaGlobal", parte);
+  if (err) return { ok: false, error: `Se generó pero no se pudo guardar: ${err}` };
   revalidatePath("/modulo3");
   return { ok: true, parte };
 }

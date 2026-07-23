@@ -28,7 +28,9 @@ export type ParteGuardada = { informe: InformeConsolidado; modelo: string; gener
 // La reconstrucción del documento se guarda en la fila (nivel, 'tarde1'), por doc_codigo.
 export type ContenidoInforme = {
   consolidado?: ParteGuardada;
-  ideasFuerza?: ParteGuardada;
+  ideasFuerza?: ParteGuardada;        // (heredado) ideas fuerza por nivel+taller
+  ideasFuerzaNivel?: ParteGuardada;   // ideas fuerza por nivel, combinando Workshop 1 y 2
+  ideasFuerzaGlobal?: ParteGuardada;  // ideas fuerza global (ambos niveles); se guarda en la fila basica/tarde1
   reconstruccion?: Record<string, DocReconstruido>;
 };
 
