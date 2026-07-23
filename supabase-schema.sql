@@ -200,12 +200,11 @@ create policy "fase_taller_manage" on public.fase_taller
     (select rol from public.profiles where id = auth.uid()) in ('admin', 'propietario')
   );
 
--- informes: solo admin/propietario (Módulo 3 es de administración)
+-- informes: lectura para todos los autenticados (Módulo 4 "Documento reconstruido"
+-- es visible a todos); la escritura sigue solo para admin/propietario.
 drop policy if exists "informes_select" on public.informes;
 create policy "informes_select" on public.informes
-  for select to authenticated using (
-    (select rol from public.profiles where id = auth.uid()) in ('admin', 'propietario')
-  );
+  for select to authenticated using (true);
 drop policy if exists "informes_manage" on public.informes;
 create policy "informes_manage" on public.informes
   for all to authenticated using (

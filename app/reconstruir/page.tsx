@@ -14,7 +14,7 @@ export default async function ReconstruirPage() {
 
   const { data: profile } = await supabase.from("profiles").select("rol").eq("id", user.id).single();
   const rol = profile?.rol ?? "usuario";
-  if (rol !== "admin" && rol !== "propietario") redirect("/");
+  const isAdmin = rol === "admin" || rol === "propietario";
 
   // Contenido guardado por nivel y taller. La reconstrucción vive en la fila tarde1;
   // el consolidado de capítulos en tarde1 y el del Anexo C en tarde2.
@@ -45,5 +45,5 @@ export default async function ReconstruirPage() {
     return { nivel, tieneConsolidado: !!cont.consolidado || !!cont2.consolidado, docs };
   });
 
-  return <ReconstruirAdmin niveles={niveles} />;
+  return <ReconstruirAdmin niveles={niveles} isAdmin={isAdmin} />;
 }

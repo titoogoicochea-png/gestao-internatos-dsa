@@ -87,7 +87,7 @@ export function HomeClient({ nombre, rol }: { nombre: string; rol: string }) {
 
       {/* ───────── Tarjetas de módulos (suben sobre el hero) ───────── */}
       <main className="mx-auto -mt-10 max-w-5xl px-4 pb-16">
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
           <ModuleCard
             number="1"
             href="/modulo1"
@@ -128,6 +128,15 @@ export function HomeClient({ nombre, rol }: { nombre: string; rol: string }) {
               disabled
             />
           )}
+          <ModuleCard
+            number="4"
+            href="/reconstruir"
+            icon="📄"
+            title={t("home.modulo4.title")}
+            desc={t("home.modulo4.desc")}
+            cta={t("home.modulo4.cta")}
+            accent="from-[#567C8D] to-[#2F4156]"
+          />
         </div>
       </main>
 

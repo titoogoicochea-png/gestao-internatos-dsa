@@ -31,7 +31,7 @@ const nivelLabel = (n: string) => NIVELES.find((x) => x[0] === n)?.[1] ?? n;
 const orig = (d: DocData, l: Lang) => (l === "pt" ? d.original_pt : d.original_es);
 const recon = (d: DocData, l: Lang) => (l === "pt" ? d.reconstruido_pt : d.reconstruido_es);
 
-export function ReconstruirAdmin({ niveles }: { niveles: NivelData[] }) {
+export function ReconstruirAdmin({ niveles, isAdmin }: { niveles: NivelData[]; isAdmin: boolean }) {
   const [datos, setDatos] = useState(niveles);
   const [nivel, setNivel] = useState<"basica" | "superior">("basica");
   const [lang, setLang] = useState<Lang>("es");
@@ -145,19 +145,25 @@ export function ReconstruirAdmin({ niveles }: { niveles: NivelData[] }) {
           <div className="flex items-center gap-3">
             <Link href="/" className="text-sm text-white/80 hover:text-white">← Inicio</Link>
             <span className="text-white/40">/</span>
-            <span className="text-sm font-semibold text-white">Reconstruir documento</span>
+            <span className="text-sm font-semibold text-white">Módulo 4 · Documento reconstruido</span>
           </div>
-          <Link href="/modulo3" className="rounded-lg border border-white/30 px-3 py-1.5 text-xs font-medium text-white/90 transition hover:bg-white/10">
-            ← Consolidado (Módulo 3)
-          </Link>
+          {isAdmin && (
+            <Link href="/modulo3" className="rounded-lg border border-white/30 px-3 py-1.5 text-xs font-medium text-white/90 transition hover:bg-white/10">
+              ← Consolidado (Módulo 3)
+            </Link>
+          )}
         </div>
       </header>
 
       <main className="mx-auto max-w-[1600px] px-4 py-6">
         <div className="mb-4">
-          <h1 className="font-display text-3xl font-bold text-[#2F4156]">Reconstruir el documento completo</h1>
+          <h1 className="font-display text-3xl font-bold text-[#2F4156]">Documento reconstruido</h1>
           <p className="mt-1 text-sm text-slate-500">
-            La IA reescribe cada capítulo (Workshop 1) y el Anexo C (Workshop 2) incorporando las observaciones y sugerencias, en <strong>español y portugués</strong>, manteniendo el formato. Motor: <strong>Claude Opus 4.8</strong>. Los demás apartados (Presentación, Anexo B, Referencias) se incluyen íntegros.
+            {isAdmin ? (
+              <>La IA reescribe cada capítulo (Workshop 1) y el Anexo C (Workshop 2) incorporando las observaciones y sugerencias, en <strong>español y portugués</strong>, manteniendo el formato. Motor: <strong>Claude Opus 4.8</strong>. Los demás apartados (Presentación, Anexo B, Referencias) se incluyen íntegros.</>
+            ) : (
+              <>Documento reescrito a partir de la validación participativa. Puedes leerlo aquí en <strong>español y portugués</strong>. La descarga en Word está disponible para la administración.</>
+            )}
           </p>
         </div>
 
@@ -173,6 +179,7 @@ export function ReconstruirAdmin({ niveles }: { niveles: NivelData[] }) {
               </button>
             ))}
           </div>
+          {isAdmin && (
           <div className="flex flex-wrap items-center gap-2">
             <button onClick={handleGenerar} disabled={generating || !actual.tieneConsolidado}
               className="rounded-lg bg-brand px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand/90 disabled:cursor-not-allowed disabled:opacity-50">
@@ -189,10 +196,11 @@ export function ReconstruirAdmin({ niveles }: { niveles: NivelData[] }) {
               ⬇ {downloading === "pt" ? "Gerando…" : "Word (Português)"}
             </button>
           </div>
+          )}
         </div>
 
-        {/* Estado */}
-        {!actual.tieneConsolidado && (
+        {/* Estado (solo admin) */}
+        {isAdmin && !actual.tieneConsolidado && (
           <p className="mb-4 rounded-lg border border-amber-200 bg-amber-50 px-4 py-2.5 text-sm text-amber-800">
             Primero genera el <strong>consolidado</strong> de {nivelLabel(nivel)} en el <Link href="/modulo3" className="font-semibold underline">Módulo 3</Link> (Workshop 1 para los capítulos, Workshop 2 para el Anexo C).
           </p>
@@ -209,11 +217,15 @@ export function ReconstruirAdmin({ niveles }: { niveles: NivelData[] }) {
           </div>
         )}
         {error && <p className="mb-4 rounded-lg bg-red-50 px-4 py-2 text-sm text-red-700">{error}</p>}
-        {aviso && <p className="mb-4 rounded-lg bg-emerald-50 px-4 py-2 text-sm text-emerald-700">{aviso}</p>}
+        {isAdmin && aviso && <p className="mb-4 rounded-lg bg-emerald-50 px-4 py-2 text-sm text-emerald-700">{aviso}</p>}
         <p className="mb-4 text-xs text-slate-400">
-          {reconCount > 0
-            ? `${reconCount} apartado(s) reconstruido(s). El Word incluye SIEMPRE el documento completo (los apartados sin aportes salen con su texto original).`
-            : "Aún no hay apartados reconstruidos para este nivel. Aun así puedes descargar el documento original completo."}
+          {isAdmin
+            ? reconCount > 0
+              ? `${reconCount} apartado(s) reconstruido(s). El Word incluye SIEMPRE el documento completo (los apartados sin aportes salen con su texto original).`
+              : "Aún no hay apartados reconstruidos para este nivel. Aun así puedes descargar el documento original completo."
+            : reconCount > 0
+              ? "Documento reconstruido disponible. Selecciona un apartado en el índice y elige el idioma (Español / Português)."
+              : "Este nivel aún no tiene apartados reconstruidos; se muestra el texto original."}
         </p>
 
         {/* Lector estilo Módulo 1 */}
