@@ -24,6 +24,27 @@ export type ContenidoInforme = { consolidado?: ParteGuardada; ideasFuerza?: Part
 
 export type EspacioId = "consolidado" | "ideasFuerza";
 
+// Parsea UNA sección (generación por capítulo/dimensión), tolerando fences/texto.
+export function parseSeccion(raw: string): SeccionInforme {
+  let t = raw.trim();
+  const fence = t.match(/```(?:json)?\s*([\s\S]*?)```/);
+  if (fence) t = fence[1].trim();
+  const start = t.indexOf("{");
+  const end = t.lastIndexOf("}");
+  if (start >= 0 && end > start) t = t.slice(start, end + 1);
+  const arr = (v: unknown): string[] =>
+    Array.isArray(v) ? v.map((x) => String(x).trim()).filter(Boolean) : [];
+  const p = JSON.parse(t) as { titulo?: unknown; observaciones?: unknown; sugerencias?: unknown; puntos?: unknown };
+  const out: SeccionInforme = { titulo: String(p?.titulo ?? "") };
+  const observaciones = arr(p?.observaciones);
+  const sugerencias = arr(p?.sugerencias);
+  const puntos = arr(p?.puntos);
+  if (observaciones.length) out.observaciones = observaciones;
+  if (sugerencias.length) out.sugerencias = sugerencias;
+  if (!observaciones.length && !sugerencias.length && puntos.length) out.puntos = puntos;
+  return out;
+}
+
 // Extrae y parsea el JSON del informe, tolerando ```fences``` o texto alrededor.
 export function parseInforme(raw: string): InformeConsolidado {
   let t = raw.trim();

@@ -3,7 +3,7 @@
 import { createClient } from "@/lib/supabase/server";
 import { revalidatePath } from "next/cache";
 import { agruparAportes, type GrupoTema, type Nivel, type Taller } from "@/lib/informe-data";
-import { parseInforme, type InformeConsolidado, type ParteGuardada, type EspacioId } from "@/lib/llm";
+import { parseInforme, parseSeccion, type InformeConsolidado, type SeccionInforme, type ParteGuardada, type EspacioId } from "@/lib/llm";
 import { generarConEscalamiento, esMotorValido, type Motor } from "@/lib/ai/motores";
 
 const NIVEL_LABEL = { basica: "Educación Básica", superior: "Educación Superior" };
@@ -58,6 +58,33 @@ function construirPromptConsolidado(nivel: Nivel, taller: Taller, grupos: GrupoT
     "- No inventes información que no esté en los aportes. Responde en español."
   );
 
+  return partes.join("\n");
+}
+
+// Prompt para consolidar UN solo capítulo/dimensión (generación por partes).
+function construirPromptTema(nivel: Nivel, taller: Taller, tema: GrupoTema): string {
+  const unidad = taller === "tarde2" ? "dimensión" : "capítulo";
+  const partes: string[] = [
+    `Nivel: ${NIVEL_LABEL[nivel]}. Workshop: ${TALLER_LABEL[taller]}.`,
+    "",
+    `${unidad === "dimensión" ? "Dimensión" : "Capítulo"}: ${tema.titulo}`,
+    "",
+    "Aportes de los grupos (observaciones, sugerencias y comentarios):",
+    ...(tema.aportes.length ? tema.aportes.map((a) => `- ${a.replace(/\s+/g, " ").trim()}`) : ["- (ninguno)"]),
+    "",
+    "Devuelve ÚNICAMENTE un objeto JSON válido con esta estructura exacta (sin markdown ni texto adicional):",
+    `{ "titulo": ${JSON.stringify(tema.titulo)}, "observaciones": ["observación 1"], "sugerencias": ["sugerencia 1"] }`,
+    "",
+    "Reglas (síguelas al pie de la letra):",
+    "- Clasifica CADA aporte en OBSERVACIÓN (señalamiento sobre el texto actual: algo que se nota, se cuestiona, un error, una falta, una ambigüedad, una conformidad) o SUGERENCIA (propuesta concreta de cambio, adición o mejora).",
+    "- Si un aporte contiene ambas cosas, sepáralo: la parte de señalamiento va a \"observaciones\" y la propositiva a \"sugerencias\".",
+    "- EXHAUSTIVIDAD ABSOLUTA: ninguna respuesta puede quedar fuera; cada aporte debe estar representado en al menos una viñeta. Este consolidado sirve para reconstruir el documento.",
+    "- Junta en una sola viñeta ÚNICAMENTE los aportes idénticos o casi idénticos; si difieren en algún matiz, sepáralos. Ante la duda, sepáralos.",
+    "- No resumas al punto de perder contenido: es preferible más viñetas a perder una idea.",
+    '- Si un punto lo plantearon varios grupos, inclúyelo una vez y añade "(planteado por varios grupos)".',
+    `- Copia "titulo" EXACTAMENTE como se te dio. Si no hay observaciones o sugerencias, usa lista vacía [].`,
+    "- No inventes. Responde en español.",
+  ];
   return partes.join("\n");
 }
 
@@ -196,6 +223,86 @@ export async function generarConsolidado(nivel: Nivel, taller: Taller, motor: st
   }
 
   const parte: ParteGuardada = { informe, modelo: motorUsado, generadoEn: new Date().toISOString() };
+  const err = await mergeSaveParte(supabase, nivel, taller, userId, "consolidado", parte);
+  if (err) return { ok: false, error: `Se generó el consolidado pero no se pudo guardar: ${err}` };
+
+  revalidatePath("/modulo3");
+  return { ok: true, parte };
+}
+
+// ───────────── Consolidado POR PARTES (una llamada por capítulo/dimensión) ─────────────
+// Evita el tiempo de espera con modelos lentos (p. ej. Sonnet) y da atención
+// completa a cada capítulo, garantizando exhaustividad.
+
+async function cargarTemas(supabase: SupabaseClient, nivel: Nivel, taller: Taller): Promise<GrupoTema[] | { error: string }> {
+  const { data: grupos } = await supabase.from("grupos").select("id").eq("nivel", nivel).eq("taller", taller);
+  const ids = (grupos ?? []).map((g) => g.id);
+  if (ids.length === 0) return { error: "No hay grupos en este nivel y workshop." };
+  const { data: obs } = await supabase.from("observaciones").select("doc_codigo, tipo, texto").in("grupo_id", ids);
+  if (!obs || obs.length === 0) return { error: "Todavía no hay observaciones, sugerencias ni comentarios para consolidar." };
+  const temas = agruparAportes(nivel, taller, obs);
+  if (temas.length === 0) return { error: "No hay aportes con contenido para consolidar." };
+  return temas;
+}
+
+export async function listarTemasConsolidado(
+  nivel: Nivel,
+  taller: Taller
+): Promise<{ ok: boolean; temas?: { titulo: string }[]; error?: string }> {
+  const auth = await requireAdmin();
+  if (!auth.ok) return { ok: false, error: auth.error };
+  const temas = await cargarTemas(auth.supabase, nivel, taller);
+  if ("error" in temas) return { ok: false, error: temas.error };
+  return { ok: true, temas: temas.map((t) => ({ titulo: t.titulo })) };
+}
+
+export async function generarConsolidadoTema(
+  nivel: Nivel,
+  taller: Taller,
+  temaIndex: number,
+  motor: string
+): Promise<{ ok: boolean; seccion?: SeccionInforme; modelo?: string; error?: string }> {
+  const auth = await requireAdmin();
+  if (!auth.ok) return { ok: false, error: auth.error };
+  if (!esMotorValido(motor)) return { ok: false, error: "Motor de IA no válido." };
+
+  const temas = await cargarTemas(auth.supabase, nivel, taller);
+  if ("error" in temas) return { ok: false, error: temas.error };
+  const tema = temas[temaIndex];
+  if (!tema) return { ok: false, error: "Capítulo fuera de rango." };
+
+  let raw: string;
+  let motorUsado: string;
+  try {
+    const r = await generarConEscalamiento({ motor: motor as Motor, systemPrompt: SYSTEM_CONSOLIDADO, userPrompt: construirPromptTema(nivel, taller, tema) });
+    raw = r.text;
+    motorUsado = r.motorUsado;
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : "Error al llamar al motor de IA." };
+  }
+
+  let seccion: SeccionInforme;
+  try {
+    seccion = parseSeccion(raw);
+  } catch {
+    return { ok: false, error: "La IA devolvió un formato inesperado en este capítulo." };
+  }
+  if (!seccion.titulo) seccion.titulo = tema.titulo;
+  return { ok: true, seccion, modelo: motorUsado };
+}
+
+export async function guardarConsolidado(
+  nivel: Nivel,
+  taller: Taller,
+  secciones: SeccionInforme[],
+  modelo: string
+): Promise<GenerarResult> {
+  const auth = await requireAdmin();
+  if (!auth.ok) return { ok: false, error: auth.error };
+  const { supabase, userId } = auth;
+
+  const informe: InformeConsolidado = { resumenGeneral: "", secciones };
+  const parte: ParteGuardada = { informe, modelo: modelo || "IA", generadoEn: new Date().toISOString() };
   const err = await mergeSaveParte(supabase, nivel, taller, userId, "consolidado", parte);
   if (err) return { ok: false, error: `Se generó el consolidado pero no se pudo guardar: ${err}` };
 

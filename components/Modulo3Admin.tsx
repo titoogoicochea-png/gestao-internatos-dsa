@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { useLang } from "@/components/LanguageProvider";
 import { SectionHeader } from "@/components/SectionHeader";
-import { generarConsolidado, generarIdeasFuerza, limpiarInforme } from "@/app/modulo3/actions";
-import type { ContenidoInforme } from "@/lib/llm";
+import { listarTemasConsolidado, generarConsolidadoTema, guardarConsolidado, generarIdeasFuerza, limpiarInforme } from "@/app/modulo3/actions";
+import type { ContenidoInforme, SeccionInforme } from "@/lib/llm";
 import type { Motor, Badge } from "@/lib/ai/motores";
 import type { GrupoTema } from "@/lib/informe-data";
 
@@ -69,6 +69,7 @@ export function Modulo3Admin({ fases, informesIniciales, conteos, rawData, motor
   const [generating, setGenerating] = useState<null | "consolidado" | "ideasFuerza">(null);
   const [downloading, setDownloading] = useState<null | "consolidado" | "ideasFuerza">(null);
   const [limpiando, setLimpiando] = useState(false);
+  const [progreso, setProgreso] = useState<{ done: number; total: number } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [verAportes, setVerAportes] = useState(false);
 
@@ -92,15 +93,58 @@ export function Modulo3Admin({ fases, informesIniciales, conteos, rawData, motor
   async function handleGenerarConsolidado() {
     setError(null);
     setGenerating("consolidado");
+    setProgreso(null);
     try {
-      const res = await generarConsolidado(nivel, taller, motor);
-      if (!res) setError(t("m3.error-timeout"));
-      else if (!res.ok || !res.parte) setError(res.error ?? t("m3.error-generar"));
-      else setParte("consolidado", res.parte);
+      // 1) Listar los capítulos/dimensiones a consolidar
+      const lista = await listarTemasConsolidado(nivel, taller);
+      if (!lista) { setError(t("m3.error-timeout")); return; }
+      if (!lista.ok || !lista.temas || lista.temas.length === 0) { setError(lista.error ?? t("m3.error-generar")); return; }
+
+      const temas = lista.temas;
+      const total = temas.length;
+      setProgreso({ done: 0, total });
+
+      // 2) Generar cada capítulo por separado (llamadas cortas → sin timeout)
+      const secciones: SeccionInforme[] = [];
+      let modelo = "";
+      const fallidos: string[] = [];
+
+      for (let i = 0; i < total; i++) {
+        let res = await generarConsolidadoTema(nivel, taller, i, motor).catch(() => undefined);
+        if (!res || !res.ok || !res.seccion) {
+          // Un reintento por capítulo
+          res = await generarConsolidadoTema(nivel, taller, i, motor).catch(() => undefined);
+        }
+        if (res && res.ok && res.seccion) {
+          secciones.push(res.seccion);
+          if (res.modelo) modelo = res.modelo;
+        } else {
+          fallidos.push(temas[i].titulo);
+          secciones.push({ titulo: temas[i].titulo });
+        }
+        setProgreso({ done: i + 1, total });
+      }
+
+      if (fallidos.length === total) {
+        setError(t("m3.error-timeout"));
+        return;
+      }
+
+      // 3) Guardar el consolidado completo
+      const guardado = await guardarConsolidado(nivel, taller, secciones, modelo);
+      if (!guardado || !guardado.ok || !guardado.parte) {
+        setError(guardado?.error ?? t("m3.error-generar"));
+        return;
+      }
+      setParte("consolidado", guardado.parte);
+      if (fallidos.length) {
+        setError(`Se generó el consolidado, pero estos capítulos fallaron y quedaron vacíos: ${fallidos.join(", ")}. Vuelve a generar para completarlos.`);
+      }
     } catch (e) {
       setError(e instanceof Error ? e.message : t("m3.error-inesperado"));
     } finally {
       setGenerating(null);
+      setProgreso(null);
     }
   }
 
@@ -276,7 +320,9 @@ export function Modulo3Admin({ fases, informesIniciales, conteos, rawData, motor
             <div className="mb-4 flex flex-wrap items-center gap-2">
               <button onClick={handleGenerarConsolidado} disabled={generating !== null || conteo === 0} className={btnBrand}>
                 {generating === "consolidado"
-                  ? t("m3.generando")
+                  ? progreso
+                    ? `${t("m3.generando")} ${progreso.done}/${progreso.total}`
+                    : t("m3.generando")
                   : conteo === 0
                   ? t("m3.btn-sin-aportes")
                   : consolidado
@@ -295,7 +341,21 @@ export function Modulo3Admin({ fases, informesIniciales, conteos, rawData, motor
                 </button>
               )}
             </div>
-            {generating === "consolidado" && <p className="mb-3 text-xs text-slate-400">{t("m3.tiempo-estimado")}</p>}
+            {generating === "consolidado" && (
+              progreso ? (
+                <div className="mb-4">
+                  <div className="mb-1 flex justify-between text-xs font-medium text-slate-500">
+                    <span>{t("m3.generando")} {progreso.done}/{progreso.total} {unidad}</span>
+                    <span>{Math.round((progreso.done / progreso.total) * 100)}%</span>
+                  </div>
+                  <div className="h-2 w-full overflow-hidden rounded-full bg-slate-200">
+                    <div className="h-full rounded-full bg-brand transition-all duration-300" style={{ width: `${(progreso.done / progreso.total) * 100}%` }} />
+                  </div>
+                </div>
+              ) : (
+                <p className="mb-3 text-xs text-slate-400">{t("m3.tiempo-estimado")}</p>
+              )
+            )}
 
             {consolidado && (
               <>
