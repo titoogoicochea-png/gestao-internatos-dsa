@@ -13,7 +13,8 @@ export type SeccionInforme = {
 };
 
 // Un capítulo del documento reconstruido con IA (markdown), por doc_codigo.
-export type DocReconstruido = { markdown: string; modelo: string; generadoEn: string };
+// Guarda ambos idiomas; `markdown` se conserva por compatibilidad (= es).
+export type DocReconstruido = { es?: string; pt?: string; modelo: string; generadoEn: string; markdown?: string };
 
 export type InformeConsolidado = {
   resumenGeneral: string;

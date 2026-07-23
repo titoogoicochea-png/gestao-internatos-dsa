@@ -16,13 +16,15 @@ export default async function ReconstruirPage() {
   const rol = profile?.rol ?? "usuario";
   if (rol !== "admin" && rol !== "propietario") redirect("/");
 
-  // Contenido guardado por nivel (fila taller = tarde1): consolidado + reconstrucción
-  const { data: rows } = await supabase.from("informes").select("nivel, contenido").eq("taller", "tarde1");
-  const contByNivel = new Map<string, ContenidoInforme>();
-  for (const r of rows ?? []) contByNivel.set(r.nivel, (r.contenido ?? {}) as ContenidoInforme);
+  // Contenido guardado por nivel y taller. La reconstrucción vive en la fila tarde1;
+  // el consolidado de capítulos en tarde1 y el del Anexo C en tarde2.
+  const { data: rows } = await supabase.from("informes").select("nivel, taller, contenido");
+  const contByKey = new Map<string, ContenidoInforme>();
+  for (const r of rows ?? []) contByKey.set(`${r.nivel}__${r.taller}`, (r.contenido ?? {}) as ContenidoInforme);
 
   const niveles: NivelData[] = NIVEIS.map((nivel) => {
-    const cont = contByNivel.get(nivel) ?? {};
+    const cont = contByKey.get(`${nivel}__tarde1`) ?? {};
+    const cont2 = contByKey.get(`${nivel}__tarde2`) ?? {};
     const recon = cont.reconstruccion ?? {};
     const docs = getDocs(nivel).map((d) => {
       const r = recon[d.codigo];
@@ -32,13 +34,15 @@ export default async function ReconstruirPage() {
         badge: d.badge,
         titulo: d.titulo_es,
         subtitulo: d.subtitulo_es,
-        original: d.raw_es,
-        reconstruido: r?.markdown ?? null,
+        original_es: d.raw_es,
+        original_pt: d.raw,
+        reconstruido_es: r?.es ?? r?.markdown ?? null,
+        reconstruido_pt: r?.pt ?? null,
         modelo: r?.modelo ?? null,
         generadoEn: r?.generadoEn ?? null,
       };
     });
-    return { nivel, tieneConsolidado: !!cont.consolidado, docs };
+    return { nivel, tieneConsolidado: !!cont.consolidado || !!cont2.consolidado, docs };
   });
 
   return <ReconstruirAdmin niveles={niveles} />;
