@@ -34,23 +34,27 @@ function construirPromptConsolidado(nivel: Nivel, taller: Taller, grupos: GrupoT
   partes.push(
     "Devuelve ÚNICAMENTE un objeto JSON válido con esta estructura exacta (sin texto adicional ni markdown):",
     `{
-  "resumenGeneral": "Síntesis global de 2 a 4 oraciones de los principales hallazgos de este nivel y workshop.",
   "secciones": [
     {
       "titulo": "título del ${unidad}",
-      "sintesis": "1 a 3 oraciones que resumen la retroalimentación de este ${unidad}",
-      "puntos": ["punto consolidado 1", "punto consolidado 2"]
+      "observaciones": ["observación consolidada 1", "observación consolidada 2"],
+      "sugerencias": ["sugerencia consolidada 1", "sugerencia consolidada 2"]
     }
   ]
 }`,
     "",
-    "Reglas:",
-    `- Devuelve EXACTAMENTE una entrada por cada ${unidad} recibido, en el mismo orden y usando el mismo título.`,
-    "- Lee y analiza TODOS los aportes; agrupa los que digan lo mismo o algo semejante en un solo punto (viñeta), sin perder matices importantes.",
-    "- Elimina la repetición: no repitas el mismo punto dos veces.",
-    '- Si un punto fue planteado por varios grupos, indícalo al final entre paréntesis, p. ej. "(planteado por varios grupos)".',
-    "- Cada punto consolidado debe ser una viñeta clara y concisa.",
-    `- "puntos" es una sola lista por ${unidad}; NO separes por observación/sugerencia/comentario.`,
+    "Reglas (síguelas al pie de la letra):",
+    `- Devuelve EXACTAMENTE una entrada por cada ${unidad} recibido, en el mismo orden y copiando el mismo título.`,
+    "- Clasifica CADA aporte según su contenido en una de dos categorías:",
+    "   • OBSERVACIÓN: un señalamiento sobre el texto actual (algo que se nota, se cuestiona, un error, una falta, una ambigüedad, una conformidad o un comentario sobre lo que dice el documento).",
+    "   • SUGERENCIA: una propuesta concreta de cambio, adición, corrección o mejora del documento.",
+    "- Si un mismo aporte contiene ambas cosas, sepáralo: la parte de señalamiento va a \"observaciones\" y la parte propositiva a \"sugerencias\".",
+    "- EXHAUSTIVIDAD ABSOLUTA: ninguna respuesta puede quedar fuera. Cada aporte debe estar representado en al menos una viñeta. Este consolidado se usará para reconstruir el documento, así que NO se puede perder información.",
+    "- Junta en una sola viñeta ÚNICAMENTE los aportes idénticos o casi idénticos (que dicen lo mismo). Si dos aportes difieren en algún matiz, mantenlos como viñetas separadas. Ante la duda, sepáralos.",
+    "- No resumas ni generalices al punto de perder contenido: es preferible tener más viñetas a perder una idea.",
+    '- Si un mismo punto lo plantearon varios grupos, inclúyelo una sola vez y añade al final "(planteado por varios grupos)".',
+    "- Cada viñeta debe ser clara, concisa y fiel al aporte original.",
+    `- Si un ${unidad} no tiene observaciones, deja "observaciones" como lista vacía []; igual para "sugerencias".`,
     "- No inventes información que no esté en los aportes. Responde en español."
   );
 
@@ -70,7 +74,8 @@ function construirPromptIdeasFuerza(nivel: Nivel, taller: Taller, consolidado: I
   consolidado.secciones.forEach((s) => {
     partes.push(`### ${s.titulo}`);
     if (s.sintesis) partes.push(s.sintesis);
-    s.puntos.forEach((p) => partes.push(`- ${p}`));
+    const pts = [...(s.observaciones ?? []), ...(s.sugerencias ?? []), ...(s.puntos ?? [])];
+    pts.forEach((p) => partes.push(`- ${p}`));
     partes.push("");
   });
 
@@ -99,7 +104,7 @@ function construirPromptIdeasFuerza(nivel: Nivel, taller: Taller, consolidado: I
 }
 
 const SYSTEM_CONSOLIDADO =
-  "Eres un analista experto en gestión educativa adventista. Tu tarea es consolidar la retroalimentación de un taller de validación del 'Referencial de Gestión de Internados DSA'. Recibes los aportes (observaciones, sugerencias y comentarios) redactados por varios grupos de trabajo, organizados por capítulo (o por dimensión del Anexo C). Debes leer y analizar toda la información, agrupar los aportes semejantes en una sola lista de viñetas por capítulo/dimensión, eliminar repeticiones y redactar de forma clara y profesional en español. No inventes información que no esté en los aportes.";
+  "Eres un analista experto en gestión educativa adventista. Consolidas la retroalimentación de un taller de validación del 'Referencial de Gestión de Internados DSA'. Recibes TODOS los aportes redactados por los grupos, organizados por capítulo (o por dimensión del Anexo C). Debes leer y analizar cada aporte y clasificarlo en dos listas de viñetas por capítulo/dimensión: OBSERVACIONES (señalamientos sobre el texto actual) y SUGERENCIAS (propuestas de cambio o mejora). Juntas en una sola viñeta solo los aportes idénticos o casi idénticos, sin perder ningún matiz ni dejar ninguna respuesta fuera, porque el consolidado se usará para reconstruir el documento. Redactas claro y profesional en español y no inventas nada que no esté en los aportes.";
 
 const SYSTEM_IDEAS =
   "Eres un consultor experto en gestión educativa adventista. A partir de un consolidado de aportes por capítulo/dimensión, destilas 'ideas fuerza de mejora': pocas frases potentes, accionables y memorables que sinteticen las mejoras propuestas por los participantes. Redactas en español, de forma clara, profesional y contundente. No inventas información fuera del consolidado.";

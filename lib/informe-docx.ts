@@ -8,8 +8,12 @@ export async function informeADocx(opts: {
   subtitulo: string;      // p.ej. "Educación Básica · Workshop 1"
   resumenLabel: string;   // etiqueta del resumen general
   informe: InformeConsolidado;
+  observacionesLabel?: string;
+  sugerenciasLabel?: string;
 }): Promise<Blob> {
   const { Document, Packer, Paragraph, HeadingLevel, TextRun } = await import("docx");
+  const obsLabel = opts.observacionesLabel ?? "Observaciones";
+  const sugLabel = opts.sugerenciasLabel ?? "Sugerencias";
 
   const kids: ParagraphT[] = [
     new Paragraph({ text: opts.tituloDoc, heading: HeadingLevel.TITLE }),
@@ -26,13 +30,29 @@ export async function informeADocx(opts: {
     );
   }
 
+  const bloque = (label: string, items: string[]) => {
+    if (!items.length) return;
+    kids.push(new Paragraph({
+      children: [new TextRun({ text: label, bold: true, color: "2F4156" })],
+      spacing: { before: 120, after: 40 },
+    }));
+    for (const it of items) kids.push(new Paragraph({ text: it, bullet: { level: 0 } }));
+  };
+
   for (const s of opts.informe.secciones) {
     kids.push(new Paragraph({ text: s.titulo, heading: HeadingLevel.HEADING_2, spacing: { before: 260 } }));
     if (s.sintesis) {
       kids.push(new Paragraph({ children: [new TextRun({ text: s.sintesis, italics: true })] }));
     }
-    for (const p of s.puntos) {
-      kids.push(new Paragraph({ text: p, bullet: { level: 0 } }));
+    const obs = s.observaciones ?? [];
+    const sug = s.sugerencias ?? [];
+    if (obs.length || sug.length) {
+      bloque(obsLabel, obs);
+      bloque(sugLabel, sug);
+    } else {
+      for (const p of s.puntos ?? []) {
+        kids.push(new Paragraph({ text: p, bullet: { level: 0 } }));
+      }
     }
   }
 

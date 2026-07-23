@@ -129,6 +129,8 @@ export function Modulo3Admin({ fases, informesIniciales, conteos, rawData, motor
         subtitulo: subtituloDoc,
         resumenLabel: t("m3.resumen-general"),
         informe: parte.informe,
+        observacionesLabel: t("m3.observaciones"),
+        sugerenciasLabel: t("m3.sugerencias"),
       });
       const base = esp === "consolidado" ? "consolidado" : "ideas-fuerza";
       descargarBlob(blob, `${base}-${nivel}-${taller}.docx`);
@@ -284,7 +286,7 @@ export function Modulo3Admin({ fases, informesIniciales, conteos, rawData, motor
                 )}
                 <div className="space-y-3">
                   {consolidado.informe.secciones.map((s, i) => (
-                    <TemaColapsable key={i} c={color(i)} titulo={s.titulo} sintesis={s.sintesis} puntos={s.puntos} />
+                    <TemaColapsable key={i} c={color(i)} titulo={s.titulo} sintesis={s.sintesis} observaciones={s.observaciones} sugerencias={s.sugerencias} puntos={s.puntos} />
                   ))}
                 </div>
               </>
@@ -419,12 +421,34 @@ function MotorSelector({
   );
 }
 
+// Lista de viñetas con una etiqueta de categoría (Observaciones / Sugerencias).
+function ListaViñetas({ c, label, items }: { c: string; label: string; items: string[] }) {
+  if (items.length === 0) return null;
+  return (
+    <div className="mb-3 last:mb-0">
+      <p className="mb-1.5 text-xs font-bold uppercase tracking-wide" style={{ color: c }}>{label} ({items.length})</p>
+      <ul className="space-y-1.5">
+        {items.map((it, i) => (
+          <li key={i} className="flex gap-2 text-base leading-snug text-slate-700">
+            <span style={{ color: c }}>•</span><span>{it}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  );
+}
+
 // Sección desplegable (colapsada por defecto) — usada en el consolidado y en los aportes crudos.
-function TemaColapsable({ c, titulo, sintesis, puntos }: {
-  c: string; titulo: string; sintesis?: string; puntos: string[];
+function TemaColapsable({ c, titulo, sintesis, puntos, observaciones, sugerencias }: {
+  c: string; titulo: string; sintesis?: string; puntos?: string[]; observaciones?: string[]; sugerencias?: string[];
 }) {
   const { t } = useLang();
   const [open, setOpen] = useState(false);
+  const obs = observaciones ?? [];
+  const sug = sugerencias ?? [];
+  const pts = puntos ?? [];
+  const divididas = obs.length > 0 || sug.length > 0;
+  const total = obs.length + sug.length + pts.length;
   return (
     <div className="overflow-hidden rounded-xl border border-slate-200/70 bg-white shadow-card" style={{ borderLeft: `6px solid ${c}` }}>
       <button
@@ -434,18 +458,23 @@ function TemaColapsable({ c, titulo, sintesis, puntos }: {
       >
         <h3 className="text-lg font-bold" style={{ color: c }}>{titulo}</h3>
         <div className="flex shrink-0 items-center gap-2">
-          <span className="rounded-full bg-white/70 px-2 py-0.5 text-xs font-semibold" style={{ color: c }}>{puntos.length}</span>
+          <span className="rounded-full bg-white/70 px-2 py-0.5 text-xs font-semibold" style={{ color: c }}>{total}</span>
           <span className="text-sm" style={{ color: c }}>{open ? "▲" : "▼"}</span>
         </div>
       </button>
       {open && (
         <div className="p-4">
           {sintesis && <p className="mb-2 text-sm text-slate-600">{sintesis}</p>}
-          {puntos.length === 0 ? (
+          {total === 0 ? (
             <p className="text-xs italic text-slate-300">{t("m3.sin-aportes")}</p>
+          ) : divididas ? (
+            <>
+              <ListaViñetas c={c} label={t("m3.observaciones")} items={obs} />
+              <ListaViñetas c={c} label={t("m3.sugerencias")} items={sug} />
+            </>
           ) : (
             <ul className="space-y-1.5">
-              {puntos.map((it, i) => (
+              {pts.map((it, i) => (
                 <li key={i} className="flex gap-2 text-base leading-snug text-slate-700">
                   <span style={{ color: c }}>•</span><span>{it}</span>
                 </li>
@@ -459,19 +488,20 @@ function TemaColapsable({ c, titulo, sintesis, puntos }: {
 }
 
 // Tarjeta expandida (ideas fuerza — contenido breve).
-function TemaCard({ c, titulo, puntos }: { c: string; titulo: string; puntos: string[] }) {
+function TemaCard({ c, titulo, puntos }: { c: string; titulo: string; puntos?: string[] }) {
   const { t } = useLang();
+  const pts = puntos ?? [];
   return (
     <div className="overflow-hidden rounded-xl border border-slate-200/70 bg-white shadow-card" style={{ borderLeft: `6px solid ${c}` }}>
       <div className="px-4 py-2.5" style={{ background: `${c}0d` }}>
         <h3 className="text-lg font-bold" style={{ color: c }}>{titulo}</h3>
       </div>
       <div className="p-4">
-        {puntos.length === 0 ? (
+        {pts.length === 0 ? (
           <p className="text-xs italic text-slate-300">{t("m3.sin-aportes")}</p>
         ) : (
           <ul className="space-y-1.5">
-            {puntos.map((it, i) => (
+            {pts.map((it, i) => (
               <li key={i} className="flex gap-2 text-base leading-snug text-slate-700">
                 <span style={{ color: c }}>•</span><span>{it}</span>
               </li>

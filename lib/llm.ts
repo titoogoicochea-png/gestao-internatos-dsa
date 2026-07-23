@@ -3,8 +3,12 @@
 
 export type SeccionInforme = {
   titulo: string;
-  sintesis: string;
-  puntos: string[];
+  sintesis?: string;
+  // Consolidado: aportes clasificados en dos listas de viñetas.
+  observaciones?: string[];
+  sugerencias?: string[];
+  // Ideas fuerza / formato anterior / aportes crudos: una sola lista.
+  puntos?: string[];
 };
 
 export type InformeConsolidado = {
@@ -29,7 +33,8 @@ export function parseInforme(raw: string): InformeConsolidado {
   const end = t.lastIndexOf("}");
   if (start >= 0 && end > start) t = t.slice(start, end + 1);
 
-  const arr = (v: unknown): string[] => (Array.isArray(v) ? v.map(String) : []);
+  const arr = (v: unknown): string[] =>
+    Array.isArray(v) ? v.map((x) => String(x).trim()).filter(Boolean) : [];
   type SeccionRaw = {
     titulo?: unknown; sintesis?: unknown; puntos?: unknown;
     observaciones?: unknown; sugerencias?: unknown; comentarios?: unknown;
@@ -38,13 +43,22 @@ export function parseInforme(raw: string): InformeConsolidado {
   return {
     resumenGeneral: typeof parsed.resumenGeneral === "string" ? parsed.resumenGeneral : "",
     secciones: Array.isArray(parsed.secciones)
-      ? parsed.secciones.map((s) => ({
-          titulo: String(s?.titulo ?? ""),
-          sintesis: String(s?.sintesis ?? ""),
-          puntos: Array.isArray(s?.puntos)
-            ? arr(s.puntos)
-            : [...arr(s?.observaciones), ...arr(s?.sugerencias), ...arr(s?.comentarios)],
-        }))
+      ? parsed.secciones.map((s) => {
+          const observaciones = arr(s?.observaciones);
+          const sugerencias = arr(s?.sugerencias);
+          const puntos = arr(s?.puntos);
+          const out: SeccionInforme = { titulo: String(s?.titulo ?? "") };
+          if (typeof s?.sintesis === "string" && s.sintesis.trim()) out.sintesis = s.sintesis.trim();
+          if (observaciones.length) out.observaciones = observaciones;
+          if (sugerencias.length) out.sugerencias = sugerencias;
+          if (puntos.length) out.puntos = puntos;
+          // Sin ninguna de las anteriores: intenta recuperar "comentarios".
+          if (!observaciones.length && !sugerencias.length && !puntos.length) {
+            const comentarios = arr(s?.comentarios);
+            if (comentarios.length) out.puntos = comentarios;
+          }
+          return out;
+        })
       : [],
   };
 }
