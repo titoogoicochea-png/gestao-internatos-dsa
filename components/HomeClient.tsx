@@ -46,14 +46,6 @@ export function HomeClient({ nombre, rol }: { nombre: string; rol: string }) {
               )}
               {isAdmin && (
                 <a
-                  href="/reconstruir"
-                  className="hidden rounded-lg border border-white/30 px-3 py-1.5 text-xs font-medium text-white/90 transition hover:bg-white/10 sm:block"
-                >
-                  Reconstruir
-                </a>
-              )}
-              {isAdmin && (
-                <a
                   href="/admin/usuarios"
                   className="hidden rounded-lg border border-white/30 px-3 py-1.5 text-xs font-medium text-white/90 transition hover:bg-white/10 sm:block"
                 >
