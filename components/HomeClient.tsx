@@ -27,7 +27,7 @@ export function HomeClient({ nombre, rol }: { nombre: string; rol: string }) {
         <div className="pointer-events-none absolute -bottom-28 left-1/4 h-80 w-80 rounded-full bg-[#567C8D]/40 blur-3xl" />
         <div className="pointer-events-none absolute right-1/3 top-10 h-40 w-40 rounded-full bg-white/5 blur-2xl" />
 
-        <div className="relative mx-auto max-w-5xl px-4">
+        <div className="relative mx-auto max-w-7xl px-4">
           {/* barra superior */}
           <div className="flex items-center justify-between py-4">
             <span className="flex items-center gap-2 text-sm font-semibold tracking-wide text-white/90">
@@ -86,8 +86,8 @@ export function HomeClient({ nombre, rol }: { nombre: string; rol: string }) {
       </div>
 
       {/* ───────── Tarjetas de módulos (suben sobre el hero) ───────── */}
-      <main className="mx-auto -mt-10 max-w-5xl px-4 pb-16">
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+      <main className="mx-auto -mt-10 max-w-7xl px-4 pb-16">
+        <div className="grid gap-6 sm:grid-cols-2 xl:grid-cols-4">
           <ModuleCard
             number="1"
             href="/modulo1"
@@ -140,7 +140,7 @@ export function HomeClient({ nombre, rol }: { nombre: string; rol: string }) {
         </div>
       </main>
 
-      <footer className="mx-auto max-w-5xl px-4 pb-10 text-center text-xs text-slate-400">
+      <footer className="mx-auto max-w-7xl px-4 pb-10 text-center text-xs text-slate-400">
         {t("footer.note")}
       </footer>
     </div>
