@@ -151,24 +151,31 @@ export function markdownToDocx(docx: any, md: string): any[] {
   return out;
 }
 
-type DocOpts = { titulo: string; subtitulo: string; docs: { markdown: string }[] };
+export type Portada = {
+  organizacion: string;   // DIVISÃO SUL-AMERICANA
+  departamento: string;   // Departamento de Educação
+  titulo: string;         // REFERENCIAL PARA A GESTÃO DE INTERNATOS ADVENTISTAS DA DIVISÃO SUL-AMERICANA
+  nivel: string;          // Educação Básica
+  cita: string;           // "O internato é uma comunidade formativa..."
+  anio: string;           // 2026
+};
+type DocOpts = { portada: Portada; docs: { markdown: string }[] };
 
 async function construirDocumento(opts: DocOpts) {
   const docx = await import("docx");
   const { Document, Paragraph, TextRun, PageBreak, AlignmentType } = docx as any;
+  const p = opts.portada;
+  const C = AlignmentType.CENTER;
 
-  // Portada sencilla en el estilo del original (azul marino).
+  // Portada replicando el documento original.
   const portada: any[] = [
-    new Paragraph({ spacing: { before: 1200 } }),
-    new Paragraph({
-      alignment: AlignmentType.CENTER,
-      spacing: { after: 120 },
-      children: [new TextRun({ text: opts.titulo, bold: true, color: NAVY, size: 44 })],
-    }),
-    new Paragraph({
-      alignment: AlignmentType.CENTER,
-      children: [new TextRun({ text: opts.subtitulo, italics: true, color: BLUE, size: 24 })],
-    }),
+    new Paragraph({ spacing: { before: 1600 } }),
+    new Paragraph({ alignment: C, spacing: { after: 80 }, children: [new TextRun({ text: p.organizacion, bold: true, color: NAVY, size: 32 })] }),
+    new Paragraph({ alignment: C, spacing: { after: 700 }, children: [new TextRun({ text: p.departamento, color: BLUE, size: 26 })] }),
+    new Paragraph({ alignment: C, spacing: { after: 160, line: 360, lineRule: "auto" }, children: [new TextRun({ text: p.titulo, bold: true, color: NAVY, size: 48 })] }),
+    new Paragraph({ alignment: C, spacing: { after: 900 }, children: [new TextRun({ text: p.nivel, color: BLUE, size: 28 })] }),
+    new Paragraph({ alignment: C, spacing: { after: 900 }, children: [new TextRun({ text: `"${p.cita}"`, italics: true, size: 22 })] }),
+    new Paragraph({ alignment: C, children: [new TextRun({ text: p.anio, color: "404040", size: 24 })] }),
     new Paragraph({ children: [new PageBreak()] }),
   ];
 

@@ -7,6 +7,7 @@ import type { Nivel, Taller } from "@/lib/informe-data";
 import type { ContenidoInforme, SeccionInforme } from "@/lib/llm";
 import { generarConEscalamiento, esMotorValido, type Motor } from "@/lib/ai/motores";
 import { displayTitulo, matchCapitulo, feedbackAnexoC, type FB } from "@/lib/reconstruir-shared";
+import type { Portada } from "@/lib/md-docx";
 
 const NIVEL_LABEL = { basica: "Educación Básica", superior: "Educación Superior" };
 type Lang = "es" | "pt";
@@ -195,19 +196,37 @@ export async function generarWordReconstruido(
   const { documentoADocxBase64 } = await import("@/lib/md-docx");
   const { getReconstruidoArchivo } = await import("@/lib/reconstruido");
 
-  const docs = getDocs(nivel).map((d) => {
-    const a = getReconstruidoArchivo(nivel, d.codigo);
-    const md = lang === "pt" ? (a.pt ?? d.raw) : (a.es ?? d.raw_es);
-    return { markdown: md };
-  });
+  // Solo los apartados reconstruidos en ese idioma, en orden del documento.
+  const docs = getDocs(nivel)
+    .map((d) => ({ d, a: getReconstruidoArchivo(nivel, d.codigo) }))
+    .filter(({ a }) => (lang === "pt" ? !!a.pt : !!a.es))
+    .map(({ a }) => ({ markdown: (lang === "pt" ? a.pt : a.es) as string }));
 
-  const sufijo = lang === "pt" ? "Português" : "Español";
+  if (docs.length === 0) {
+    return { ok: false, error: "Aún no hay apartados reconstruidos en ese idioma para descargar." };
+  }
+
+  const nivelNombrePt = nivel === "basica" ? "Educação Básica" : "Educação Superior";
+  const portada: Portada = lang === "pt"
+    ? {
+        organizacion: "DIVISÃO SUL-AMERICANA",
+        departamento: "Departamento de Educação",
+        titulo: "REFERENCIAL PARA A GESTÃO DE INTERNATOS ADVENTISTAS DA DIVISÃO SUL-AMERICANA",
+        nivel: nivelNombrePt,
+        cita: "O internato é uma comunidade formativa intencional onde a fé se vive, o caráter se forma e a missão se aprende.",
+        anio: "2026",
+      }
+    : {
+        organizacion: "DIVISIÓN SUDAMERICANA",
+        departamento: "Departamento de Educación",
+        titulo: "REFERENCIAL PARA LA GESTIÓN DE INTERNADOS ADVENTISTAS DE LA DIVISIÓN SUDAMERICANA",
+        nivel: NIVEL_LABEL[nivel],
+        cita: "El internado es una comunidad formativa intencional donde la fe se vive, el carácter se forma y la misión se aprende.",
+        anio: "2026",
+      };
+
   try {
-    const base64 = await documentoADocxBase64({
-      titulo: `Referencial de Gestión de Internados DSA — ${NIVEL_LABEL[nivel]}`,
-      subtitulo: `Documento reconstruido (${sufijo}) a partir de la validación participativa`,
-      docs,
-    });
+    const base64 = await documentoADocxBase64({ portada, docs });
     return { ok: true, base64, nombre: `referencial-reconstruido-${nivel}-${lang}.docx` };
   } catch (e) {
     return { ok: false, error: e instanceof Error ? e.message : "No se pudo generar el Word." };
