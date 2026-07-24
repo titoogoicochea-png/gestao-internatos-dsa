@@ -11,10 +11,6 @@ export default async function ReconstruirPage() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
-  const { data: profile } = await supabase.from("profiles").select("rol").eq("id", user.id).single();
-  const rol = profile?.rol ?? "usuario";
-  const isAdmin = rol === "admin" || rol === "propietario";
-
   const niveles: NivelResumen[] = NIVEIS.map((nivel) => {
     const docs = getDocs(nivel);
     const reconstruidos = docs.filter((d) => {
@@ -24,5 +20,5 @@ export default async function ReconstruirPage() {
     return { nivel, total: docs.length, reconstruidos };
   });
 
-  return <ReconstruirPicker niveles={niveles} isAdmin={isAdmin} />;
+  return <ReconstruirPicker niveles={niveles} />;
 }

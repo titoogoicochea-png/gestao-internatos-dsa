@@ -8,8 +8,23 @@ import { useLang } from "./LanguageProvider";
 import { LanguageToggle } from "./LanguageToggle";
 import { MarkdownView } from "./MarkdownView";
 import { AnexoCView } from "./AnexoCView";
+import { generarWordReconstruido } from "@/app/reconstruir/actions";
 
 const norm = (s: string) => s.trim().toLowerCase().replace(/\s+/g, " ");
+
+// Descarga un .docx a partir de su contenido en base64 (generado en el servidor).
+function descargarBase64(base64: string, nombre: string) {
+  const bin = atob(base64);
+  const arr = new Uint8Array(bin.length);
+  for (let i = 0; i < bin.length; i++) arr[i] = bin.charCodeAt(i);
+  const blob = new Blob([arr], { type: "application/vnd.openxmlformats-officedocument.wordprocessingml.document" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = nombre;
+  document.body.appendChild(a);
+  a.click();
+  a.remove();
+}
 
 // El encabezado de la página ya muestra el título del documento. Quitamos del
 // cuerpo SOLO los encabezados iniciales que repiten ese título (p. ej. "# CAPÍTULO I"
@@ -32,13 +47,30 @@ function stripLeadingTitles(raw: string, doc: Doc, lang: "es" | "pt"): string {
   return lines.slice(i).join("\n").replace(/^\n+/, "");
 }
 
-export function Reader({ nivel, docs, reconstruidos }: { nivel: Nivel; docs: Doc[]; reconstruidos?: string[] }) {
+export function Reader({ nivel, docs, reconstruidos, isAdmin }: { nivel: Nivel; docs: Doc[]; reconstruidos?: string[]; isAdmin?: boolean }) {
   const { t, lang } = useLang();
   // Modo "documento reconstruido" (Módulo 4): muestra indicadores por apartado.
   const modoReconstruido = reconstruidos !== undefined;
   const reconSet = new Set(reconstruidos ?? []);
   const esRec = (codigo: string) => reconSet.has(codigo);
   const [activeCodigo, setActiveCodigo] = useState(docs[0]?.codigo ?? "");
+  // Descarga del Word (solo Módulo 4 y solo admins): genera en el idioma activo.
+  const [descargandoWord, setDescargandoWord] = useState(false);
+  const [wordError, setWordError] = useState<string | null>(null);
+
+  async function descargarWord() {
+    setWordError(null);
+    setDescargandoWord(true);
+    try {
+      const res = await generarWordReconstruido(nivel, lang);
+      if (!res || !res.ok || !res.base64) setWordError(res?.error ?? "No se pudo generar el Word.");
+      else descargarBase64(res.base64, res.nombre ?? `referencial-${nivel}-${lang}.docx`);
+    } catch (e) {
+      setWordError(e instanceof Error ? e.message : "Error inesperado.");
+    } finally {
+      setDescargandoWord(false);
+    }
+  }
   // Drawer móvil
   const [drawerOpen, setDrawerOpen] = useState(false);
   // Sidebar desktop: visible por defecto
@@ -99,9 +131,29 @@ export function Reader({ nivel, docs, reconstruidos }: { nivel: Nivel; docs: Doc
               {nivelLabel}
             </p>
           </div>
+
+          {/* Descargar Word — solo en el documento reconstruido y para administradores.
+              Genera en el idioma que se está leyendo (ES/PT). */}
+          {modoReconstruido && isAdmin && (
+            <button
+              onClick={descargarWord}
+              disabled={descargandoWord}
+              title={`Descargar en Word (${lang === "es" ? "Español" : "Português"})`}
+              className="inline-flex shrink-0 items-center gap-1.5 rounded-lg bg-emerald-600 px-3 py-1.5 text-sm font-semibold text-white shadow-sm transition hover:bg-emerald-700 disabled:opacity-60"
+            >
+              <Download />
+              <span>{descargandoWord ? "Generando…" : `Word (${lang.toUpperCase()})`}</span>
+            </button>
+          )}
+
           <LanguageToggle />
         </div>
       </header>
+
+      {/* Barra de error de la descarga */}
+      {wordError && (
+        <div className="shrink-0 bg-red-50 px-4 py-2 text-center text-sm text-red-700">{wordError}</div>
+      )}
 
       {/* ── Cuerpo: sidebar + contenido ── */}
       <div className="flex min-h-0 flex-1">
@@ -380,6 +432,16 @@ function SidebarContent({
 }
 
 // ── Iconos ──
+function Download() {
+  return (
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+      <polyline points="7 10 12 15 17 10" />
+      <line x1="12" y1="15" x2="12" y2="3" />
+    </svg>
+  );
+}
+
 function Bars() {
   return (
     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">

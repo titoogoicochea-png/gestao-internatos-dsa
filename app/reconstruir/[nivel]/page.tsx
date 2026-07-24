@@ -13,6 +13,10 @@ export default async function ReconstruirNivelPage({ params }: { params: { nivel
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect("/login");
 
+  const { data: profile } = await supabase.from("profiles").select("rol").eq("id", user.id).single();
+  const rol = profile?.rol ?? "usuario";
+  const isAdmin = rol === "admin" || rol === "propietario";
+
   const { nivel } = params;
   if (!isNivel(nivel)) notFound();
 
@@ -25,5 +29,5 @@ export default async function ReconstruirNivelPage({ params }: { params: { nivel
     return { ...d, raw_es: a.es ?? d.raw_es, raw: a.pt ?? d.raw };
   });
 
-  return <Reader nivel={nivel} docs={docs} reconstruidos={reconstruidos} />;
+  return <Reader nivel={nivel} docs={docs} reconstruidos={reconstruidos} isAdmin={isAdmin} />;
 }
