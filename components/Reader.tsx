@@ -32,8 +32,12 @@ function stripLeadingTitles(raw: string, doc: Doc, lang: "es" | "pt"): string {
   return lines.slice(i).join("\n").replace(/^\n+/, "");
 }
 
-export function Reader({ nivel, docs }: { nivel: Nivel; docs: Doc[] }) {
+export function Reader({ nivel, docs, reconstruidos }: { nivel: Nivel; docs: Doc[]; reconstruidos?: string[] }) {
   const { t, lang } = useLang();
+  // Modo "documento reconstruido" (Módulo 4): muestra indicadores por apartado.
+  const modoReconstruido = reconstruidos !== undefined;
+  const reconSet = new Set(reconstruidos ?? []);
+  const esRec = (codigo: string) => reconSet.has(codigo);
   const [activeCodigo, setActiveCodigo] = useState(docs[0]?.codigo ?? "");
   // Drawer móvil
   const [drawerOpen, setDrawerOpen] = useState(false);
@@ -112,6 +116,7 @@ export function Reader({ nivel, docs }: { nivel: Nivel; docs: Doc[] }) {
               t={t}
               onSelect={selectDoc}
               onAnchorClick={() => {}}
+              esReconstruido={modoReconstruido ? esRec : undefined}
             />
           </aside>
         )}
@@ -143,6 +148,7 @@ export function Reader({ nivel, docs }: { nivel: Nivel; docs: Doc[] }) {
                 t={t}
                 onSelect={selectDoc}
                 onAnchorClick={() => setDrawerOpen(false)}
+                esReconstruido={modoReconstruido ? esRec : undefined}
               />
             </aside>
           </div>
@@ -162,9 +168,21 @@ export function Reader({ nivel, docs }: { nivel: Nivel; docs: Doc[] }) {
                   <h1 className="font-display text-5xl font-bold leading-tight tracking-tight text-brand sm:text-[3.3rem]">
                     {(lang === "es" ? active.subtitulo_es : active.subtitulo) ?? docTitle(active, lang)}
                   </h1>
-                  <p className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-[#C8D9E6]/50 px-3 py-1 text-xs font-medium text-[#2F4156]">
-                    <span aria-hidden>🌐</span> {t("reader.source")}
-                  </p>
+                  {modoReconstruido ? (
+                    esRec(active.codigo) ? (
+                      <p className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-emerald-100 px-3 py-1 text-xs font-semibold text-emerald-700">
+                        ✓ Reconstruido con los aportes de los talleres
+                      </p>
+                    ) : (
+                      <p className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-slate-100 px-3 py-1 text-xs font-semibold text-slate-500">
+                        Texto original (aún sin reconstruir)
+                      </p>
+                    )
+                  ) : (
+                    <p className="mt-3 inline-flex items-center gap-1.5 rounded-full bg-[#C8D9E6]/50 px-3 py-1 text-xs font-medium text-[#2F4156]">
+                      <span aria-hidden>🌐</span> {t("reader.source")}
+                    </p>
+                  )}
                 </div>
                 {active.codigo === "ANEXO_C"
                   ? <AnexoCView raw={lang === "es" ? active.raw_es : active.raw} />
@@ -238,6 +256,7 @@ function SidebarContent({
   t,
   onSelect,
   onAnchorClick,
+  esReconstruido,
 }: {
   docs: Doc[];
   active: Doc | undefined;
@@ -245,6 +264,7 @@ function SidebarContent({
   t: (k: string) => string;
   onSelect: (codigo: string) => void;
   onAnchorClick: () => void;
+  esReconstruido?: (codigo: string) => boolean;
 }) {
   // Cada capítulo puede expandir/colapsar sus secciones de forma independiente.
   // Al cargar, el doc activo aparece expandido.
@@ -312,6 +332,11 @@ function SidebarContent({
                   ) : null}
                   <span className="truncate">{docTitle(doc, lang)}</span>
                 </button>
+
+                {/* Indicador de apartado reconstruido (Módulo 4) */}
+                {esReconstruido?.(doc.codigo) && (
+                  <span className="mr-1 h-2.5 w-2.5 shrink-0 rounded-full bg-emerald-500" title="Reconstruido" />
+                )}
 
                 {/* Chevron — solo si hay secciones */}
                 {hasSections && (

@@ -18,10 +18,12 @@ export default async function ReconstruirNivelPage({ params }: { params: { nivel
 
   // Reemplaza el texto de cada apartado por su versión reconstruida (archivo),
   // conservando toda la estructura del documento (secciones, títulos, etc.).
+  const reconstruidos: string[] = [];
   const docs = getDocs(nivel).map((d) => {
     const a = getReconstruidoArchivo(nivel, d.codigo);
+    if (a.es || a.pt) reconstruidos.push(d.codigo);
     return { ...d, raw_es: a.es ?? d.raw_es, raw: a.pt ?? d.raw };
   });
 
-  return <Reader nivel={nivel} docs={docs} />;
+  return <Reader nivel={nivel} docs={docs} reconstruidos={reconstruidos} />;
 }
