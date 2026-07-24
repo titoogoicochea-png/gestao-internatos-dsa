@@ -44,7 +44,7 @@ export default async function ReconstruirPage() {
         reconstruido_es: archivo.es ?? r?.es ?? r?.markdown ?? null,
         reconstruido_pt: archivo.pt ?? r?.pt ?? null,
         reconstruible: !!feedbackDeSecciones(d, w1, w2),
-        modelo: r?.modelo ?? null,
+        modelo: (archivo.es || archivo.pt) ? "Claude Opus 4.8" : (r?.modelo ?? null),
         generadoEn: r?.generadoEn ?? null,
       };
     });
