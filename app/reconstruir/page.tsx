@@ -3,6 +3,7 @@ import { createClient } from "@/lib/supabase/server";
 import { getDocs, NIVEIS } from "@/lib/content";
 import type { ContenidoInforme } from "@/lib/llm";
 import { feedbackDeSecciones } from "@/lib/reconstruir-shared";
+import { getReconstruidoArchivo } from "@/lib/reconstruido";
 import { ReconstruirAdmin, type NivelData } from "@/components/ReconstruirAdmin";
 
 export const dynamic = "force-dynamic";
@@ -31,6 +32,7 @@ export default async function ReconstruirPage() {
     const w2 = cont2.consolidado?.informe.secciones ?? [];
     const docs = getDocs(nivel).map((d) => {
       const r = recon[d.codigo];
+      const archivo = getReconstruidoArchivo(nivel, d.codigo); // subido como archivo (preferente)
       return {
         codigo: d.codigo,
         kind: d.kind,
@@ -39,8 +41,8 @@ export default async function ReconstruirPage() {
         subtitulo: d.subtitulo_es,
         original_es: d.raw_es,
         original_pt: d.raw,
-        reconstruido_es: r?.es ?? r?.markdown ?? null,
-        reconstruido_pt: r?.pt ?? null,
+        reconstruido_es: archivo.es ?? r?.es ?? r?.markdown ?? null,
+        reconstruido_pt: archivo.pt ?? r?.pt ?? null,
         reconstruible: !!feedbackDeSecciones(d, w1, w2),
         modelo: r?.modelo ?? null,
         generadoEn: r?.generadoEn ?? null,

@@ -37,3 +37,4 @@ next-env.d.ts
 # database backups (contienen datos personales — NUNCA subir a GitHub)
 backup-*.sql
 *.dump
+lib/reconstruido.generated.json

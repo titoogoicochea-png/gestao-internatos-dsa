@@ -3,10 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "gen:content": "node scripts/gen-content.mjs",
-    "predev": "node scripts/gen-content.mjs",
+    "gen:content": "node scripts/gen-content.mjs && node scripts/gen-reconstruido.mjs",
+    "predev": "node scripts/gen-content.mjs && node scripts/gen-reconstruido.mjs",
     "dev": "next dev",
-    "prebuild": "node scripts/gen-content.mjs",
+    "prebuild": "node scripts/gen-content.mjs && node scripts/gen-reconstruido.mjs",
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
