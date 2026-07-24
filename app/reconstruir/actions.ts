@@ -183,6 +183,37 @@ export async function guardarReconstruccion(
   return { ok: true };
 }
 
+// Genera el Word del documento reconstruido (completo) para un nivel e idioma.
+// Usa el contenido subido como archivos (preferente) o el original en su defecto.
+export async function generarWordReconstruido(
+  nivel: Nivel,
+  lang: Lang
+): Promise<{ ok: boolean; base64?: string; nombre?: string; error?: string }> {
+  const auth = await requireAdmin();
+  if (!auth.ok) return { ok: false, error: auth.error };
+
+  const { documentoADocxBase64 } = await import("@/lib/md-docx");
+  const { getReconstruidoArchivo } = await import("@/lib/reconstruido");
+
+  const docs = getDocs(nivel).map((d) => {
+    const a = getReconstruidoArchivo(nivel, d.codigo);
+    const md = lang === "pt" ? (a.pt ?? d.raw) : (a.es ?? d.raw_es);
+    return { markdown: md };
+  });
+
+  const sufijo = lang === "pt" ? "Português" : "Español";
+  try {
+    const base64 = await documentoADocxBase64({
+      titulo: `Referencial de Gestión de Internados DSA — ${NIVEL_LABEL[nivel]}`,
+      subtitulo: `Documento reconstruido (${sufijo}) a partir de la validación participativa`,
+      docs,
+    });
+    return { ok: true, base64, nombre: `referencial-reconstruido-${nivel}-${lang}.docx` };
+  } catch (e) {
+    return { ok: false, error: e instanceof Error ? e.message : "No se pudo generar el Word." };
+  }
+}
+
 // Borra toda la reconstrucción guardada de un nivel (para empezar de cero).
 export async function limpiarReconstruccion(nivel: Nivel): Promise<{ ok: boolean; error?: string }> {
   const auth = await requireAdmin();

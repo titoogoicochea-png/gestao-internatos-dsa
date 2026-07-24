@@ -118,25 +118,32 @@ export function markdownToDocx(docx: any, md: string): any[] {
   return out;
 }
 
-// Documento completo (varios capítulos) → Blob .docx.
-export async function documentoADocx(opts: {
-  titulo: string;
-  subtitulo: string;
-  docs: { markdown: string }[];
-}): Promise<Blob> {
+type DocOpts = { titulo: string; subtitulo: string; docs: { markdown: string }[] };
+
+async function construirDocumento(opts: DocOpts) {
   const docx = await import("docx");
-  const { Document, Packer, Paragraph, HeadingLevel, TextRun, PageBreak } = docx as any;
+  const { Document, Paragraph, HeadingLevel, TextRun, PageBreak } = docx as any;
 
   const children: any[] = [
     new Paragraph({ text: opts.titulo, heading: HeadingLevel.TITLE }),
     new Paragraph({ children: [new TextRun({ text: opts.subtitulo, italics: true, color: "567C8D" })], spacing: { after: 240 } }),
   ];
-
   opts.docs.forEach((d, idx) => {
     if (idx > 0) children.push(new Paragraph({ children: [new PageBreak()] }));
     children.push(...markdownToDocx(docx, d.markdown));
   });
 
-  const doc = new Document({ sections: [{ properties: {}, children }] });
-  return Packer.toBlob(doc);
+  return { docx, doc: new Document({ sections: [{ properties: {}, children }] }) };
+}
+
+// Documento completo (varios capítulos) → Blob .docx (cliente).
+export async function documentoADocx(opts: DocOpts): Promise<Blob> {
+  const { docx, doc } = await construirDocumento(opts);
+  return (docx as any).Packer.toBlob(doc);
+}
+
+// Documento completo → base64 (servidor: server action).
+export async function documentoADocxBase64(opts: DocOpts): Promise<string> {
+  const { docx, doc } = await construirDocumento(opts);
+  return (docx as any).Packer.toBase64String(doc);
 }
