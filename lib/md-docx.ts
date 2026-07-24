@@ -1,8 +1,14 @@
-// Conversor Markdown → Word (.docx) preservando el formato del documento:
-// encabezados (#..####), negritas/itálicas, listas, listas numeradas, citas,
-// separadores y tablas. `docx` se importa de forma diferida.
+// Conversor Markdown → Word (.docx) replicando la FORMA y ESTILO del documento
+// original (Referencial v8): Arial 11pt, A4, márgenes 2.5cm; título de capítulo en
+// blanco sobre barra azul marino (1F3864); subtítulo en blanco sobre barra azul
+// (2E75B6); secciones en azul marino negrita (estilos "Título"); citas en cursiva
+// sangrada. Solo cambia el texto (reconstruido); el estilo imita al original.
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
+
+const NAVY = "1F3864";   // barra del título de capítulo / color de encabezados
+const BLUE = "2E75B6";   // barra del subtítulo
+const WHITE = "FFFFFF";
 
 function inlineRuns(docx: any, text: string): any[] {
   const { TextRun } = docx;
@@ -32,12 +38,14 @@ function splitCells(line: string): string[] {
 const isTableSep = (line: string) => /^\s*\|?\s*:?-{2,}:?\s*(\|\s*:?-{2,}:?\s*)*\|?\s*$/.test(line);
 
 function buildTable(docx: any, rows: string[][]): any {
-  const { Table, TableRow, TableCell, Paragraph, WidthType, TextRun } = docx;
+  const { Table, TableRow, TableCell, Paragraph, WidthType, TextRun, ShadingType } = docx;
   const trs = rows.map((cells, ri) =>
     new TableRow({
+      tableHeader: ri === 0,
       children: cells.map((c) =>
         new TableCell({
-          children: [new Paragraph({ children: ri === 0 ? [new TextRun({ text: c, bold: true })] : inlineRuns(docx, c) })],
+          shading: ri === 0 ? { type: ShadingType.CLEAR, color: "auto", fill: NAVY } : undefined,
+          children: [new Paragraph({ children: ri === 0 ? [new TextRun({ text: c, bold: true, color: WHITE })] : inlineRuns(docx, c) })],
         })
       ),
     })
@@ -45,10 +53,28 @@ function buildTable(docx: any, rows: string[][]): any {
   return new Table({ rows: trs, width: { size: 100, type: WidthType.PERCENTAGE } });
 }
 
-// Convierte un bloque de markdown en elementos docx (Paragraph / Table).
+// Banda de color con texto blanco centrado (título / subtítulo de capítulo).
+function banner(docx: any, text: string, fill: string, halfPt: number): any {
+  const { Paragraph, TextRun, AlignmentType, ShadingType } = docx;
+  return new Paragraph({
+    shading: { type: ShadingType.CLEAR, color: "auto", fill },
+    alignment: AlignmentType.CENTER,
+    spacing: { before: 240, after: 120 },
+    children: [new TextRun({ text, bold: true, color: WHITE, size: halfPt })],
+  });
+}
+
+// Encabezado de sección (azul marino, negrita) — estilo "Título N".
+function heading(docx: any, text: string, halfPt: number): any {
+  const { Paragraph, TextRun } = docx;
+  return new Paragraph({
+    spacing: { before: 220, after: 60 },
+    children: [new TextRun({ text, bold: true, color: NAVY, size: halfPt })],
+  });
+}
+
 export function markdownToDocx(docx: any, md: string): any[] {
-  const { Paragraph, HeadingLevel } = docx;
-  const HEAD = [HeadingLevel.HEADING_1, HeadingLevel.HEADING_2, HeadingLevel.HEADING_3, HeadingLevel.HEADING_4, HeadingLevel.HEADING_5, HeadingLevel.HEADING_6];
+  const { Paragraph, TextRun } = docx;
   const out: any[] = [];
   const lines = md.replace(/\r\n/g, "\n").split("\n");
   let i = 0;
@@ -56,7 +82,6 @@ export function markdownToDocx(docx: any, md: string): any[] {
   while (i < lines.length) {
     const line = lines[i];
     const trimmed = line.trim();
-
     if (trimmed === "") { i++; continue; }
 
     // Separador horizontal
@@ -66,10 +91,10 @@ export function markdownToDocx(docx: any, md: string): any[] {
       continue;
     }
 
-    // Tabla (línea con | y la siguiente es separador)
+    // Tabla
     if (trimmed.includes("|") && i + 1 < lines.length && isTableSep(lines[i + 1])) {
       const rows: string[][] = [splitCells(trimmed)];
-      i += 2; // saltar cabecera + separador
+      i += 2;
       while (i < lines.length && lines[i].trim().includes("|") && lines[i].trim() !== "") {
         rows.push(splitCells(lines[i].trim()));
         i++;
@@ -82,36 +107,44 @@ export function markdownToDocx(docx: any, md: string): any[] {
     const h = trimmed.match(/^(#{1,6})\s+(.*)$/);
     if (h) {
       const level = h[1].length;
-      out.push(new Paragraph({ children: inlineRuns(docx, h[2]), heading: HEAD[level - 1], spacing: { before: 220, after: 80 } }));
+      const text = h[2].replace(/\*\*/g, "");
+      if (level === 1) out.push(banner(docx, text, NAVY, 28));        // Capítulo — barra azul marino, blanco 14pt
+      else if (level === 2) out.push(banner(docx, text, BLUE, 24));   // Subtítulo — barra azul, blanco 12pt
+      else if (level === 3) out.push(heading(docx, text, 24));         // Sección 1.1 — azul marino 12pt
+      else if (level === 4) out.push(heading(docx, text, 23));         // 1.2.1 — azul marino 11.5pt
+      else out.push(heading(docx, text, 22));
       i++;
       continue;
     }
 
     // Cita
     if (/^>\s?/.test(trimmed)) {
-      const { TextRun } = docx;
-      out.push(new Paragraph({ children: [new TextRun({ text: trimmed.replace(/^>\s?/, ""), italics: true, color: "334155" })], indent: { left: 480 }, spacing: { after: 120 } }));
+      out.push(new Paragraph({
+        children: [new TextRun({ text: trimmed.replace(/^>\s?/, ""), italics: true, color: "3B3B3B" })],
+        indent: { left: 567 },
+        spacing: { after: 120, line: 276, lineRule: "auto" },
+      }));
       i++;
       continue;
     }
 
     // Lista con viñeta
     if (/^[-*+]\s+/.test(trimmed)) {
-      out.push(new Paragraph({ children: inlineRuns(docx, trimmed.replace(/^[-*+]\s+/, "")), bullet: { level: 0 } }));
+      out.push(new Paragraph({ children: inlineRuns(docx, trimmed.replace(/^[-*+]\s+/, "")), bullet: { level: 0 }, spacing: { after: 60, line: 276, lineRule: "auto" } }));
       i++;
       continue;
     }
 
-    // Lista numerada → conserva el número como texto (evita numeración docx compleja)
+    // Lista numerada (conserva el número como texto)
     const ol = trimmed.match(/^(\d+)\.\s+(.*)$/);
     if (ol) {
-      out.push(new Paragraph({ children: inlineRuns(docx, `${ol[1]}. ${ol[2]}`), indent: { left: 360 }, spacing: { after: 40 } }));
+      out.push(new Paragraph({ children: inlineRuns(docx, `${ol[1]}. ${ol[2]}`), indent: { left: 360 }, spacing: { after: 60, line: 276, lineRule: "auto" } }));
       i++;
       continue;
     }
 
     // Párrafo normal
-    out.push(new Paragraph({ children: inlineRuns(docx, trimmed), spacing: { after: 120 } }));
+    out.push(new Paragraph({ children: inlineRuns(docx, trimmed), spacing: { after: 160, line: 276, lineRule: "auto" } }));
     i++;
   }
 
@@ -122,27 +155,56 @@ type DocOpts = { titulo: string; subtitulo: string; docs: { markdown: string }[]
 
 async function construirDocumento(opts: DocOpts) {
   const docx = await import("docx");
-  const { Document, Paragraph, HeadingLevel, TextRun, PageBreak } = docx as any;
+  const { Document, Paragraph, TextRun, PageBreak, AlignmentType } = docx as any;
 
-  const children: any[] = [
-    new Paragraph({ text: opts.titulo, heading: HeadingLevel.TITLE }),
-    new Paragraph({ children: [new TextRun({ text: opts.subtitulo, italics: true, color: "567C8D" })], spacing: { after: 240 } }),
+  // Portada sencilla en el estilo del original (azul marino).
+  const portada: any[] = [
+    new Paragraph({ spacing: { before: 1200 } }),
+    new Paragraph({
+      alignment: AlignmentType.CENTER,
+      spacing: { after: 120 },
+      children: [new TextRun({ text: opts.titulo, bold: true, color: NAVY, size: 44 })],
+    }),
+    new Paragraph({
+      alignment: AlignmentType.CENTER,
+      children: [new TextRun({ text: opts.subtitulo, italics: true, color: BLUE, size: 24 })],
+    }),
+    new Paragraph({ children: [new PageBreak()] }),
   ];
+
+  const children: any[] = [...portada];
   opts.docs.forEach((d, idx) => {
     if (idx > 0) children.push(new Paragraph({ children: [new PageBreak()] }));
     children.push(...markdownToDocx(docx, d.markdown));
   });
 
-  return { docx, doc: new Document({ sections: [{ properties: {}, children }] }) };
+  const doc = new Document({
+    styles: {
+      default: {
+        document: {
+          run: { font: "Arial", size: 22 },                        // Arial 11pt
+          paragraph: { spacing: { line: 276, lineRule: "auto", after: 160 } },
+        },
+      },
+    },
+    sections: [{
+      properties: {
+        page: {
+          size: { width: 11906, height: 16838 },                   // A4
+          margin: { top: 1417, right: 1417, bottom: 1417, left: 1417 }, // 2.5 cm
+        },
+      },
+      children,
+    }],
+  });
+  return { docx, doc };
 }
 
-// Documento completo (varios capítulos) → Blob .docx (cliente).
 export async function documentoADocx(opts: DocOpts): Promise<Blob> {
   const { docx, doc } = await construirDocumento(opts);
   return (docx as any).Packer.toBlob(doc);
 }
 
-// Documento completo → base64 (servidor: server action).
 export async function documentoADocxBase64(opts: DocOpts): Promise<string> {
   const { docx, doc } = await construirDocumento(opts);
   return (docx as any).Packer.toBase64String(doc);
