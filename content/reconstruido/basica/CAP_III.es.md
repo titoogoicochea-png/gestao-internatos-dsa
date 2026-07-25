@@ -76,7 +76,7 @@ En la Educación Básica, los pequeños grupos deben ser conducidos por adultos 
 
 #### 3.1.6 Voluntariado y misión
 
-Mateo 28:19-20 —"Id, pues, y haced discípulos a todas las naciones"— fundamenta la vocación misionera de la educación adventista. Ellen G. White (1903/2008) refuerza que "uno de los grandes objetivos de nuestras escuelas es la preparación de jóvenes para que se empeñen en el servicio de nuestras instituciones, así como en los varios ramos de la obra del evangelio" (p. 126).
+Mateo 28:19-20 —"Por tanto, id, y haced discípulos a todas las naciones"— fundamenta la vocación misionera de la educación adventista. Ellen G. White (1903/2008) refuerza que "uno de los grandes objetivos de nuestras escuelas es la preparación de jóvenes para que se empeñen en el servicio de nuestras instituciones, así como en los varios ramos de la obra del evangelio" (p. 126).
 
 En la práctica del internado, el voluntariado y la misión se expresan en proyectos articulados: visitas a instituciones de larga permanencia, acción social en comunidades vulnerables, actividades de instrucción bíblica y educación cristiana, jornadas de salud, acciones educativas, evangelismo joven, y participación en iniciativas denominacionales como el programa Minha Escola Minha Igreja (MEMI), la Caravana da Esperança y la Missão Calebe.
 
@@ -130,7 +130,7 @@ El uso saludable de la tecnología constituye, hoy, una dimensión crítica de l
 
 El internado adventista debe elaborar políticas claras de uso de dispositivos, en conformidad con el ECA Digital brasileño (Brasil, 2025) y con marcos normativos análogos en los demás países de la DSA. Estas políticas necesitan articular tres niveles: **regulación de tiempo y horario** (sin dispositivos durante las comidas, cultos, momentos de estudio y horas de sueño), **curación de contenido** (filtros institucionales, orientación para el discernimiento) y **formación para el uso ético** (ciudadanía digital, prevención del *cyberbullying*, alfabetización mediática).
 
-Filipenses 4:8 ofrece un criterio orientador: "Todo lo que es verdadero, todo lo que es honesto, todo lo que es justo, todo lo que es puro, todo lo que es amable, todo lo que es de buen nombre; si hay virtud alguna, si algo digno de alabanza, en esto pensad". La formación digital adventista educa al estudiante para que ese criterio bíblico se convierta en discernimiento internalizado, y no solo en regla externa.
+Filipenses 4:8 ofrece un criterio orientador: "Todo lo que es verdadero, todo lo honesto, todo lo justo, todo lo puro, todo lo amable, todo lo que es de buen nombre; si hay virtud alguna, si algo digno de alabanza, en esto pensad". La formación digital adventista educa al estudiante para que ese criterio bíblico se convierta en discernimiento internalizado, y no solo en regla externa.
 
 #### 3.2.3 Bienestar psicológico y soporte emocional
 
