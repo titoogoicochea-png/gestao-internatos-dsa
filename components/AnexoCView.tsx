@@ -15,7 +15,8 @@ const DIM_ACCENT: Record<string, string> = {
 
 // ── Tipos ─────────────────────────────────────────────────────────────────────
 interface Row { cells: string[]; isSubtotal: boolean; }
-interface Subdim { id: string; title: string; dimNum: string; headers: string[]; rows: Row[]; }
+interface Meta { crit: string; text: string; }
+interface Subdim { id: string; title: string; dimNum: string; headers: string[]; rows: Row[]; metaTitle: string; metas: Meta[]; }
 interface Dim { id: string; num: string; title: string; subdims: Subdim[]; }
 
 // ── Parser ────────────────────────────────────────────────────────────────────
@@ -39,6 +40,7 @@ function parseAnexoC(raw: string): { intro: string; dims: Dim[] } {
   let curSub: Subdim | null = null;
   let seenDim = false;
   let headerSet = false;
+  let inMetas = false;
 
   for (const line of lines) {
     const t = line.trim();
@@ -73,6 +75,7 @@ function parseAnexoC(raw: string): { intro: string; dims: Dim[] } {
         seenDim = true;
         curSub = null;
         headerSet = false;
+        inMetas = false;
         curDim = { id: `d${dm[1]}`, num: dm[1], title: text, subdims: [] };
         dims.push(curDim);
         continue;
@@ -90,9 +93,12 @@ function parseAnexoC(raw: string): { intro: string; dims: Dim[] } {
           dimNum: sm[1],
           headers: [],
           rows: [],
+          metaTitle: "",
+          metas: [],
         };
         curDim.subdims.push(curSub);
         headerSet = false;
+        inMetas = false;
         continue;
       }
 
@@ -108,6 +114,17 @@ function parseAnexoC(raw: string): { intro: string; dims: Dim[] } {
     }
 
     const flat = cs.join(" ");
+
+    // Bloque "META DE VIVENCIA / VIVÊNCIA PERCIBIDA (ILE/IVC)" — tabla aparte por subdimensión
+    if (/META DE VIV[EÊ]NCIA/i.test(flat)) {
+      inMetas = true;
+      curSub.metaTitle = stripMd(cs[0]);
+      continue;
+    }
+    if (inMetas) {
+      if (cs.length >= 2 && cs[1]) curSub.metas.push({ crit: stripMd(cs[0]), text: cs[1] });
+      continue;
+    }
 
     // Fila de encabezados (contiene "Critérios")
     if (!headerSet && /crit[eé]rios?/i.test(flat)) {
@@ -149,6 +166,32 @@ function Chevron({ open }: { open: boolean }) {
     >
       <polyline points="9 18 15 12 9 6" />
     </svg>
+  );
+}
+
+// ── Bloque "Meta de vivencia percibida (ILE/IVC)" de una subdimensión ─────────
+function MetasBlock({ metaTitle, metas, accent }: { metaTitle: string; metas: Meta[]; accent: string }) {
+  if (!metas.length) return null;
+  return (
+    <div className="mt-2 overflow-x-auto bg-white">
+      <div className="px-3 py-1.5 text-xs font-semibold text-white" style={{ background: accent }}>
+        {metaTitle || "Meta de vivencia percibida (ILE/IVC)"}
+      </div>
+      <table className="w-full border-collapse text-xs">
+        <tbody>
+          {metas.map((m, i) => (
+            <tr key={i} className={i % 2 === 0 ? "bg-white" : "bg-slate-50"}>
+              <td className="border border-slate-300 px-2 py-1.5 align-top font-semibold text-slate-700" style={{ minWidth: "4.5rem", whiteSpace: "nowrap" }}>
+                {m.crit}
+              </td>
+              <td className="border border-slate-300 px-2 py-1.5 align-top italic text-slate-600">
+                <Inline text={m.text} />
+              </td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
   );
 }
 
@@ -203,6 +246,7 @@ export function AnexoCSubdimView({ raw, subdimId }: { raw: string; subdimId: str
           </tbody>
         </table>
       </div>
+      <MetasBlock metaTitle={sub.metaTitle} metas={sub.metas} accent={accent} />
     </div>
   );
 }
@@ -265,6 +309,7 @@ export function AnexoCView({ raw }: { raw: string }) {
 
                         {/* Tabla de criterios */}
                         {isSubOpen && (
+                          <>
                           <div className="overflow-x-auto bg-white">
                             <table className="w-full border-collapse text-xs">
                               {sub.headers.length > 0 && (
@@ -323,6 +368,8 @@ export function AnexoCView({ raw }: { raw: string }) {
                               </tbody>
                             </table>
                           </div>
+                          <MetasBlock metaTitle={sub.metaTitle} metas={sub.metas} accent={accent} />
+                          </>
                         )}
                       </div>
                     );

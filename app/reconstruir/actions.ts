@@ -196,14 +196,18 @@ export async function generarWordReconstruido(
   const { documentoADocxBase64 } = await import("@/lib/md-docx");
   const { getReconstruidoArchivo } = await import("@/lib/reconstruido");
 
-  // Solo los apartados reconstruidos en ese idioma, en orden del documento.
+  // Documento COMPLETO, en orden: texto reconstruido donde exista; original en su defecto.
   const docs = getDocs(nivel)
-    .map((d) => ({ d, a: getReconstruidoArchivo(nivel, d.codigo) }))
-    .filter(({ a }) => (lang === "pt" ? !!a.pt : !!a.es))
-    .map(({ a }) => ({ markdown: (lang === "pt" ? a.pt : a.es) as string }));
+    .map((d) => {
+      const a = getReconstruidoArchivo(nivel, d.codigo);
+      const recon = lang === "pt" ? a.pt : a.es;
+      const orig = lang === "pt" ? d.raw : d.raw_es;
+      return { markdown: (recon ?? orig ?? "").trim() };
+    })
+    .filter((x) => x.markdown.length > 0);
 
   if (docs.length === 0) {
-    return { ok: false, error: "Aún no hay apartados reconstruidos en ese idioma para descargar." };
+    return { ok: false, error: "No hay contenido para generar el documento." };
   }
 
   const nivelNombrePt = nivel === "basica" ? "Educação Básica" : "Educação Superior";
