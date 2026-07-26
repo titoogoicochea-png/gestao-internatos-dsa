@@ -18,7 +18,13 @@ const GRID = "CCCCCC";   // borde de celda
 const NOTE = "F2F7FC";   // recuadro de nota
 
 // A4 menos márgenes de 2,5 cm → ancho útil para las tablas (twips).
-const CONTENT_W = 11906 - 1417 * 2;
+const PAGE_W = 11906, PAGE_H = 16838, MARGIN = 1417;
+const ANCHO_VERTICAL = PAGE_W - MARGIN * 2;
+const ANCHO_HORIZONTAL = PAGE_H - MARGIN * 2;
+
+// Ancho útil de la sección que se está convirtiendo. El Anexo C, por tener once
+// columnas, se compone en horizontal; el resto del documento, en vertical.
+let CONTENT_W = ANCHO_VERTICAL;
 
 type Base = { size?: number; bold?: boolean; color?: string; italics?: boolean };
 
@@ -58,13 +64,14 @@ const plain = (s: string) => s.replace(/\*/g, "").trim();
 function colWeight(header: string): number {
   const h = plain(header).toLowerCase();
   if (/^n[ºo°]?$/.test(h)) return 1.2;
-  if (/^(puntaje|pontuação)\s+(máximo|máxima|obtenido|obtida)$/.test(h)) return 2.6;
+  if (/^(puntaje|pontuação)\s+(máximo|máxima|obtenido|obtida)$/.test(h)) return 2.0;
+  if (/^observaci[óo]n(es)?$|^observaç[ãa]o(es|ões)?$/.test(h)) return 2.7;
   if (/^(pts|puntos|pontos)$/.test(h)) return 1.25;
-  if (/^(ap|aa|pa|na|a)$/.test(h)) return 0.9;
-  if (/crit[eé]rio/.test(h)) return 4.0;
-  if (/evid[eê]ncia/.test(h)) return 3.5;
-  if (/detal/.test(h)) return 4.3;
-  if (/documento/.test(h)) return 3.2;
+  if (/^(ap|aa|pa|na|a)$/.test(h)) return 2.2;   // ahora muestran el puntaje del nivel
+  if (/crit[eé]rio/.test(h)) return 3.9;
+  if (/evid[eê]ncia/.test(h)) return 3.4;
+  if (/detal/.test(h)) return 4.1;
+  if (/documento/.test(h)) return 3.1;
   return 3;
 }
 
@@ -161,14 +168,16 @@ function buildTable(docx: any, rows: string[][]): any {
     const fill = dataIdx++ % 2 === 1 ? ZEBRA : WHITE;
     return new TableRow({
       children: padded.map((c, i) => {
-        const box = /^[☐☑]$/.test(plain(c));            // casillas de conformidad
+        // Casilla de conformidad: sola ("☐") o con el puntaje del nivel ("☐ 12-14").
+        const soloCasilla = /^[☐☑]$/.test(plain(c));
+        const box = soloCasilla || /^[☐☑]\s+\S/.test(plain(c));
         const strong = i === 0 || isNarrow(i);           // Nº y puntos en negrita
         return tCell(docx, c, {
           fill,
           align: isNarrow(i) || box ? C : L,
           width: widths[i],
           tight: isNarrow(i),
-          base: { size: box ? 20 : size, bold: strong && !box },
+          base: { size: soloCasilla ? 20 : size, bold: strong && !box },
         });
       }),
     });
@@ -521,20 +530,47 @@ async function construirDocumento(opts: DocOpts) {
   // marcadores; después se antepone el índice, ya con los enlaces resueltos.
   const lang: "es" | "pt" = opts.lang ?? (/Educaç/i.test(p.departamento) ? "pt" : "es");
   const ctx = { toc: [] as TocEntry[], seq: 0 };
-  const cuerpo: any[] = [];
-  opts.docs.forEach((d, idx) => {
-    if (idx > 0) cuerpo.push(new Paragraph({ children: [new PageBreak()] }));
-    const start = ctx.toc.length;
-    cuerpo.push(...markdownToDocx(docx, d.markdown, ctx));
-    normalizarApartado(ctx.toc, start);
-  });
 
-  const children: any[] = [
+  // El Anexo C (instrumento de acreditación) tiene once columnas y se compone en
+  // horizontal; el resto del documento, en vertical. Los apartados contiguos con
+  // la misma orientación comparten sección.
+  const esInstrumento = (md: string) => /^#\s+ANEXO\s+C\b/im.test(md.slice(0, 400));
+  const grupos: { horizontal: boolean; children: any[] }[] = [];
+  opts.docs.forEach((d) => {
+    const horizontal = esInstrumento(d.markdown);
+    CONTENT_W = horizontal ? ANCHO_HORIZONTAL : ANCHO_VERTICAL;
+    const start = ctx.toc.length;
+    const bloque = markdownToDocx(docx, d.markdown, ctx);
+    normalizarApartado(ctx.toc, start);
+    const ultimo = grupos[grupos.length - 1];
+    if (ultimo && ultimo.horizontal === horizontal) {
+      ultimo.children.push(new Paragraph({ children: [new PageBreak()] }), ...bloque);
+    } else {
+      grupos.push({ horizontal, children: bloque });
+    }
+  });
+  CONTENT_W = ANCHO_VERTICAL;
+
+  // La portada y el índice encabezan la primera sección (vertical).
+  const preliminares = [
     ...portada,
     ...construirIndice(docx, ctx.toc, lang),
     new Paragraph({ children: [new PageBreak()] }),
-    ...cuerpo,
   ];
+  if (grupos.length === 0 || grupos[0].horizontal) {
+    grupos.unshift({ horizontal: false, children: preliminares });
+  } else {
+    grupos[0].children.unshift(...preliminares);
+  }
+
+  const pagina = (horizontal: boolean) => ({
+    // Con orientación horizontal la librería intercambia ancho y alto, de modo
+    // que aquí siempre se indican las medidas del A4 vertical.
+    size: horizontal
+      ? { width: PAGE_W, height: PAGE_H, orientation: (docx as any).PageOrientation.LANDSCAPE }
+      : { width: PAGE_W, height: PAGE_H },
+    margin: { top: MARGIN, right: MARGIN, bottom: MARGIN, left: MARGIN },
+  });
 
   const doc = new Document({
     styles: {
@@ -546,15 +582,7 @@ async function construirDocumento(opts: DocOpts) {
         },
       },
     },
-    sections: [{
-      properties: {
-        page: {
-          size: { width: 11906, height: 16838 },                   // A4
-          margin: { top: 1417, right: 1417, bottom: 1417, left: 1417 }, // 2.5 cm
-        },
-      },
-      children,
-    }],
+    sections: grupos.map((g) => ({ properties: { page: pagina(g.horizontal) }, children: g.children })),
   });
   return { docx, doc };
 }
