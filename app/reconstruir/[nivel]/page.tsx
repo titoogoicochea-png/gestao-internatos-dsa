@@ -20,13 +20,20 @@ export default async function ReconstruirNivelPage({ params }: { params: { nivel
   const { nivel } = params;
   if (!isNivel(nivel)) notFound();
 
-  // Reemplaza el texto de cada apartado por su versión reconstruida (archivo),
-  // conservando toda la estructura del documento (secciones, títulos, etc.).
+  // Reemplaza el texto de cada apartado por su versión reconstruida (archivo).
+  // El índice lateral se toma del texto reconstruido, porque sus títulos pueden
+  // diferir de los del documento original (p. ej. el Capítulo III reorganizado).
   const reconstruidos: string[] = [];
   const docs = getDocs(nivel).map((d) => {
     const a = getReconstruidoArchivo(nivel, d.codigo);
     if (a.es || a.pt) reconstruidos.push(d.codigo);
-    return { ...d, raw_es: a.es ?? d.raw_es, raw: a.pt ?? d.raw };
+    return {
+      ...d,
+      raw_es: a.es ?? d.raw_es,
+      raw: a.pt ?? d.raw,
+      sections_es: a.es ? a.sec_es ?? [] : d.sections_es,
+      sections: a.pt ? a.sec_pt ?? [] : d.sections,
+    };
   });
 
   return <Reader nivel={nivel} docs={docs} reconstruidos={reconstruidos} isAdmin={isAdmin} />;

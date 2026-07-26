@@ -3,9 +3,16 @@
 // fuente del documento reconstruido (sin costo de API).
 import data from "./reconstruido.generated.json";
 
-type Lang = "es" | "pt";
-const RECON = data as Record<string, Record<string, Partial<Record<Lang, string>>>>;
+export type Seccion = { id: string; text: string; depth: number };
+export type ArchivoReconstruido = {
+  es?: string;
+  pt?: string;
+  sec_es?: Seccion[];   // índice de secciones del texto reconstruido
+  sec_pt?: Seccion[];
+};
 
-export function getReconstruidoArchivo(nivel: string, codigo: string): { es?: string; pt?: string } {
+const RECON = data as unknown as Record<string, Record<string, ArchivoReconstruido>>;
+
+export function getReconstruidoArchivo(nivel: string, codigo: string): ArchivoReconstruido {
   return RECON[nivel]?.[codigo] ?? {};
 }
