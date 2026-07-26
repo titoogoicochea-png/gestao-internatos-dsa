@@ -1,30 +1,42 @@
 // Conversor Markdown → Word (.docx) replicando la FORMA y ESTILO del documento
 // original (Referencial v8): Arial 11pt, A4, márgenes 2.5cm; título de capítulo en
 // blanco sobre barra azul marino (1F3864); subtítulo en blanco sobre barra azul
-// (2E75B6); secciones en azul marino negrita (estilos "Título"); citas en cursiva
-// sangrada. Solo cambia el texto (reconstruido); el estilo imita al original.
+// (2E75B6); secciones en azul marino negrita; citas en cursiva sangrada.
+//
+// Tablas (Anexos B y C) replicando el instrumento original: cuerpo en Arial 8pt,
+// encabezado blanco sobre azul (2E75B6) repetido en cada página, filas cebra
+// (blanco / EBF3FB), bordes gris claro (CCCCCC), fila de subtotal en azul marino,
+// anchos de columna proporcionales al contenido y tabla centrada en la página.
 
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
-const NAVY = "1F3864";   // barra del título de capítulo / color de encabezados
-const BLUE = "2E75B6";   // barra del subtítulo
+const NAVY = "1F3864";   // barra de capítulo / dimensión / fila de subtotal
+const BLUE = "2E75B6";   // barra de subtítulo / encabezado de tabla
 const WHITE = "FFFFFF";
+const ZEBRA = "EBF3FB";  // fila alterna (igual que el original)
+const GRID = "CCCCCC";   // borde de celda
+const NOTE = "F2F7FC";   // recuadro de nota
 
-function inlineRuns(docx: any, text: string): any[] {
+// A4 menos márgenes de 2,5 cm → ancho útil para las tablas (twips).
+const CONTENT_W = 11906 - 1417 * 2;
+
+type Base = { size?: number; bold?: boolean; color?: string; italics?: boolean };
+
+function inlineRuns(docx: any, text: string, base: Base = {}): any[] {
   const { TextRun } = docx;
   const runs: any[] = [];
   const re = /(\*\*([^*]+)\*\*|\*([^*]+)\*|`([^`]+)`)/g;
   let last = 0;
   let m: RegExpExecArray | null;
   while ((m = re.exec(text))) {
-    if (m.index > last) runs.push(new TextRun({ text: text.slice(last, m.index) }));
-    if (m[2] !== undefined) runs.push(new TextRun({ text: m[2], bold: true }));
-    else if (m[3] !== undefined) runs.push(new TextRun({ text: m[3], italics: true }));
-    else if (m[4] !== undefined) runs.push(new TextRun({ text: m[4], font: "Courier New" }));
+    if (m.index > last) runs.push(new TextRun({ ...base, text: text.slice(last, m.index) }));
+    if (m[2] !== undefined) runs.push(new TextRun({ ...base, text: m[2], bold: true }));
+    else if (m[3] !== undefined) runs.push(new TextRun({ ...base, text: m[3], italics: true }));
+    else if (m[4] !== undefined) runs.push(new TextRun({ ...base, text: m[4], font: "Courier New" }));
     last = m.index + m[0].length;
   }
-  if (last < text.length) runs.push(new TextRun({ text: text.slice(last) }));
-  if (runs.length === 0) runs.push(new TextRun({ text: "" }));
+  if (last < text.length) runs.push(new TextRun({ ...base, text: text.slice(last) }));
+  if (runs.length === 0) runs.push(new TextRun({ ...base, text: "" }));
   return runs;
 }
 
@@ -37,23 +49,174 @@ function splitCells(line: string): string[] {
 
 const isTableSep = (line: string) => /^\s*\|?\s*:?-{2,}:?\s*(\|\s*:?-{2,}:?\s*)*\|?\s*$/.test(line);
 
-function buildTable(docx: any, rows: string[][]): any {
-  const { Table, TableRow, TableCell, Paragraph, WidthType, TextRun, ShadingType } = docx;
-  const trs = rows.map((cells, ri) =>
-    new TableRow({
-      tableHeader: ri === 0,
-      children: cells.map((c) =>
-        new TableCell({
-          shading: ri === 0 ? { type: ShadingType.CLEAR, color: "auto", fill: NAVY } : undefined,
-          children: [new Paragraph({ children: ri === 0 ? [new TextRun({ text: c, bold: true, color: WHITE })] : inlineRuns(docx, c) })],
-        })
-      ),
-    })
-  );
-  return new Table({ rows: trs, width: { size: 100, type: WidthType.PERCENTAGE } });
+const plain = (s: string) => s.replace(/\*/g, "").trim();
+
+// ── Tablas ───────────────────────────────────────────────────────────────────
+
+// Peso relativo de cada columna, para repartir el ancho como en el original
+// (Nº, puntos y casillas estrechos; Criterios y Detalle anchos).
+function colWeight(header: string): number {
+  const h = plain(header).toLowerCase();
+  if (/^n[ºo°]?$/.test(h)) return 1.2;
+  if (/^(pts|puntos|pontos)$/.test(h)) return 1.25;
+  if (/^(ap|aa|pa|na|a)$/.test(h)) return 1.05;
+  if (/crit[eé]rio/.test(h)) return 4.3;
+  if (/evid[eê]ncia/.test(h)) return 3.8;
+  if (/detal/.test(h)) return 4.7;
+  if (/documento/.test(h)) return 3.4;
+  return 3;
 }
 
-// Banda de color con texto blanco centrado (título / subtítulo de capítulo).
+// El instrumento original abrevia el encabezado de la columna de puntos ("Pts")
+// para que quepa sin partirse en la columna estrecha.
+function abrevHeader(text: string): string {
+  return /^(puntos|pontos)$/i.test(plain(text)) ? "**Pts**" : text;
+}
+
+function cellBorders(docx: any) {
+  const { BorderStyle } = docx;
+  const b = { style: BorderStyle.SINGLE, size: 4, color: GRID };
+  return { top: b, bottom: b, left: b, right: b };
+}
+
+function tCell(
+  docx: any,
+  text: string,
+  opts: { fill?: string; align?: any; base?: Base; span?: number; width?: number; tight?: boolean }
+): any {
+  const { TableCell, Paragraph, ShadingType, WidthType, VerticalAlign } = docx;
+  const pad = opts.tight ? 30 : 80;   // columnas estrechas con menos margen interno
+  return new TableCell({
+    columnSpan: opts.span,
+    width: opts.width ? { size: opts.width, type: WidthType.DXA } : undefined,
+    shading: opts.fill ? { type: ShadingType.CLEAR, color: "auto", fill: opts.fill } : undefined,
+    borders: cellBorders(docx),
+    margins: { top: 30, bottom: 30, left: pad, right: pad },
+    verticalAlign: VerticalAlign.TOP,
+    children: [
+      new Paragraph({
+        alignment: opts.align,
+        spacing: { before: 20, after: 20, line: 240, lineRule: "auto" },
+        children: inlineRuns(docx, text, opts.base ?? {}),
+      }),
+    ],
+  });
+}
+
+function buildTable(docx: any, rows: string[][]): any {
+  const { Table, TableRow, WidthType, AlignmentType, TableLayoutType } = docx;
+
+  const headers = rows[0] ?? [];
+  const nCols = Math.max(...rows.map((r) => r.length));
+  // Tablas anchas (instrumento de acreditación) en 8pt; el resto en 9pt.
+  const size = nCols >= 6 ? 16 : 18;
+
+  const weights = Array.from({ length: nCols }, (_, i) => colWeight(headers[i] ?? ""));
+  const wSum = weights.reduce((a, b) => a + b, 0);
+  const widths = weights.map((w) => Math.round((CONTENT_W * w) / wSum));
+  const isNarrow = (i: number) => weights[i] <= 1.2;
+
+  const C = AlignmentType.CENTER;
+  const L = AlignmentType.LEFT;
+
+  let dataIdx = 0;
+  const trs = rows.map((cells, ri) => {
+    const padded = Array.from({ length: nCols }, (_, i) => cells[i] ?? "");
+    const flat = padded.join(" ");
+
+    // Encabezado: blanco sobre azul; se repite al pasar de página.
+    if (ri === 0) {
+      return new TableRow({
+        tableHeader: true,
+        children: padded.map((c, i) =>
+          tCell(docx, abrevHeader(c), {
+            fill: BLUE,
+            align: C,
+            width: widths[i],
+            tight: isNarrow(i),
+            base: { size, bold: true, color: WHITE },
+          })
+        ),
+      });
+    }
+
+    // Fila de subtotal / total: blanco sobre azul marino.
+    if (/\bSUBTOTAL\b|\bTOTAL\b/i.test(flat)) {
+      return new TableRow({
+        children: padded.map((c, i) =>
+          tCell(docx, c, {
+            fill: NAVY,
+            align: isNarrow(i) ? C : L,
+            width: widths[i],
+            tight: isNarrow(i),
+            base: { size, bold: true, color: WHITE },
+          })
+        ),
+      });
+    }
+
+    // Filas de datos: cebra blanco / EBF3FB, como el original.
+    const fill = dataIdx++ % 2 === 1 ? ZEBRA : WHITE;
+    return new TableRow({
+      children: padded.map((c, i) => {
+        const box = /^[☐☑]$/.test(plain(c));            // casillas de conformidad
+        const strong = i === 0 || isNarrow(i);           // Nº y puntos en negrita
+        return tCell(docx, c, {
+          fill,
+          align: isNarrow(i) || box ? C : L,
+          width: widths[i],
+          tight: isNarrow(i),
+          base: { size: box ? 20 : size, bold: strong && !box },
+        });
+      }),
+    });
+  });
+
+  return new Table({
+    rows: trs,
+    width: { size: CONTENT_W, type: WidthType.DXA },
+    columnWidths: widths,
+    layout: TableLayoutType.FIXED,
+    alignment: AlignmentType.CENTER,
+  });
+}
+
+// Bloque "Meta de vivencia percibida (ILE/IVC)": título a todo el ancho + filas.
+function buildMetaTable(docx: any, rows: string[][]): any {
+  const { Table, TableRow, WidthType, AlignmentType, TableLayoutType } = docx;
+  const widths = [Math.round(CONTENT_W * 0.14), Math.round(CONTENT_W * 0.86)];
+  const C = AlignmentType.CENTER;
+  const L = AlignmentType.LEFT;
+
+  const trs: any[] = [
+    new TableRow({
+      children: [
+        tCell(docx, rows[0][0], { fill: BLUE, align: L, span: 2, base: { size: 16, bold: true, color: WHITE } }),
+      ],
+    }),
+  ];
+  rows.slice(1).forEach((r, i) => {
+    const fill = i % 2 === 1 ? ZEBRA : WHITE;
+    trs.push(
+      new TableRow({
+        children: [
+          tCell(docx, r[0] ?? "", { fill, align: C, width: widths[0], base: { size: 16, bold: true } }),
+          tCell(docx, r[1] ?? "", { fill, align: L, width: widths[1], base: { size: 16, italics: true, color: "3B3B3B" } }),
+        ],
+      })
+    );
+  });
+
+  return new Table({
+    rows: trs,
+    width: { size: CONTENT_W, type: WidthType.DXA },
+    columnWidths: widths,
+    layout: TableLayoutType.FIXED,
+    alignment: AlignmentType.CENTER,
+  });
+}
+
+// Banda de color con texto blanco centrado (capítulo / dimensión / subdimensión).
 function banner(docx: any, text: string, fill: string, halfPt: number): any {
   const { Paragraph, TextRun, AlignmentType, ShadingType } = docx;
   return new Paragraph({
@@ -61,6 +224,22 @@ function banner(docx: any, text: string, fill: string, halfPt: number): any {
     alignment: AlignmentType.CENTER,
     spacing: { before: 240, after: 120 },
     children: [new TextRun({ text, bold: true, color: WHITE, size: halfPt })],
+  });
+}
+
+// Recuadro de nota (texto informativo largo en una sola celda).
+function noteBox(docx: any, text: string): any {
+  const { Table, TableRow, WidthType, AlignmentType, TableLayoutType } = docx;
+  return new Table({
+    rows: [
+      new TableRow({
+        children: [tCell(docx, text, { fill: NOTE, align: AlignmentType.BOTH, width: CONTENT_W, base: { size: 17 } })],
+      }),
+    ],
+    width: { size: CONTENT_W, type: WidthType.DXA },
+    columnWidths: [CONTENT_W],
+    layout: TableLayoutType.FIXED,
+    alignment: AlignmentType.CENTER,
   });
 }
 
@@ -74,7 +253,7 @@ function heading(docx: any, text: string, halfPt: number): any {
 }
 
 export function markdownToDocx(docx: any, md: string): any[] {
-  const { Paragraph, TextRun } = docx;
+  const { Paragraph } = docx;
   const out: any[] = [];
   const lines = md.replace(/\r\n/g, "\n").split("\n");
   let i = 0;
@@ -99,7 +278,33 @@ export function markdownToDocx(docx: any, md: string): any[] {
         rows.push(splitCells(lines[i].trim()));
         i++;
       }
-      out.push(buildTable(docx, rows));
+
+      // El Anexo C encadena en un mismo bloque el título de la subdimensión
+      // (fila de una sola celda) y la tabla de criterios. Se separa en segmentos:
+      // cada fila de una sola celda es una banda; el resto forma una tabla.
+      let seg: string[][] = [];
+      const flush = () => {
+        if (!seg.length) return;
+        const head = plain(seg[0][0] ?? "");
+        if (seg[0].length === 2 && /META DE VIV[EÊ]NCIA/i.test(head)) out.push(buildMetaTable(docx, seg));
+        else out.push(buildTable(docx, seg));
+        seg = [];
+      };
+
+      for (const r of rows) {
+        if (r.length === 1) {
+          flush();
+          const txt = plain(r[0] ?? "");
+          if (/^DIMENS(I[ÓO]N|[ÃA]O)\s*\d/i.test(txt)) out.push(banner(docx, txt, NAVY, 28));
+          else if (/^TOTAL\s+DIMENS/i.test(txt)) out.push(banner(docx, txt, NAVY, 20));
+          else if (/^\d+\.\d+\s/.test(txt)) out.push(banner(docx, txt, BLUE, 22));
+          else if (txt.length > 180) out.push(noteBox(docx, r[0]));
+          else out.push(banner(docx, txt, BLUE, 22));
+        } else {
+          seg.push(r);
+        }
+      }
+      flush();
       continue;
     }
 
@@ -120,7 +325,7 @@ export function markdownToDocx(docx: any, md: string): any[] {
     // Cita
     if (/^>\s?/.test(trimmed)) {
       out.push(new Paragraph({
-        children: [new TextRun({ text: trimmed.replace(/^>\s?/, ""), italics: true, color: "3B3B3B" })],
+        children: inlineRuns(docx, trimmed.replace(/^>\s?/, ""), { italics: true, color: "3B3B3B" }),
         indent: { left: 567 },
         spacing: { after: 120, line: 276, lineRule: "auto" },
       }));
@@ -139,6 +344,16 @@ export function markdownToDocx(docx: any, md: string): any[] {
     const ol = trimmed.match(/^(\d+)\.\s+(.*)$/);
     if (ol) {
       out.push(new Paragraph({ children: inlineRuns(docx, `${ol[1]}. ${ol[2]}`), indent: { left: 360 }, spacing: { after: 60, line: 276, lineRule: "auto" } }));
+      i++;
+      continue;
+    }
+
+    // Leyenda de la escala de conformidad (AP/AA/PA/NA): compacta y en gris.
+    if (/^(AP|AA)\s*=\s*At[ei]/i.test(trimmed)) {
+      out.push(new Paragraph({
+        children: inlineRuns(docx, trimmed, { size: 17, color: "3B3B3B" }),
+        spacing: { after: 120, line: 240, lineRule: "auto" },
+      }));
       i++;
       continue;
     }
@@ -190,7 +405,8 @@ async function construirDocumento(opts: DocOpts) {
       default: {
         document: {
           run: { font: "Arial", size: 22 },                        // Arial 11pt
-          paragraph: { spacing: { line: 276, lineRule: "auto", after: 160 } },
+          // Cuerpo justificado, como el estilo "Normal" del documento original.
+          paragraph: { alignment: AlignmentType.BOTH, spacing: { line: 276, lineRule: "auto", after: 160 } },
         },
       },
     },
