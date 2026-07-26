@@ -58,17 +58,19 @@ const plain = (s: string) => s.replace(/\*/g, "").trim();
 function colWeight(header: string): number {
   const h = plain(header).toLowerCase();
   if (/^n[ºo°]?$/.test(h)) return 1.2;
+  if (/^(puntaje|pontuação)\s+(máximo|máxima|obtenido|obtida)$/.test(h)) return 2.6;
   if (/^(pts|puntos|pontos)$/.test(h)) return 1.25;
-  if (/^(ap|aa|pa|na|a)$/.test(h)) return 1.05;
-  if (/crit[eé]rio/.test(h)) return 4.3;
-  if (/evid[eê]ncia/.test(h)) return 3.8;
-  if (/detal/.test(h)) return 4.7;
-  if (/documento/.test(h)) return 3.4;
+  if (/^(ap|aa|pa|na|a)$/.test(h)) return 0.9;
+  if (/crit[eé]rio/.test(h)) return 4.0;
+  if (/evid[eê]ncia/.test(h)) return 3.5;
+  if (/detal/.test(h)) return 4.3;
+  if (/documento/.test(h)) return 3.2;
   return 3;
 }
 
-// El instrumento original abrevia el encabezado de la columna de puntos ("Pts")
-// para que quepa sin partirse en la columna estrecha.
+// El instrumento original abrevia "Puntos" como "Pts" en la columna estrecha.
+// Los encabezados de puntaje máximo/obtenido se muestran completos (su columna
+// es más ancha y admite dos líneas).
 function abrevHeader(text: string): string {
   return /^(puntos|pontos)$/i.test(plain(text)) ? "**Pts**" : text;
 }
@@ -333,13 +335,15 @@ export function markdownToDocx(docx: any, md: string, ctx?: Ctx): any[] {
         if (r.length === 1) {
           flush();
           const txt = plain(r[0] ?? "");
-          // Dimensiones y subdimensiones del Anexo C entran al índice.
-          if (/^DIMENS(I[ÓO]N|[ÃA]O)\s*\d/i.test(txt)) {
-            out.push(banner(docx, txt, NAVY, 28, { anchor: anclar(ctx, 2, txt), heading: HeadingLevel.HEADING_2 }));
+          // Secciones, dimensiones y subdimensiones del Anexo C entran al índice.
+          if (/^SE(CCI[ÓO]N|[ÇC][ÃA]O)\s+[IVX]+\s*:/i.test(txt)) {
+            out.push(banner(docx, txt, NAVY, 26, { anchor: anclar(ctx, 2, txt), heading: HeadingLevel.HEADING_2 }));
+          } else if (/^DIMENS(I[ÓO]N|[ÃA]O)\s*\d/i.test(txt)) {
+            out.push(banner(docx, txt, NAVY, 28, { anchor: anclar(ctx, 3, txt), heading: HeadingLevel.HEADING_3 }));
           } else if (/^TOTAL\s+DIMENS/i.test(txt)) {
             out.push(banner(docx, txt, NAVY, 20));
           } else if (/^\d+\.\d+\s/.test(txt)) {
-            out.push(banner(docx, txt, BLUE, 22, { anchor: anclar(ctx, 3, txt), heading: HeadingLevel.HEADING_3 }));
+            out.push(banner(docx, txt, BLUE, 22, { heading: HeadingLevel.HEADING_4 }));
           } else if (txt.length > 180) {
             out.push(noteBox(docx, r[0]));
           } else {

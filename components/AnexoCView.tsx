@@ -17,7 +17,7 @@ const DIM_ACCENT: Record<string, string> = {
 interface Row { cells: string[]; isSubtotal: boolean; }
 interface Meta { crit: string; text: string; }
 interface Subdim { id: string; title: string; dimNum: string; headers: string[]; rows: Row[]; metaTitle: string; metas: Meta[]; }
-interface Dim { id: string; num: string; title: string; subdims: Subdim[]; }
+interface Dim { id: string; num: string; title: string; subdims: Subdim[]; intro: string; }
 
 // ── Parser ────────────────────────────────────────────────────────────────────
 function splitCells(line: string): string[] {
@@ -32,9 +32,11 @@ function stripMd(t: string): string {
   return t.replace(/\*{2,}/g, "").trim();
 }
 
-function parseAnexoC(raw: string): { intro: string; dims: Dim[] } {
+function parseAnexoC(raw: string): { intro: string; dims: Dim[]; cierre: string } {
   const lines = raw.split(/\r?\n/);
   const introLines: string[] = [];
+  const cierreLines: string[] = [];
+  let enCierre = false;                    // sección final (consolidado de puntaje)
   const dims: Dim[] = [];
   let curDim: Dim | null = null;
   let curSub: Subdim | null = null;
@@ -44,6 +46,12 @@ function parseAnexoC(raw: string): { intro: string; dims: Dim[] } {
 
   for (const line of lines) {
     const t = line.trim();
+
+    // Una vez abierta la sección final, todo el resto se muestra tal cual.
+    if (enCierre) {
+      cierreLines.push(line);
+      continue;
+    }
 
     if (!t) {
       if (!seenDim) introLines.push("");
@@ -58,7 +66,11 @@ function parseAnexoC(raw: string): { intro: string; dims: Dim[] } {
 
     // Líneas sin tabla (texto, encabezados #)
     if (!t.startsWith("|")) {
-      if (!seenDim && !t.startsWith("#")) introLines.push(line);
+      if (t.startsWith("#")) continue;
+      if (!seenDim) introLines.push(line);
+      // Texto entre el título de la dimensión y su primera subdimensión:
+      // orientación al evaluador.
+      else if (curDim && !curSub) curDim.intro += (curDim.intro ? "\n" : "") + line;
       continue;
     }
 
@@ -76,7 +88,7 @@ function parseAnexoC(raw: string): { intro: string; dims: Dim[] } {
         curSub = null;
         headerSet = false;
         inMetas = false;
-        curDim = { id: `d${dm[1]}`, num: dm[1], title: text, subdims: [] };
+        curDim = { id: `d${dm[1]}`, num: dm[1], title: text, subdims: [], intro: "" };
         dims.push(curDim);
         continue;
       }
@@ -102,8 +114,10 @@ function parseAnexoC(raw: string): { intro: string; dims: Dim[] } {
         continue;
       }
 
-      // Otras filas de 1 columna antes de la primera Dimensión → intro
+      // Antes de la primera Dimensión → intro. Después de las dimensiones, una
+      // fila suelta de una columna abre la sección final (consolidado).
       if (!seenDim) introLines.push(line);
+      else { enCierre = true; cierreLines.push(line); }
       continue;
     }
 
@@ -137,7 +151,7 @@ function parseAnexoC(raw: string): { intro: string; dims: Dim[] } {
     curSub.rows.push({ cells: cs, isSubtotal: /SUBTOTAL/i.test(flat) });
   }
 
-  return { intro: introLines.join("\n"), dims };
+  return { intro: introLines.join("\n"), dims, cierre: cierreLines.join("\n") };
 }
 
 // ── Renderer de Markdown inline (**negrita**) ─────────────────────────────────
@@ -253,7 +267,7 @@ export function AnexoCSubdimView({ raw, subdimId }: { raw: string; subdimId: str
 
 // ── Componente principal ──────────────────────────────────────────────────────
 export function AnexoCView({ raw }: { raw: string }) {
-  const { intro, dims } = parseAnexoC(raw);
+  const { intro, dims, cierre } = parseAnexoC(raw);
   const [openDims, setOpenDims] = useState<Set<string>>(new Set());
   const [openSubs, setOpenSubs] = useState<Set<string>>(new Set());
 
@@ -293,6 +307,11 @@ export function AnexoCView({ raw }: { raw: string }) {
               {/* Contenido de la Dimensión: subdimensiones */}
               {isOpen && (
                 <div className="divide-y divide-slate-100 bg-slate-50">
+                  {dim.intro.trim() && (
+                    <div className="doc bg-white px-4 py-3 text-sm">
+                      <ReactMarkdown remarkPlugins={[remarkGfm]}>{dim.intro}</ReactMarkdown>
+                    </div>
+                  )}
                   {dim.subdims.map(sub => {
                     const isSubOpen = openSubs.has(sub.id);
                     return (
@@ -380,6 +399,13 @@ export function AnexoCView({ raw }: { raw: string }) {
           );
         })}
       </div>
+
+      {/* Sección final: consolidado de puntaje y nivel de logro */}
+      {cierre.trim() && (
+        <div className="doc mt-6">
+          <ReactMarkdown remarkPlugins={[remarkGfm]}>{cierre}</ReactMarkdown>
+        </div>
+      )}
     </div>
   );
 }
