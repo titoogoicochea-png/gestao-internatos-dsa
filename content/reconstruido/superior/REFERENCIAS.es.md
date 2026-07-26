@@ -219,6 +219,10 @@ UNICEF. (2021). *The state of the world's children 2021: On my mind — Promotin
 
 Walker, M. (2017). *Why we sleep: Unlocking the power of sleep and dreams*. Scribner.
 
+White, E. G. (1976). *Testimonios para la iglesia* (Tomo 3). Asociación Casa Editora Sudamericana.
+
+White, E. G. (1986). *El Deseado de todas las gentes*. Asociación Casa Editora Sudamericana.
+
 White, E. G. (2006). *Cartas a jovens namorados*. Casa Publicadora Brasileira. (Obra original publicada em 1908)
 
 White, E. G. (2007a). *Testemunhos seletos* (Vol. 2). Casa Publicadora Brasileira. (Obra original publicada em 1913)

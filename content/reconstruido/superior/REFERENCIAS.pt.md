@@ -1,24 +1,25 @@
-# REFERENCIAS
+# REFERÊNCIAS
 
 Aberastury, A., & Knobel, M. (1981). *Adolescência normal*. Artes Médicas.
 
-Abramo, H. W. (1997). Consideraciones sobre la tematización social de la juventud en Brasil. *Revista Brasileira de Educação*, (5-6), 25-36.
+Abramo, H. W. (1997). Considerações sobre a tematização social da juventude no Brasil. *Revista Brasileira de Educação*, (5-6), 25-36.
 
-Almeida, I. S., Rodrigues, B. M. R. D., Simões, S. M. F., Pacheco, S. T. A., & Pacheco, C. C. (2007). El adolescer… un llegar a ser. *Adolescência & Saúde*, 4(3), 24-28.
-
-American College Health Association. (2023). *National College Health Assessment III: Undergraduate student reference group executive summary fall 2022*. ACHA.
-
-Andrade, E. P., Reato, L. F. N., & Azevedo, A. E. B. I. (2019). Consulta médica y aspectos éticos de la atención. In A. E. B. I. Azevedo & L. F. N. Reato, *Manual de adolescência* (1. ed., pp. 17-20). Manole.
-
-Araújo, R. T. (2016). *Demandas de saúde de adolescentes: construindo bases para o cuidado* [Tesis de doctorado, Universidade Federal da Bahia]. Escola de Enfermagem.
+Almeida, I. S., Rodrigues, B. M. R. D., Simões, S. M. F., Pacheco, S. T. A., & Pacheco, C. C. (2007). O adolescer… um vir a ser. *Adolescência & Saúde*, 4(3), 24-28.
 
 
+Andrade, E. P., Reato, L. F. N., & Azevedo, A. E. B. I. (2019). Consulta médica e aspectos éticos do atendimento. In A. E. B. I. Azevedo & L. F. N. Reato, *Manual de adolescência* (1. ed., pp. 17-20). Manole.
 
-Ayres, J. R. C. M., França Junior, I., Calazans, G. J., & Saletti Filho, H. C. (2008). Riesgo, vulnerabilidad y prácticas de prevención y promoción de la salud. In G. W. S. Campos, M. C. S. Minayo, M. Akerman, M. Drumond Junior, & Y. M. Carvalho (Orgs.), *Tratado de saúde coletiva* (2. ed., pp. 375-417). Hucitec; Fiocruz.
+Araújo, R. T. (2016). *Demandas de saúde de adolescentes: construindo bases para o cuidado* [Tese de doutorado, Universidade Federal da Bahia]. Escola de Enfermagem.
 
-Ayres, J. R. C. M., Carvalho, Y. M., Nasser, M. A., Saltão, R. M., & Mendes, V. M. (2012). Caminos de la integralidad: Adolescentes y jóvenes en la Atención Primaria a la Salud. *Interface — Comunicação, Saúde, Educação*, 16(40), 67-81.
+Arnett, J. J. (2014). *Emerging adulthood: The winding road from the late teens through the twenties* (2nd ed.). Oxford University Press.
 
-Azevedo, M. R. D. (2008). Desarrollo psicosocial. In Comissão de Saúde do Adolescente, *Adolescência e saúde III* (pp. 72-81). Secretaria de Estado de São Paulo.
+Astin, A. W. (1984). Student involvement: A developmental theory for higher education. *Journal of College Student Personnel*, 25(4), 297-308.
+
+Ayres, J. R. C. M., França Junior, I., Calazans, G. J., & Saletti Filho, H. C. (2008). Risco, vulnerabilidade e práticas de prevenção e promoção da saúde. In G. W. S. Campos, M. C. S. Minayo, M. Akerman, M. Drumond Junior, & Y. M. Carvalho (Orgs.), *Tratado de saúde coletiva* (2. ed., pp. 375-417). Hucitec; Fiocruz.
+
+Ayres, J. R. C. M., Carvalho, Y. M., Nasser, M. A., Saltão, R. M., & Mendes, V. M. (2012). Caminhos da integralidade: Adolescentes e jovens na Atenção Primária à Saúde. *Interface — Comunicação, Saúde, Educação*, 16(40), 67-81.
+
+Azevedo, M. R. D. (2008). Desenvolvimento psicossocial. In Comissão de Saúde do Adolescente, *Adolescência e saúde III* (pp. 72-81). Secretaria de Estado de São Paulo.
 
 Bandura, A. (1977). Self-efficacy: Toward a unifying theory of behavioral change. *Psychological Review*, 84(2), 191-215. https://doi.org/10.1037/0033-295X.84.2.191
 
@@ -28,13 +29,13 @@ Bauman, Z. (2001). *Modernidade líquida*. Zahar.
 
 Beck, J. S. (2020). *Cognitive behavior therapy: Basics and beyond* (3rd ed.). The Guilford Press.
 
-Biblia Reina-Valera 1960. (1960). *Santa Biblia: Reina-Valera 1960*. Sociedades Bíblicas Unidas.
+Bíblia Sagrada. (2017). *Almeida revista e atualizada*. Sociedade Bíblica do Brasil.
 
 Borges, M. (2019). *A escola ideal*. Casa Publicadora Brasileira.
 
 Bottentuit Junior, J. B., Furtado, C. C., & Pecegueiro, C. M. P. A. (2021). *Leitura e escrita no mundo digital: Desafios e oportunidades para alunos e professores*. EDUFMA.
 
-Bourdieu, P. (1983). La juventud no es más que una palabra. In *Questões de sociologia*. Marco Zero.
+Bourdieu, P. (1983). A juventude é apenas uma palavra. In *Questões de sociologia*. Marco Zero.
 
 Bowlby, J. (1984). *Apego e perda: Apego*. Martins Fontes.
 
@@ -44,6 +45,7 @@ Brasil. (1990). *Lei n.º 8.069, de 13 de julho de 1990: Estatuto da Criança e 
 
 Brasil. Ministério da Saúde. (2010). *Diretrizes nacionais para a atenção integral à saúde de adolescentes e jovens na promoção, proteção e recuperação da saúde* (Série A. Normas e Manuais Técnicos). Ministério da Saúde.
 
+Brasil. Ministério da Saúde. (2017). *Nota técnica n.º 4: Direito de adolescentes serem atendidos nas UBS desacompanhados*. Coordenação-Geral de Saúde do Adolescente e do Jovem.
 
 Brasil. (2025). *Lei n.º 15.211, de 17 de setembro de 2025: Estatuto Digital da Criança e do Adolescente*. Presidência da República.
 
@@ -51,22 +53,23 @@ Brown, B. (2018). *Dare to lead: Brave work, tough conversations, whole hearts*.
 
 Burns, J. M. (1978). *Leadership*. Harper & Row.
 
-Cadeira, H. C. (2025). *Fé e futuro: Expectativas, satisfação e percepção dos estudantes sobre a confessionalidade e excelência acadêmica nas faculdades adventistas do Brasil* [Tesis de doctorado, Facultad Interamericana de Ciencias Sociales].
+Cadeira, H. C. (2025). *Fé e futuro: Expectativas, satisfação e percepção dos estudantes sobre a confessionalidade e excelência acadêmica nas faculdades adventistas do Brasil* [Tese de doutorado, Facultad Interamericana de Ciencias Sociales].
 
 Campbell, H. A. (2021). *Digital creatives and the rethinking of religious authority*. Routledge.
 
 Campbell, H. A., & Tsuria, R. (Eds.). (2021). *Digital religion: Understanding religious practice in digital media* (2nd ed.). Routledge.
 
-Carvalho, S. M. S., Cardoso, A. L. M. S., & Miguel, M. C. (2021). La Generación Alpha en el (re)inventar de la nueva biblioteca escolar. *Comunicação & Informação*, 24, 1-20.
+Carvalho, S. M. S., Cardoso, A. L. M. S., & Miguel, M. C. (2021). A Geração Alpha no (re)inventar da nova biblioteca escolar. *Comunicação & Informação*, 24, 1-20.
 
-Castro, A., & Almeida, V. (2021). Psicodrama con adolescentes: El reconocimiento del Yo. In *Não sou criança nem adulto, quem sou eu? Psicoterapia psicodramática com adolescentes* (pp. 17-23). Appris.
+Castro, A., & Almeida, V. (2021). Psicodrama com adolescentes: O reconhecimento do Eu. In *Não sou criança nem adulto, quem sou eu? Psicoterapia psicodramática com adolescentes* (pp. 17-23). Appris.
 
-Cavalcante, D. S., & Viana, H. B. (2024). Dependencia digital de niños y adolescentes en investigaciones longitudinales: Una revisión integradora. *Internet Latent Corpus Journal*, 14(1).
+Cavalcante, D. S., & Viana, H. B. (2024). Dependência digital de crianças e adolescentes em pesquisas longitudinais: Uma revisão integrativa. *Internet Latent Corpus Journal*, 14(1).
 
 CEPIA. (2020). *Manual de ideias e atividades: Metodologia ativa para o trabalho com adolescentes e jovens*. Cidadania, Estudo, Pesquisa, Informação e Ação.
 
 Chapman, G. (2014). *As cinco linguagens do amor das crianças*. Mundo Cristão.
 
+Chickering, A. W., & Reisser, L. (1993). *Education and identity* (2nd ed.). Jossey-Bass.
 
 Conselho Federal de Psicologia. (2005). *Código de ética profissional do psicólogo* (Resolução CFP n.º 010/05). CFP.
 
@@ -98,9 +101,9 @@ Frankl, V. E. (2008). *Em busca de sentido: Um psicólogo no campo de concentra�
 
 Freire, P. (1996). *Pedagogia da autonomia: Saberes necessários à prática educativa*. Paz e Terra.
 
-Furtado, C. C. (2019). Generación Alpha y la lectura literaria. *Revista Brasileira de Biblioteconomia e Documentação*, 15, 418-431.
+Furtado, C. C. (2019). Geração Alpha e a leitura literária. *Revista Brasileira de Biblioteconomia e Documentação*, 15, 418-431.
 
-Furtado, C. C., & Oliveira, L. (2020). Literatura-servicio: La literatura infantil para la Generación Alpha. *Páginas A&B*, número especial, 60-73.
+Furtado, C. C., & Oliveira, L. (2020). Literatura-serviço: A literatura infantil para a Geração Alpha. *Páginas A&B*, número especial, 60-73.
 
 Gillespie, V. B., Donahue, M. J., Boyatt, E., & Gane, B. (2004). *Valuegenesis ten years later: A study of two generations*. Hancock Center for Youth and Family Ministry.
 
@@ -108,6 +111,7 @@ Goffman, E. (2015). *Manicômios, prisões e conventos* (9. ed.). Perspectiva. (
 
 Goleman, D. (2015). *Emotional intelligence: Why it can matter more than IQ* (10th anniversary ed.). Bantam Books.
 
+Gregorutti, G. (2024). Adventist higher education and its unique design. *The Journal of Adventist Education*, 86(2), 4-9.
 
 Haidt, J. (2024). *A geração ansiosa: Como a infância hiperconectada está causando uma epidemia de transtornos mentais*. Companhia das Letras.
 
@@ -145,9 +149,9 @@ McCrindle, M., & Fell, A. (2021). *Generation Alpha: Understanding the next gene
 
 Meichenbaum, D. (1977). *Cognitive-behavior modification: An integrative approach*. Plenum Press.
 
-Menslin, D. J. (2017). Educación adventista: Realidad en expansión. *Revista Pistis & Praxis*, 9(3), 666-683.
+Menslin, D. J. (2017). Educação adventista: Realidade em expansão. *Revista Pistis & Praxis*, 9(3), 666-683.
 
-Moreira-Almeida, A., Lotufo Neto, F., & Koenig, H. G. (2006). Religiosidad y salud mental: Una revisión. *Revista Brasileira de Psiquiatria*, 28(3), 242-250.
+Moreira-Almeida, A., Lotufo Neto, F., & Koenig, H. G. (2006). Religiosidade e saúde mental: Uma revisão. *Revista Brasileira de Psiquiatria*, 28(3), 242-250.
 
 Murray, A. M. (2000). *Llamados a un ministerio de cuidado: Una perspectiva desde el hogar de estudiantes*. Andrews University Press.
 
@@ -157,11 +161,11 @@ OECD. (2021). *21st-century readers: Developing literacy skills in a digital wor
 
 Olweus, D. (1993). *Bullying at school: What we know and what we can do*. Blackwell.
 
-Organización de las Naciones Unidas. (1989). *Convención sobre los derechos del niño*. ONU.
+Organização das Nações Unidas. (1989). *Convenção sobre os direitos da criança*. ONU.
 
-Organización Mundial de la Salud. (2021). *Adolescent mental health*. WHO.
+Organização Mundial da Saúde. (2021). *Adolescent mental health*. WHO.
 
-Organización Panamericana de la Salud. (2022). *Prevención del suicidio: Un imperativo global*. PAHO/WHO.
+Organização Pan-Americana da Saúde. (2022). *Prevenção do suicídio: Um imperativo global*. PAHO/WHO.
 
 Pargament, K. I. (1997). *The psychology of religion and coping: Theory, research, practice*. Guilford Press.
 
@@ -169,14 +173,14 @@ Pink, D. H. (2009). *Drive: The surprising truth about what motivates us*. River
 
 Post, S. G. (2005). Altruism, happiness, and health: It's good to be good. *International Journal of Behavioral Medicine*, 12(2), 66-77. https://doi.org/10.1207/s15327558ijbm1202_4
 
-Rocha Neto, A., & Mota, D. (2021). Juventud, salud mental y el uso de internet. *Cadernos de Psicologia*, 3(6).
+Rocha Neto, A., & Mota, D. (2021). Juventude, saúde mental e o uso de internet. *Cadernos de Psicologia*, 3(6).
 
 Root, A. (2017). *Faith formation in a secular age: Responding to the church's obsession with youthfulness*. Baker Academic.
 
 Rosenberg, M. B. (2006). *Comunicação não violenta: Técnicas para aprimorar relacionamentos pessoais e profissionais*. Ágora.
 
 
-Sales, S. S., Costa, T. M., & Gai, M. J. P. (2021). Adolescentes en la era digital: Impactos en la salud mental. *Research, Society and Development*, 10(9), e15110917800.
+Sales, S. S., Costa, T. M., & Gai, M. J. P. (2021). Adolescentes na era digital: Impactos na saúde mental. *Research, Society and Development*, 10(9), e15110917800.
 
 
 Schulz von Thun, F. (2015). *A arte de conversar*. Vozes.
@@ -201,6 +205,7 @@ Sternberg, E. M. (2009). *Healing spaces: The science of place and well-being*. 
 
 Szymanski, H. (2011). *A relação família/escola: Desafios e perspectivas*. Liber Livro.
 
+Tinto, V. (1993). *Leaving college: Rethinking the causes and cures of student attrition* (2nd ed.). University of Chicago Press.
 
 Turkle, S. (2017). *Alone together: Why we expect more from technology and less from each other*. Basic Books.
 
