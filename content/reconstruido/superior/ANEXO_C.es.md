@@ -4,10 +4,10 @@
 
 Acompañamiento Filosófico, Administrativo y Pedagógico de Internados
 
-| **5 ****Dimensiones** | **17 ****Subdimensiones** | **95 ****Criterios** | **1.235 Puntos** |
+| **5 Dimensiones** | **17 Subdimensiones** | **95 Criterios** | **1.235 Puntos** |
 | --- | --- | --- | --- |
 
-| **INSTRUMENTO DE APLICACIÓN REGIONAL — DIVISIÓN SUDAMERICANA** Este instrumento fue elaborado para su aplicación en los ocho países de la División Sudamericana: Argentina, Bolivia, Brasil, Chile, Ecuador, Paraguay, Perú y Uruguay. Los criterios legales, fiscales, sanitarios y de evaluación del aprendizaje deben interpretarse conforme a la legislación y la nomenclatura vigente en cada país. Las referencias a organismos gubernamentales, documentos legales, certificaciones, evaluaciones estandarizadas y niveles de enseñanza están expresadas de forma genérica; cada Unión/Campo debe presentar el documento equivalente en su territorio. **Equivalencias** **de** **referencia****: **niveles de enseñanza (Educación Inicial · Educación Primaria · Educación Secundaria); registro fiscal de la entidad (CNPJ en Brasil · RUC en Paraguay/Perú/Ecuador · RUT en Chile/Uruguay · NIT en Bolivia · CUIT en Argentina); organismo educativo gubernamental (Ministerio de Educación o Secretaría equivalente de cada país); evaluación de aprendizaje estandarizada (PAAEB en Brasil o la evaluación adoptada por la Unión/Campo). |
+| **INSTRUMENTO DE APLICACIÓN REGIONAL — DIVISIÓN SUDAMERICANA** Este instrumento fue elaborado para su aplicación en los ocho países de la División Sudamericana: Argentina, Bolivia, Brasil, Chile, Ecuador, Paraguay, Perú y Uruguay. Los criterios legales, fiscales, sanitarios y de evaluación del aprendizaje deben interpretarse conforme a la legislación y la nomenclatura vigente en cada país. Las referencias a organismos gubernamentales, documentos legales, certificaciones, evaluaciones estandarizadas y niveles de enseñanza están expresadas de forma genérica; cada Unión/Campo debe presentar el documento equivalente en su territorio. **Equivalencias** **de** **referencia: **niveles de enseñanza (Educación Inicial · Educación Primaria · Educación Secundaria); registro fiscal de la entidad (CNPJ en Brasil · RUC en Paraguay/Perú/Ecuador · RUT en Chile/Uruguay · NIT en Bolivia · CUIT en Argentina); organismo educativo gubernamental (Ministerio de Educación o Secretaría equivalente de cada país); evaluación de aprendizaje estandarizada (PAAEB en Brasil o la evaluación adoptada por la Unión/Campo). |
 | --- |
 
 *Glosario: en este instrumento, «deserción» (en algunos países «evasión» o «abandono») designa la interrupción definitiva de los estudios por parte del alumno antes de concluir el nivel.*
@@ -133,9 +133,9 @@ Concluida la evaluación de la Sección V, los puntajes obtenidos en cada dimens
 
 **Orientación al evaluador.** Esta dimensión verifica si la identidad adventista del internado es una realidad vivida y no solo declarada: formación denominacional del equipo, vida devocional, evangelismo y testimonio, y la vitalidad confesional medida por el IVC. Contraste siempre la evidencia documental con lo que el estudiante percibe en su día a día.
 
-| **1.1 FILOSOFÍA Y ****MISIÓN  ·****  85 ****puntos** |
+| **1.1 FILOSOFÍA Y MISIÓN  ·  85 puntos** |
 | --- |
-| **N°** | **Criterios**** de ****Revisión** | **Evidencias** | **Detalle** | **Documentos**** ****en**** PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
+| **N°** | **Criterios de Revisión** | **Evidencias** | **Detalle** | **Documentos en PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
 | **1** | Los profesores de educación religiosa tienen formación denominacional. | Lista de profesores indicando su formación en facultades/universidades adventistas. Lista de profesores con diplomas de posgrado en programas denominacionales impartidos por una facultad/universidad adventista. | Insertar tabla con la lista de nombres de todos los profesores de Educación Religiosa (horas-cátedra y titulares), identificando si tienen o no formación denominacional (graduados en facultad adventista o especialización en entornos adventistas, y/o curso de formación denominacional adventista). | Documento con la tabla que contiene los nombres de todos los profesores de Educación Religiosa y Titulares, indicando la formación denominacional o no. Adjuntar diplomas y certificados. | **20** | ☐ | ☐ | ☐ | ☐ |  |
 | **2** | La Institución cuenta con un pastor adventista de dedicación exclusiva para atender las necesidades espirituales de la comunidad educativa. | Reglamento interno donde se describe la función del pastor adventista y su carga horaria. | Enviar a los colegios e instituciones de educación superior los votos para la función del pastor escolar y/o universitario. Manual de funciones con plan de acción que compruebe lo que está siendo aplicado. | Documento que contiene el voto y el manual que indica la función del pastor escolar y/o universitario. | **15** | ☐ | ☐ | ☐ | ☐ |  |
 |  |  | Contrato de trabajo del pastor escolar y/o universitario. | Copia del contrato/registro del empleado - RR.HH. | Copia del contrato/registro del empleado - RR.HH. |  |  |  |  |  |  |
@@ -162,9 +162,9 @@ Concluida la evaluación de la Sección V, los puntajes obtenidos en cada dimens
 | **Crit. 5** | "En el centro creacionista veo integrada mi fe con la formación académica de mi carrera." (ref. IVC ítem 7) |
 | **Crit. 6** | "La identidad visual adventista me hace sentir parte de una comunidad que fortalece mis valores espirituales." (ref. IVC ítem 6) |
 
-| **1.2 DESARROLLO ****ESPIRITUAL  ·****  80 ****puntos** |
+| **1.2 DESARROLLO ESPIRITUAL  ·  80 puntos** |
 | --- |
-| **N°** | **Criterios**** de ****Revisión** | **Evidencias** | **Detalle** | **Documentos**** ****en**** PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
+| **N°** | **Criterios de Revisión** | **Evidencias** | **Detalle** | **Documentos en PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
 | **7** | La Institución sigue las orientaciones del campo local en cuanto a la realización de clases, espacios y momentos de Educación Religiosa. | Votos de la Unión/Campo que especifiquen las orientaciones para las clases de Educación Religiosa/Cultura General. | Matriz curricular y votos: [enlace del documento de referencia de la Unión/Campo]. | Adjuntar el voto de la Unión/Campo. | **25** | ☐ | ☐ | ☐ | ☐ |  |
 |  |  | Informe de la implementación. | Planificación. | Planificación descriptiva en PDF. |  |  |  |  |  |  |
 |  |  | Horario de las clases. | Horario de funcionamiento de las clases. | Grilla horaria de las clases. |  |  |  |  |  |  |
@@ -185,9 +185,9 @@ Concluida la evaluación de la Sección V, los puntajes obtenidos en cada dimens
 | **Crit. 9** | "Los proyectos espirituales de la institución fortalecen mi crecimiento espiritual personal." (ref. ILE ítem 1) |
 | **Crit. 10** | "La lectura de libros denominacionales contribuye a mi crecimiento espiritual personal." (ref. ILE ítem 1) |
 
-| **1.3 EVANGELISMO Y ****TESTIMONIO  ·****  70 ****puntos** |
+| **1.3 EVANGELISMO Y TESTIMONIO  ·  70 puntos** |
 | --- |
-| **N°** | **Criterios**** de ****Revisión** | **Evidencias** | **Detalle** | **Documentos**** ****en**** PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
+| **N°** | **Criterios de Revisión** | **Evidencias** | **Detalle** | **Documentos en PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
 | **11** | La Institución ejecuta intencionalmente un plan orientado al cumplimiento de la misión. | Plan operacional de evangelismo escolar que incluya las acciones del evangelismo integrado (10 días de oración, Impacto Esperanza, Semanas de Oración, Bautismo de Primavera, etc.). | Presentar informes. | Documento con fotos de la ejecución de estos proyectos misioneros. | **15** | ☐ | ☐ | ☐ | ☐ |  |
 |  |  | Tabla comparativa de bautismos de alumnos, colaboradores y padres durante el período que incluye la evaluación institucional. | Presentar tabla y libro de bautismos. | Libro físico. |  |  |  |  |  |  |
 |  |  | Lista de estudiantes, colaboradores y padres bautizados. | Libro de bautismos. |  |  |  |  |  |  |  |
@@ -208,9 +208,9 @@ Concluida la evaluación de la Sección V, los puntajes obtenidos en cada dimens
 | **Crit. 13** | "Participo en eventos de evangelismo y testimonio que me permiten practicar y compartir mi fe." (ref. ILE ítem 7) |
 | **Crit. 14** | "Soy formado como discípulo y tengo la oportunidad de dar estudios bíblicos y evangelizar a otros." (ref. ILE ítem 7) |
 
-| **1.4 VITALIDAD CONFESIONAL — ÍNDICE DE VOLATILIDAD CONFESIONAL (****IVC)  ·****  195 ****puntos** |
+| **1.4 VITALIDAD CONFESIONAL — ÍNDICE DE VOLATILIDAD CONFESIONAL (IVC)  ·  195 puntos** |
 | --- |
-| **N°** | **Criterios**** de ****Revisión** | **Evidencias** | **Detalle** | **Documentos**** ****en**** PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
+| **N°** | **Criterios de Revisión** | **Evidencias** | **Detalle** | **Documentos en PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
 | **15** | La Institución mantiene una identidad estructural adventista: frases e imágenes en las aulas, pasillos, dormitorios, comedor y demás espacios públicos y de convivencia del internado, pertinentes a la misión y al propósito espiritual, dirigidas a profesores, padres y estudiantes. | Registro fotográfico de los ambientes (aulas, pasillos, comedor, dormitorios, auditorio). | Fotografiar al menos 5 ambientes distintos, indicando el tipo de elemento visual adventista presente (frases bíblicas, misión/visión, imágenes inspiradoras). | Documento con fotos de los espacios identificados con elementos de identidad visual adventista, indicando ambiente y público objetivo. | **10** | ☐ | ☐ | ☐ | ☐ |  |
 |  |  | Plan de identidad visual institucional. | Verificar actualización y estado de conservación de los mensajes. Los elementos deben estar dirigidos a profesores, padres y estudiantes. | Plan de identidad visual con indicación de responsable y periodicidad de actualización. |  |  |  |  |  |  |
 | **16** | La Institución promueve la identidad personal: vestimenta, cabello, uñas y no uso de accesorios decorativos de acuerdo con las creencias, visibles en los colaboradores y alumnos. | Código de Conducta y Presentación Personal vigente para colaboradores y alumnos. | Presentar el Código de Conducta y Presentación Personal con firmas de conocimiento. Indicador de coherencia entre identidad declarada y práctica visible. | Código de conducta con firmas de conocimiento de colaboradores y alumnos. | **10** | ☐ | ☐ | ☐ | ☐ |  |
@@ -255,7 +255,7 @@ Concluida la evaluación de la Sección V, los puntajes obtenidos en cada dimens
 | **Crit. 29** | "Veo posible integrar mi futuro profesional a la misión adventista." (ref. ILE ítem 2) |
 | **Crit. 30** | "Cuando busco ayuda, percibo que la preceptoría y la capellanía trabajan juntas y su apoyo me resulta accesible." (ref. IVC ítem 5) |
 
-| **TOTAL DIMENSIÓN 1 — IDENTIDAD INSTITUCIONAL:  430 ****puntos****  ·****  30 ****criterios** |
+| **TOTAL DIMENSIÓN 1 — IDENTIDAD INSTITUCIONAL:  430 puntos  ·  30 criterios** |
 | --- |
 
 | **DIMENSIÓN 2 — LIDERAZGO Y GESTIÓN** |
@@ -263,9 +263,9 @@ Concluida la evaluación de la Sección V, los puntajes obtenidos en cada dimens
 
 **Orientación al evaluador.** Esta dimensión verifica que la institución opere con orden legal, planificación estratégica y un liderazgo cercano a estudiantes y familias, capaz de sostener la cultura formativa más allá del perfil de quien dirige. Observe la coherencia entre lo planificado, lo ejecutado y lo comunicado.
 
-| **2.1 ASPECTOS ****LEGALES  ·****  40 ****puntos** |
+| **2.1 ASPECTOS LEGALES  ·  40 puntos** |
 | --- |
-| **N°** | **Criterios**** de ****Revisión** | **Evidencias** | **Detalle** | **Documentos**** ****en**** PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
+| **N°** | **Criterios de Revisión** | **Evidencias** | **Detalle** | **Documentos en PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
 | **31** | La Institución cumple con todas las exigencias legales y denominacionales para garantizar su buen funcionamiento. | Autorización de funcionamiento por parte de la IASD. | Documento / Voto de la Comisión. | Documento / Voto de la Comisión de la autorización de funcionamiento. | **25** | ☐ | ☐ | ☐ | ☐ |  |
 |  |  | Autorización de funcionamiento del organismo educativo gubernamental competente del país. | Organismo educativo gubernamental competente. | Documento de autorización de funcionamiento emitido por el organismo educativo gubernamental competente del país. |  |  |  |  |  |  |
 |  |  | Licencia/autorización de funcionamiento municipal o local, conforme a la legislación del país. | Permiso de funcionamiento. | Permiso de funcionamiento municipal. |  |  |  |  |  |  |
@@ -296,9 +296,9 @@ Concluida la evaluación de la Sección V, los puntajes obtenidos en cada dimens
 | **Crit. 31** | "Percibo que la gestión de mi institución es correcta y coherente con los principios que proclama." (ref. IVC ítem 3) |
 | **Crit. 32** | "Percibo que la institución mantiene una comunicación cuidadosa con mi familia." |
 
-| **2.2 PLANIFICACIÓN ****ESTRATÉGICA  ·****  40 ****puntos** |
+| **2.2 PLANIFICACIÓN ESTRATÉGICA  ·  40 puntos** |
 | --- |
-| **N°** | **Criterios**** de ****Revisión** | **Evidencias** | **Detalle** | **Documentos**** ****en**** PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
+| **N°** | **Criterios de Revisión** | **Evidencias** | **Detalle** | **Documentos en PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
 | **33** | La Institución posee declaraciones claras y actualizadas de la filosofía, la misión, la visión y los valores. | Declaraciones de la filosofía, misión, visión y valores aprobadas y presentadas visiblemente en lugares estratégicos de la institución. | Pedagogía Adventista visible en el ambiente - Mostrar los letreros por fotos - carteles de Misión y visión con acrílico en la entrada de la escuela: [enlace del documento de referencia de la Unión/Campo] y sala de profesores: [enlace del documento de referencia de la Unión/Campo]. | Mostrar declaraciones de la filosofía, misión, visión y valores visiblemente en lugares estratégicos de la institución. | **10** | ☐ | ☐ | ☐ | ☐ |  |
 |  |  | Estrategias para internalizar y aceptar la filosofía, la misión, la visión y los valores. | ¿Qué hacen para conocer la filosofía? |  |  |  |  |  |  |  |
 |  |  | Evaluación anual del grado de internalización de la filosofía, la misión, la visión y los valores institucionales por parte de la comunidad educativa. | Encuesta sobre comprensión de la filosofía y cómo se practica. |  |  |  |  |  |  |  |
@@ -320,9 +320,9 @@ Concluida la evaluación de la Sección V, los puntajes obtenidos en cada dimens
 | **Crit. 35** | "Valoré y elegí esta institución en parte por cómo comunica su identidad confesional." (ref. IVC ítem 1) |
 | **Crit. 36** | "Me mantengo informado sobre la vida institucional a través de sus canales de comunicación." |
 
-| **2.3 LIDERAZGO DEL EQUIPO DE ****GESTIÓN  ·****  60 ****puntos** |
+| **2.3 LIDERAZGO DEL EQUIPO DE GESTIÓN  ·  60 puntos** |
 | --- |
-| **N°** | **Criterios**** de ****Revisión** | **Evidencias** | **Detalle** | **Documentos**** ****en**** PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
+| **N°** | **Criterios de Revisión** | **Evidencias** | **Detalle** | **Documentos en PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
 | **37** | La Institución opera de acuerdo con el organigrama institucional, demostrando el funcionamiento sistémico. | Organigrama institucional. | Guía de funciones, p. 15 - [enlace del documento de referencia de la Unión/Campo]. |  | **10** | ☐ | ☐ | ☐ | ☐ |  |
 |  |  | Lista de comisiones existentes con sus respectivas responsabilidades. | Consejo de clase, comisión disciplinaria. |  |  |  |  |  |  |  |
 |  |  | Cronograma de reuniones para el estudio, organización, planificación y evaluación de las acciones de la institución. | Actas de las reuniones administrativas y cronograma. |  |  |  |  |  |  |  |
@@ -357,9 +357,9 @@ Concluida la evaluación de la Sección V, los puntajes obtenidos en cada dimens
 | **Crit. 41** | "Percibo que la institución cultiva una buena relación con mi familia." |
 | **Crit. 42** | "Cuando la institución me consulta en sus encuestas, percibo que mi opinión es tomada en cuenta." |
 
-| **2.4 GESTIÓN DE ****RESULTADOS  ·****  80 ****puntos** |
+| **2.4 GESTIÓN DE RESULTADOS  ·  80 puntos** |
 | --- |
-| **N°** | **Criterios**** de ****Revisión** | **Evidencias** | **Detalle** | **Documentos**** ****en**** PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
+| **N°** | **Criterios de Revisión** | **Evidencias** | **Detalle** | **Documentos en PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
 | **43** | La Institución aplica una adecuada gestión de datos e información relacionados con las matrículas. | Histórico de matrículas de los últimos 4 años. | Comparativo. | Presentar documento con capturas de pantalla y datos del histórico de matrículas de los últimos 4 años. | **10** | ☐ | ☐ | ☐ | ☐ |  |
 |  |  | Número de alumnos matriculados. | Actual. | Presentar documento con la captura de pantalla y dato de número de matriculados. |  |  |  |  |  |  |
 |  |  | Características sociodemográficas de los alumnos matriculados, incluyendo la filiación/identidad religiosa. | Sistema de análisis sociodemográfico disponible (Geofusion o equivalente). | Documento con la captura de pantalla del sistema de análisis sociodemográfico disponible (Geofusion o equivalente) con las características sociodemográficas de los alumnos matriculados. |  |  |  |  |  |  |
@@ -394,7 +394,7 @@ Concluida la evaluación de la Sección V, los puntajes obtenidos en cada dimens
 | **Crit. 48** | "Percibo una gestión financiera que me trata con justicia en los temas de pago." |
 | **Crit. 49** | "Vivo en un internado cuya comunidad residencial me acoge y fortalece mis valores." (ref. IVC ítem 6) |
 
-| **TOTAL DIMENSIÓN 2 — LIDERAZGO Y GESTIÓN:  220 ****puntos****  ·****  19 ****criterios** |
+| **TOTAL DIMENSIÓN 2 — LIDERAZGO Y GESTIÓN:  220 puntos  ·  19 criterios** |
 | --- |
 
 | **DIMENSIÓN 3 — GESTIÓN PEDAGÓGICA** |
@@ -402,9 +402,9 @@ Concluida la evaluación de la Sección V, los puntajes obtenidos en cada dimens
 
 **Orientación al evaluador.** Esta dimensión verifica la calidad de los procesos de enseñanza y aprendizaje y su articulación intencional con la fe. Más que la existencia de documentos, valore si la planificación produce cambios verificables en el aprendizaje y en la experiencia del estudiante.
 
-| **3.1 GESTIÓN DE ****ENSEÑANZA  ·****  100 ****puntos** |
+| **3.1 GESTIÓN DE ENSEÑANZA  ·  100 puntos** |
 | --- |
-| **N°** | **Criterios**** de ****Revisión** | **Evidencias** | **Detalle** | **Documentos**** ****en**** PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
+| **N°** | **Criterios de Revisión** | **Evidencias** | **Detalle** | **Documentos en PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
 | **50** | La Institución realiza reuniones sistemáticas de profesores con foco en los aspectos pedagógicos y de aprendizaje de los alumnos. | Cronograma de las reuniones. | Cronograma de las reuniones pedagógicas. | Documento que contiene el cronograma planificado para las reuniones pedagógicas de los últimos 5 años. | **15** | ☐ | ☐ | ☐ | ☐ |  |
 |  |  | Actas de la reunión con la descripción de los temas abordados. | Actas. | Muestra de actas de reuniones pedagógicas de los últimos 5 años. |  |  |  |  |  |  |
 | **51** | La Institución ejecuta un plan anual de lectura oficial para profesores, relacionado con los aspectos técnico-formativos y denominacionales. | Plan anual de lectura. | Lista de artículos y libros leídos que contemple profesores de todos los niveles. | Documento que contiene el plan anual de lectura para profesores (técnico-formativos y denominacionales) de los últimos 5 años. Importante contemplar profesores de Educación Inicial, Años Iniciales de Educación Primaria, Años Finales de Educación Primaria / Educación Secundaria Básica y Educación Secundaria. | **10** | ☐ | ☐ | ☐ | ☐ |  |
@@ -440,9 +440,9 @@ Concluida la evaluación de la Sección V, los puntajes obtenidos en cada dimens
 | **Crit. 56** | "Cuento con una coordinación pedagógica que acompaña mi proceso académico." |
 | **Crit. 57** | "Uso la biblioteca especializada como espacio que apoya mi formación académica." (ref. IVC ítem 7) |
 
-| **3.2 GESTIÓN DEL ****APRENDIZAJE  ·****  100 ****puntos** |
+| **3.2 GESTIÓN DEL APRENDIZAJE  ·  100 puntos** |
 | --- |
-| **N°** | **Criterios**** de ****Revisión** | **Evidencias** | **Detalle** | **Documentos**** ****en**** PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
+| **N°** | **Criterios de Revisión** | **Evidencias** | **Detalle** | **Documentos en PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
 | **58** | La Institución implementa procesos de diagnóstico y recuperación del aprendizaje que involucren a todos los alumnos. | Documento descriptivo del proceso implementado. | Programa de diagnóstico, recuperación y refuerzo: cómo se recopilan datos, se analizan y se da retroalimentación en cada etapa de enseñanza. | Documento descriptivo del programa de diagnóstico, recuperación y refuerzo. | **15** | ☐ | ☐ | ☐ | ☐ |  |
 |  |  | Documento descriptivo con las acciones correctivas planificadas y ejecutadas. | Lista de las acciones que contiene los problemas, plan de acción y descripción concisa de lo ejecutado. | Documento descriptivo con las acciones de diagnóstico y de recuperación y refuerzo planificadas y ejecutadas, incluyendo cómo se realiza la recopilación de datos, análisis y retroalimentación, así como el seguimiento sistemático de la escuela en relación a la familia y los socios, en caso de Estudiantes con Necesidades Educativas Especiales, en cada etapa de enseñanza (Educación Inicial, Años Iniciales de Educación Primaria, Años Finales de Educación Primaria y Educación Secundaria). |  |  |  |  |  |  |
 | **59** | La Institución tiene un(a) profesional responsable y dedicado exclusivamente al acompañamiento de los alumnos (orientador educativo y vocacional). | Contrato de trabajo y carga horaria. | Copia del contrato con carga horaria. | Presentar el (los) contrato(s) de trabajo de cada uno de los miembros del equipo de orientación educativa. | **15** | ☐ | ☐ | ☐ | ☐ |  |
@@ -474,9 +474,9 @@ Concluida la evaluación de la Sección V, los puntajes obtenidos en cada dimens
 | **Crit. 64** | "Percibo que mi familia es invitada a participar en mi proceso de aprendizaje." |
 | **Crit. 65** | "Si tengo necesidades educativas especiales, recibo la atención adecuada." |
 
-| **3.3 GESTIÓN DE LA INVESTIGACIÓN E INNOVACIÓN ****EDUCACIONAL  ·****  30 ****puntos** |
+| **3.3 GESTIÓN DE LA INVESTIGACIÓN E INNOVACIÓN EDUCACIONAL  ·  30 puntos** |
 | --- |
-| **N°** | **Criterios**** de ****Revisión** | **Evidencias** | **Detalle** | **Documentos**** ****en**** PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
+| **N°** | **Criterios de Revisión** | **Evidencias** | **Detalle** | **Documentos en PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
 | **66** | Las planificaciones promueven el desarrollo de la investigación y la innovación en el aula. | Documento descriptivo del proceso implementado. | Describir cómo se realiza y aplica. |  | **20** | ☐ | ☐ | ☐ | ☐ |  |
 |  |  | Documento descriptivo con las acciones correctivas planificadas y ejecutadas. | Lista de las acciones correctivas de las planificaciones (funcionó/no funcionó). |  |  |  |  |  |  |  |
 | **67** | El docente realiza investigaciones e innovaciones educativas y publica los resultados. | Documento que evidencia la sistematización de las experiencias innovadoras en el aula. | Descripción de cómo se aplican y cuáles son los resultados observados. |  | **10** | ☐ | ☐ | ☐ | ☐ |  |
@@ -489,7 +489,7 @@ Concluida la evaluación de la Sección V, los puntajes obtenidos en cada dimens
 | **Crit. 66** | "Desarrollo investigación e innovación como parte de mi formación académica." (ref. IVC ítem 7) |
 | **Crit. 67** | "Aprendo de profesores que investigan e innovan, fortaleciendo mi formación académica." (ref. IVC ítem 7) |
 
-| **TOTAL DIMENSIÓN 3 — GESTIÓN PEDAGÓGICA:  230 ****puntos****  ·****  18 ****criterios** |
+| **TOTAL DIMENSIÓN 3 — GESTIÓN PEDAGÓGICA:  230 puntos  ·  18 criterios** |
 | --- |
 
 | **DIMENSIÓN 4 — GESTIÓN DE RECURSOS** |
@@ -497,9 +497,9 @@ Concluida la evaluación de la Sección V, los puntajes obtenidos en cada dimens
 
 **Orientación al evaluador.** Esta dimensión verifica que el equipo, los recursos financieros, la infraestructura y los recursos educativos sostengan efectivamente la propuesta formativa del internado, incluyendo la inversión en el área espiritual y misionera, y no solo en la estructura física.
 
-| **4.1 GESTIÓN DEL ****EQUIPO  ·****  70 ****puntos** |
+| **4.1 GESTIÓN DEL EQUIPO  ·  70 puntos** |
 | --- |
-| **N°** | **Criterios**** de ****Revisión** | **Evidencias** | **Detalle** | **Documentos**** ****en**** PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
+| **N°** | **Criterios de Revisión** | **Evidencias** | **Detalle** | **Documentos en PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
 | **68** | El equipo administrativo tiene una adecuada preparación en gestión y liderazgo para ejercer su responsabilidad. | Lista del equipo administrativo, indicando formación profesional y posgrado. | Nombre completo, cargo, formación, especialización, religión, carga horaria, fecha de contratación/tiempo de servicio. |  | **10** | ☐ | ☐ | ☐ | ☐ |  |
 |  |  | Currículum vitae de cada miembro del equipo administrativo. | PDF o digitalizado (archivo único/estandarizado). |  |  |  |  |  |  |  |
 | **69** | El cuerpo docente posee las competencias didácticas y pedagógicas para el ejercicio de una docencia de calidad con clara identidad adventista. | Lista de docentes organizados por nivel de enseñanza, indicando diploma de graduación, especializaciones, posgrados y afiliación religiosa. | Lista que contiene nivel de enseñanza, nombre completo, formación, especialización, religión, disciplina que imparte, años que imparte, carga horaria, fecha de contratación/tiempo de servicio. | Documento que contiene una tabla con la lista con nombre completo de todos los profesores, formación, especialización, religión/formación denominacional, disciplina que imparte, años que imparte, carga horaria, fecha de contratación/tiempo de servicio. | **10** | ☐ | ☐ | ☐ | ☐ |  |
@@ -531,9 +531,9 @@ Concluida la evaluación de la Sección V, los puntajes obtenidos en cada dimens
 | **Crit. 73** | "Percibo que quienes me atienden comprenden y viven la misión adventista." (ref. ILE ítem 3) |
 | **Crit. 74** | "Percibo un equipo que es evaluado y mejora para atenderme mejor." |
 
-| **4.2 GESTIÓN DE RECURSOS FINANCIEROS.  ****·  90**** ****puntos** |
+| **4.2 GESTIÓN DE RECURSOS FINANCIEROS.  ·  90 puntos** |
 | --- |
-| **N°** | **Criterios**** de ****Revisión** | **Evidencias** | **Detalle** | **Documentos**** ****en**** PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
+| **N°** | **Criterios de Revisión** | **Evidencias** | **Detalle** | **Documentos en PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
 | **75** | La Institución realiza una buena gestión financiera atendiendo a todos los indicadores establecidos en el Reglamento Eclesiástico-Administrativo (REA) y normas denominacionales aplicables. | Estados financieros por año con los ingresos, gastos e inversiones de la Unidad Escolar que incluyan el total gastado en el período de evaluación. | A partir de 2025 analizaremos los últimos 5 años. Debido a la pandemia analizaremos los últimos dos años. |  | **30** | ☐ | ☐ | ☐ | ☐ |  |
 |  |  | Informe del cumplimiento de los índices financieros establecidos en el Reglamento Eclesiástico-Administrativo (REA) y normas financieras denominacionales aplicables. | - Capital Operativo Recomendado, presentar *Hoja de balance Entidad Educación (Índice conforme tabla norma financiera denominacional aplicable); - Índices del balance Recomendado, presentar *Hoja del balance Entidad Educación (conforme norma financiera denominacional aplicable); -> Liquidez Inmediata, Corriente y Liquidez General; -> % Gasto en personal, % Adm. y Generales, % Educ. Orient. y Asist. Social, % Otorgamiento, % Subv. Rec., % Resultado Ejercicio (Presentar juntos los índices de la escuela). * Hoja Balance = Análisis financiero y económico del último ejercicio y del último mes cerrado. |  |  |  |  |  |  |  |
 | **76** | La Institución se somete a procesos de auditoría interna o externa nacionales o denominacionales. | Documento oficial que indica el proceso de auditoría. | - Auditoría Interna Unión/Campo; - Auditoría Externa Contratada TSA Auditores; - Auditoría de la Asociación General; Descripción de cómo se realiza la auditoría. |  | **10** | ☐ | ☐ | ☐ | ☐ |  |
@@ -563,9 +563,9 @@ Concluida la evaluación de la Sección V, los puntajes obtenidos en cada dimens
 | **Crit. 80** | "Estudio en aulas con una ocupación adecuada según la normativa." |
 | **Crit. 81** | "Cuando recibo una beca, percibo un proceso transparente y coherente con la propuesta institucional." |
 
-| **4.3 INFRAESTRUCTURA E ****INVERSIONES  ·****  30 ****puntos** |
+| **4.3 INFRAESTRUCTURA E INVERSIONES  ·  30 puntos** |
 | --- |
-| **N°** | **Criterios**** de ****Revisión** | **Evidencias** | **Detalle** | **Documentos**** ****en**** PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
+| **N°** | **Criterios de Revisión** | **Evidencias** | **Detalle** | **Documentos en PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
 | **82** | Los edificios e inmuebles están debidamente registrados, legalizados y asegurados. | Certificado de autorización de construcción. | Certificado. | Certificado de autorización de construcción. | **10** | ☐ | ☐ | ☐ | ☐ |  |
 |  |  | Certificado de autorización de obras municipales o similares de acuerdo con el país. | Certificado. | Certificado de autorización de obras municipales o similares de acuerdo con el país. |  |  |  |  |  |  |
 |  |  | Seguro del edificio. | Póliza de Seguro de la Unidad con coberturas. | Póliza de Seguro de la Unidad con coberturas. |  |  |  |  |  |  |
@@ -587,9 +587,9 @@ Concluida la evaluación de la Sección V, los puntajes obtenidos en cada dimens
 | **Crit. 83** | "Cuento con una infraestructura adecuada para mi formación." |
 | **Crit. 84** | "Percibo que la institución invierte también en ambientes espirituales y de misión que fortalecen mi crecimiento espiritual." (ref. ILE ítem 1) |
 
-| **4.4 GESTIÓN DE RECURSOS ****EDUCATIVOS  ·****  40 ****puntos** |
+| **4.4 GESTIÓN DE RECURSOS EDUCATIVOS  ·  40 puntos** |
 | --- |
-| **N°** | **Criterios**** de ****Revisión** | **Evidencias** | **Detalle** | **Documentos**** ****en**** PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
+| **N°** | **Criterios de Revisión** | **Evidencias** | **Detalle** | **Documentos en PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
 | **85** | La Institución posee espacios definidos y apropiados para el uso como centros de recursos para el aprendizaje práctico mediante Metodologías Activas (Por ejemplo: espacio maker, sala de lectura, cocina, laboratorio y afines). | Lista de espacios disponibles, indicando capacidad de alumnos del ambiente. | Lista y fotos. |  | **20** | ☐ | ☐ | ☐ | ☐ |  |
 |  |  | Lista de los responsables, descripción de las funciones y preparación. | Lista de los profesionales que realizan algún trabajo y breve descripción (frase) del trabajo que realiza. |  |  |  |  |  |  |  |
 |  |  | Lista de los recursos educativos disponibles, indicando cantidad y categoría. | Qué recursos están disponibles para cada categoría: jardinería, horticultura, carpintería, lectura, robótica, escritura de artículos, cocina, laboratorio de matemática, ciencias naturales, etc. |  |  |  |  |  |  |  |
@@ -606,7 +606,7 @@ Concluida la evaluación de la Sección V, los puntajes obtenidos en cada dimens
 | **Crit. 86** | "La institución promueve mi desarrollo físico y mi salud." |
 | **Crit. 87** | "Cuento con recursos tecnológicos adecuados para mi aprendizaje." |
 
-| **TOTAL DIMENSIÓN 4 — GESTIÓN DE RECURSOS:  230 ****puntos****  ·****  20 ****criterios** |
+| **TOTAL DIMENSIÓN 4 — GESTIÓN DE RECURSOS:  230 puntos  ·  20 criterios** |
 | --- |
 
 | **DIMENSIÓN 5 — CIUDADANÍA Y CONVIVENCIA** |
@@ -614,9 +614,9 @@ Concluida la evaluación de la Sección V, los puntajes obtenidos en cada dimens
 
 **Orientación al evaluador.** Esta dimensión verifica la calidad de la convivencia, la formación ciudadana y el cuidado emocional de estudiantes y colaboradores. Es la dimensión donde la vivencia percibida por el residente resulta más reveladora: contrástela con los resultados del ILE y del IVC.
 
-| **5.1 FORMACIÓN Y DESARROLLO ****CIUDADANO  ·****  75 ****puntos** |
+| **5.1 FORMACIÓN Y DESARROLLO CIUDADANO  ·  75 puntos** |
 | --- |
-| **N°** | **Criterios**** de ****Revisión** | **Evidencias** | **Detalle** | **Documentos**** ****en**** PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
+| **N°** | **Criterios de Revisión** | **Evidencias** | **Detalle** | **Documentos en PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
 | **88** | La Institución ejecuta proyectos de extensión social adecuadamente articulados dentro de las disciplinas y los proyectos pedagógicos. | Lista, descripción y resultados de los proyectos de extensión ejecutados en el período que incluye la evaluación institucional. | Proyectos, dentro de las disciplinas, que atienden a la comunidad, que hacen observación vocacional en los últimos 2 años. | Fotos que comprueban las acciones realizadas y la descripción de cada una. | **20** | ☐ | ☐ | ☐ | ☐ |  |
 |  |  | Número de profesores y alumnos participantes y número de beneficiarios de los proyectos. | Número de alumnos participantes del proyecto y número de personas alcanzadas con los proyectos sociales y vocacionales desarrollados. | Fotos que comprueban los proyectos sociales realizados. |  |  |  |  |  |  |
 |  |  | Informe sobre la participación en los proyectos sociales de la IASD (Calebe, Minga de Navidad, proyectos misioneros o equivalentes en cada país). | Proyectos misioneros y sociales denominacionales (MEMI, Calebe, Minga de Navidad o equivalentes en cada país). | Documento con fotos y descripción de cada evento/proyecto realizado. |  |  |  |  |  |  |
@@ -641,9 +641,9 @@ Concluida la evaluación de la Sección V, los puntajes obtenidos en cada dimens
 | **Crit. 91** | "Descubro caminos para continuar mi formación superior en instituciones adventistas, uniendo fe y profesión." (ref. ILE ítem 2) |
 | **Crit. 92** | "Cuando enfrento un problema personal o emocional, encuentro en la institución acompañamiento y apoyo individualizado." (ref. ILE ítem 5) |
 
-| **5.2 CONVIVENCIA Y CLIMA ****ESCOLAR  ·****  50 ****puntos** |
+| **5.2 CONVIVENCIA Y CLIMA ESCOLAR  ·  50 puntos** |
 | --- |
-| **N°** | **Criterios**** de ****Revisión** | **Evidencias** | **Detalle** | **Documentos**** ****en**** PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
+| **N°** | **Criterios de Revisión** | **Evidencias** | **Detalle** | **Documentos en PDF / Anexo** | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** | **Puntaje obtenido** |
 | **93** | La Institución posee y difunde el manual o reglamento de convivencia escolar. | Manual o reglamento de convivencia escolar. | Código de Ética, manual de la familia y del profesor. |  | **20** | ☐ | ☐ | ☐ | ☐ |  |
 |  |  | Registro del recibimiento del reglamento por parte de los padres y alumnos mediante una firma. | Declaración de cómo se realiza la entrega y orientación con muestras de anexos de la firma por nivel, lista de entrega en el caso de los profesores. En la declaración explique cómo se hace con todos. |  |  |  |  |  |  |  |
 |  |  | Reglamento disponible en los canales oficiales de comunicación de la institución. | Captura de pantalla de los canales donde los manuales y el código son divulgados. |  |  |  |  |  |  |  |
@@ -659,7 +659,7 @@ Concluida la evaluación de la Sección V, los puntajes obtenidos en cada dimens
 | **Crit. 94** | "Percibo que la disciplina se aplica de forma justa y coherente con la identidad de la institución." (ref. IVC ítem 4) |
 | **Crit. 95** | "Vivo un buen clima de convivencia con mis compañeros." (ref. ILE ítem 4) |
 
-| **TOTAL DIMENSIÓN 5 — CIUDADANÍA Y CONVIVENCIA:  125 ****puntos****  ·****  8 ****criterios** |
+| **TOTAL DIMENSIÓN 5 — CIUDADANÍA Y CONVIVENCIA:  125 puntos  ·  8 criterios** |
 | --- |
 
 | **SECCIÓN VI: CONCLUSIÓN TÉCNICA** |

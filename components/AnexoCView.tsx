@@ -1,8 +1,7 @@
 "use client";
 
 import { useMemo, useState } from "react";
-import ReactMarkdown from "react-markdown";
-import remarkGfm from "remark-gfm";
+import { MarkdownView } from "./MarkdownView";
 import { useLang } from "./LanguageProvider";
 
 // ── Paleta por dimensión ──────────────────────────────────────────────────────
@@ -280,8 +279,8 @@ export function AnexoCView({ raw }: { raw: string }) {
     <div>
       {/* Sección introductoria */}
       {intro.trim() && (
-        <div className="doc mb-6">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{intro}</ReactMarkdown>
+        <div className="mb-6">
+          <MarkdownView markdown={intro} />
         </div>
       )}
 
@@ -308,8 +307,8 @@ export function AnexoCView({ raw }: { raw: string }) {
               {isOpen && (
                 <div className="divide-y divide-slate-100 bg-slate-50">
                   {dim.intro.trim() && (
-                    <div className="doc bg-white px-4 py-3 text-sm">
-                      <ReactMarkdown remarkPlugins={[remarkGfm]}>{dim.intro}</ReactMarkdown>
+                    <div className="bg-white px-4 py-3">
+                      <MarkdownView markdown={dim.intro} />
                     </div>
                   )}
                   {dim.subdims.map(sub => {
@@ -402,8 +401,8 @@ export function AnexoCView({ raw }: { raw: string }) {
 
       {/* Sección final: consolidado de puntaje y nivel de logro */}
       {cierre.trim() && (
-        <div className="doc mt-6">
-          <ReactMarkdown remarkPlugins={[remarkGfm]}>{cierre}</ReactMarkdown>
+        <div className="mt-6">
+          <MarkdownView markdown={cierre} />
         </div>
       )}
     </div>

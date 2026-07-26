@@ -183,3 +183,33 @@ body {
   color: #7c2d12;
   font-size: 0.9rem;
 }
+
+/* Banda de sección del Anexo C (SECCIÓN I, II, …) */
+.doc .section-banner {
+  display: block;
+  margin: 2rem 0 0.6rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  background: #1f3a5f;
+  color: #fff;
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.02em;
+}
+
+/* El texto en negrita hereda el color del fondo oscuro en el que va
+   (encabezados de tabla y bandas), para que no quede oscuro sobre oscuro. */
+.doc thead th strong,
+.doc .section-banner strong,
+.doc .dim-banner strong,
+.doc .subdim-banner strong,
+.doc .note-banner strong {
+  color: inherit;
+}
+
+/* Celdas vacías de los formularios: mantienen una altura legible */
+.doc tbody td:empty::after {
+  content: "";
+  display: inline-block;
+  min-height: 1.15rem;
+}

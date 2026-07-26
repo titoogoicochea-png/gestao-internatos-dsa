@@ -56,8 +56,11 @@ export function MarkdownView({ markdown }: { markdown: string }) {
             const cols = columnCount(node);
             const text = nodeText(node).trim();
 
-            // Banner de una sola columna → dimensión / subdimensión / nota
+            // Banner de una sola columna → sección / dimensión / subdimensión / nota
             if (cols === 1) {
+              if (/^\s*SE(?:CCI[ÓO]N|[ÇC][ÃA]O)\s+[IVX]+\s*:/i.test(text)) {
+                return <span className="section-banner">{text}</span>;
+              }
               const dim = text.match(/DIMENS(?:I[ÓO]N|[ÃA]O)\s*(\d+)/i);
               if (dim) {
                 return (
