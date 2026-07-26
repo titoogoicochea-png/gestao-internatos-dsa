@@ -167,6 +167,20 @@ function anchoCol(header: string | undefined, i: number): string {
 
 // ── Renderer de Markdown inline (**negrita**) ─────────────────────────────────
 function Inline({ text }: { text: string }) {
+  // El texto puede traer <br> (celda "Nivel de logro": una opción por línea).
+  const lineas = text.split(/<br\s*\/?>/i);
+  if (lineas.length > 1) {
+    return (
+      <>
+        {lineas.map((l, i) => (
+          <span key={i}>
+            {i > 0 && <br />}
+            <Inline text={l} />
+          </span>
+        ))}
+      </>
+    );
+  }
   const parts = text.split(/(\*\*[^*]+\*\*)/);
   if (parts.length === 1) return <>{text}</>;
   return (

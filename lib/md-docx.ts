@@ -28,7 +28,23 @@ let CONTENT_W = ANCHO_VERTICAL;
 
 type Base = { size?: number; bold?: boolean; color?: string; italics?: boolean };
 
+// Un mismo párrafo puede llevar varias líneas si el texto trae <br> (se usa en
+// la celda "Nivel de logro", con una opción por línea).
 function inlineRuns(docx: any, text: string, base: Base = {}): any[] {
+  const { TextRun } = docx;
+  const lineas = text.split(/<br\s*\/?>/i);
+  if (lineas.length > 1) {
+    const out: any[] = [];
+    lineas.forEach((l, i) => {
+      if (i > 0) out.push(new TextRun({ ...base, text: "", break: 1 }));
+      out.push(...runsDeLinea(docx, l, base));
+    });
+    return out;
+  }
+  return runsDeLinea(docx, text, base);
+}
+
+function runsDeLinea(docx: any, text: string, base: Base = {}): any[] {
   const { TextRun } = docx;
   const runs: any[] = [];
   const re = /(\*\*([^*]+)\*\*|\*([^*]+)\*|`([^`]+)`)/g;
@@ -64,7 +80,7 @@ const plain = (s: string) => s.replace(/\*/g, "").trim();
 function colWeight(header: string): number {
   const h = plain(header).toLowerCase();
   if (/^n[ºo°]?$/.test(h)) return 1.2;
-  if (/^(nivel de logro|nível de atendimento)$/.test(h)) return 5.0;  // las cuatro opciones
+  if (/^(nivel de logro|nível de atendimento)$/.test(h)) return 6.0;  // las cuatro opciones, una por línea
   if (/^(puntaje|pontuação)\s+(máximo|máxima|obtenido|obtida)$/.test(h)) return 2.0;
   if (/^observaci[óo]n(es)?$|^observaç[ãa]o(es|ões)?$/.test(h)) return 3.0;
   if (/^(pts|puntos|pontos)$/.test(h)) return 1.25;
