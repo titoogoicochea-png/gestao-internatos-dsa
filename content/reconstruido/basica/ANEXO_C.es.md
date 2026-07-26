@@ -39,13 +39,11 @@ Este instrumento determina el nivel de logro de un internado adventista en la ge
 
 **a. Autoevaluación institucional.** Antes de la visita, la institución completa el instrumento: revisa cada criterio, reúne las evidencias solicitadas, y marca el nivel de logro que considera alcanzado. Las evidencias se organizan en los documentos PDF y anexos indicados en cada criterio.
 
-**b. Verificación de requisitos habilitantes.** La evaluación in situ comienza por la Sección II. La ausencia de cualquiera de esos requisitos suspende el proceso hasta su regularización.
+**b. Evaluación in situ.** La comisión evaluadora verifica en terreno las evidencias declaradas, dialoga con los actores de la comunidad educativa y confirma o ajusta el nivel de logro de cada criterio y registra en la columna "Observación" el fundamento de su decisión. El puntaje de la evaluación in situ es el que se consolida.
 
-**c. Evaluación in situ.** La comisión evaluadora verifica en terreno las evidencias declaradas, dialoga con los actores de la comunidad educativa y confirma o ajusta el nivel de logro de cada criterio y registra en la columna "Observación" el fundamento de su decisión. El puntaje de la evaluación in situ es el que se consolida.
+**c. Registro de evidencias.** Todo puntaje debe estar respaldado por evidencia verificable. Un criterio sin evidencia se califica como No Atiende (NA).
 
-**d. Registro de evidencias.** Todo puntaje debe estar respaldado por evidencia verificable. Un criterio sin evidencia se califica como No Atiende (NA).
-
-**e. Vivencia percibida.** Al cierre de cada subdimensión se indica la meta de vivencia esperada, expresada en la voz del estudiante y referida a los índices ILE e IVC (Anexo B). El nivel Atiende Plenamente exige coherencia entre la evidencia documental y esa vivencia.
+**d. Vivencia percibida.** Al cierre de cada subdimensión se indica la meta de vivencia esperada, expresada en la voz del estudiante y referida a los índices ILE e IVC (Anexo B). El nivel Atiende Plenamente exige coherencia entre la evidencia documental y esa vivencia.
 
 **4. Comisión evaluadora**
 
@@ -62,21 +60,7 @@ La comisión está presidida por el Director de Educación de la División Sudam
 | **7** | Especialista — Dimensión 4: Gestión de Recursos |  |  |  |
 | **8** | Especialista — Dimensión 5: Ciudadanía y Convivencia |  |  |  |
 
-| **SECCIÓN II: REQUISITOS HABILITANTES** |
-| --- |
-
-La evaluación in situ comienza por esta sección. Son requisitos de cumplimiento obligatorio, ya exigidos en el criterio 30 del instrumento. La ausencia de cualquiera de ellos suspende el proceso de acreditación hasta su regularización, con independencia del puntaje alcanzado en las demás dimensiones.
-
-| **Nº** | **Requisito habilitante** | **Condición mínima** | **Verificación / evidencia** | **Cumple (Sí / No)** |
-| --- | --- | --- | --- | --- |
-| **1** | Autorización de funcionamiento de la IASD | Voto vigente de la Comisión que autoriza el funcionamiento del internado | Documento / voto de la Comisión |  |
-| **2** | Autorización del organismo educacional gubernamental | Acto vigente que autoriza el funcionamiento de la institución en el país | Documento de autorización emitido por el organismo competente |  |
-| **3** | Licencia sanitaria vigente | Licencia sanitaria de la unidad y del comedor emitidas por el organismo de salud | Licencias sanitarias vigentes |  |
-| **4** | Seguridad contra incendios | Certificación vigente de bomberos u organismo equivalente en el país | Certificado vigente |  |
-| **5** | Idoneidad del personal | Certificado de antecedentes penales de todos los trabajadores de la institución | Archivo con los certificados de todo el personal |  |
-| **6** | Normativa interna vigente | Reglamento interno y código disciplinario aprobados y difundidos a la comunidad | Reglamento interno y código disciplinario |  |
-
-| **SECCIÓN III: CRITERIOS DE APROBACIÓN Y PUNTAJE** |
+| **SECCIÓN II: CRITERIOS DE APROBACIÓN Y PUNTAJE** |
 | --- |
 
 **1. Escala de logro por criterio.** Cada criterio de revisión tiene un puntaje máximo. En la columna "Nivel de logro" cada criterio presenta los cuatro niveles con el puntaje que le corresponde. El evaluador marca la casilla del nivel alcanzado: si el nivel tiene un puntaje único, esa es la calificación; si abarca un rango, escribe en la línea contigua el puntaje asignado dentro de ese rango. La columna "Observación" recoge el fundamento de la decisión o lo que debe subsanarse.
@@ -88,7 +72,7 @@ La evaluación in situ comienza por esta sección. Son requisitos de cumplimient
 | **PA** — Atiende Parcialmente | Entre el 50% y el 74% de las evidencias; faltan evidencias o calidad | 50% a 74% del puntaje máximo |
 | **NA** — No Atiende | Menos del 50% de las evidencias | 0% a 49% del puntaje máximo |
 
-**2. Equivalencia en puntos.** Esta tabla resume la conversión de los porcentajes a los puntajes máximos del instrumento. Sirve de referencia general: en la Sección V cada criterio muestra ya sus propios valores junto a cada nivel.
+**2. Equivalencia en puntos.** Esta tabla resume la conversión de los porcentajes a los puntajes máximos del instrumento. Sirve de referencia general: en la Sección III cada criterio muestra ya sus propios valores junto a cada nivel.
 
 | **Puntaje máximo** | **AP** | **AA** | **PA** | **NA** |
 | --- | --- | --- | --- | --- |
@@ -111,21 +95,7 @@ La evaluación in situ comienza por esta sección. Son requisitos de cumplimient
 
 **Criterio mínimo de acreditación:** alcanzar al menos el 80% del puntaje total y no obtener menos del 70% en ninguna de las cinco dimensiones.
 
-| **SECCIÓN IV: DIMENSIONES DE EVALUACIÓN Y CALIFICACIÓN FINAL** |
-| --- |
-
-Concluida la evaluación de la Sección V, los puntajes obtenidos en cada dimensión se trasladan a esta tabla para determinar el nivel de logro por dimensión y el resultado general de la institución.
-
-| **Dimensión** | **Puntaje ideal** | **Puntos obtenidos** | **% alcanzado** | **Clasificación** |
-| --- | --- | --- | --- | --- |
-| **1 — Identidad Institucional** | **420** |  |  |  |
-| **2 — Liderazgo y Gestión** | **220** |  |  |  |
-| **3 — Gestión Pedagógica** | **230** |  |  |  |
-| **4 — Gestión de Recursos** | **230** |  |  |  |
-| **5 — Ciudadanía y Convivencia** | **125** |  |  |  |
-| **TOTAL GENERAL** | **1.225** |  |  |  |
-
-| **SECCIÓN V: EVALUACIÓN DE CALIDAD** |
+| **SECCIÓN III: EVALUACIÓN DE CALIDAD** |
 | --- |
 
 | **DIMENSIÓN 1 — IDENTIDAD INSTITUCIONAL** |
@@ -658,7 +628,21 @@ Concluida la evaluación de la Sección V, los puntajes obtenidos en cada dimens
 | **TOTAL DIMENSIÓN 5 — CIUDADANÍA Y CONVIVENCIA:  125 puntos  ·  8 criterios** |
 | --- |
 
-| **SECCIÓN VI: CONCLUSIÓN TÉCNICA** |
+| **SECCIÓN IV: DIMENSIONES DE EVALUACIÓN Y CALIFICACIÓN FINAL** |
+| --- |
+
+Concluida la evaluación de la Sección III, los puntajes obtenidos en cada dimensión se trasladan a esta tabla para determinar el nivel de logro por dimensión y el resultado general de la institución.
+
+| **Dimensión** | **Puntaje ideal** | **Puntos obtenidos** | **% alcanzado** | **Clasificación** |
+| --- | --- | --- | --- | --- |
+| **1 — Identidad Institucional** | **420** |  |  |  |
+| **2 — Liderazgo y Gestión** | **220** |  |  |  |
+| **3 — Gestión Pedagógica** | **230** |  |  |  |
+| **4 — Gestión de Recursos** | **230** |  |  |  |
+| **5 — Ciudadanía y Convivencia** | **125** |  |  |  |
+| **TOTAL GENERAL** | **1.225** |  |  |  |
+
+| **SECCIÓN V: CONCLUSIÓN TÉCNICA** |
 | --- |
 
 **1. Fortalezas identificadas**
@@ -695,7 +679,7 @@ Concluida la evaluación de la Sección V, los puntajes obtenidos en cada dimens
 | **ACREDITADO CON OBSERVACIONES** — detallar las condiciones a subsanar y su plazo | ☐ |  |
 | **NO ACREDITADO** — detallar las razones y los próximos pasos recomendados | ☐ |  |
 
-| **SECCIÓN VII: FIRMAS** |
+| **SECCIÓN VI: FIRMAS** |
 | --- |
 
 Los integrantes de la comisión evaluadora suscriben el resultado consignado en este instrumento.

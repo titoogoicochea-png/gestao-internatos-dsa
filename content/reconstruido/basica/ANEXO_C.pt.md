@@ -39,13 +39,11 @@ Este instrumento determina o nível de atendimento de um internato adventista na
 
 **a. Autoavaliação institucional.** Antes da visita, a instituição preenche o instrumento: revisa cada critério, reúne as evidências solicitadas, e marca o nível de atendimento que considera alcançado. As evidências organizam-se nos documentos PDF e anexos indicados em cada critério.
 
-**b. Verificação de requisitos habilitantes.** A avaliação in loco começa pela Seção II. A ausência de qualquer um desses requisitos suspende o processo até sua regularização.
+**b. Avaliação in loco.** A comissão avaliadora verifica no local as evidências declaradas, dialoga com os atores da comunidade educativa e confirma ou ajusta o nível de atendimento de cada critério e registra na coluna "Observação" o fundamento de sua decisão. A pontuação da avaliação in loco é a que se consolida.
 
-**c. Avaliação in loco.** A comissão avaliadora verifica no local as evidências declaradas, dialoga com os atores da comunidade educativa e confirma ou ajusta o nível de atendimento de cada critério e registra na coluna "Observação" o fundamento de sua decisão. A pontuação da avaliação in loco é a que se consolida.
+**c. Registro de evidências.** Toda pontuação deve estar respaldada por evidência verificável. Um critério sem evidência é classificado como Não Atende (NA).
 
-**d. Registro de evidências.** Toda pontuação deve estar respaldada por evidência verificável. Um critério sem evidência é classificado como Não Atende (NA).
-
-**e. Vivência percebida.** Ao final de cada subdimensão indica-se a meta de vivência esperada, expressa na voz do estudante e referida aos índices ILE e IVC (Anexo B). O nível Atende Plenamente exige coerência entre a evidência documental e essa vivência.
+**d. Vivência percebida.** Ao final de cada subdimensão indica-se a meta de vivência esperada, expressa na voz do estudante e referida aos índices ILE e IVC (Anexo B). O nível Atende Plenamente exige coerência entre a evidência documental e essa vivência.
 
 **4. Comissão avaliadora**
 
@@ -62,21 +60,7 @@ A comissão é presidida pelo Diretor de Educação da Divisão Sul-Americana e 
 | **7** | Especialista — Dimensão 4: Gestão de Recursos |  |  |  |
 | **8** | Especialista — Dimensão 5: Cidadania e Convivência |  |  |  |
 
-| **SEÇÃO II: REQUISITOS HABILITANTES** |
-| --- |
-
-A avaliação in loco começa por esta seção. São requisitos de cumprimento obrigatório, já exigidos no critério 30 do instrumento. A ausência de qualquer um deles suspende o processo de acreditação até sua regularização, independentemente da pontuação alcançada nas demais dimensões.
-
-| **Nº** | **Requisito habilitante** | **Condição mínima** | **Verificação / evidência** | **Cumpre (Sim / Não)** |
-| --- | --- | --- | --- | --- |
-| **1** | Autorização de funcionamento da IASD | Voto vigente da Comissão que autoriza o funcionamento do internato | Documento / voto da Comissão |  |
-| **2** | Autorização do órgão educacional governamental | Ato vigente que autoriza o funcionamento da instituição no país | Documento de autorização emitido pelo órgão competente |  |
-| **3** | Licença sanitária vigente | Licença sanitária da unidade e do refeitório emitidas pelo órgão de saúde | Licenças sanitárias vigentes |  |
-| **4** | Segurança contra incêndios | Certificação vigente do corpo de bombeiros ou órgão equivalente no país | Certificado vigente |  |
-| **5** | Idoneidade do pessoal | Certidão de antecedentes criminais de todos os trabalhadores da instituição | Arquivo com as certidões de todo o pessoal |  |
-| **6** | Normativa interna vigente | Regulamento interno e código disciplinar aprovados e divulgados à comunidade | Regulamento interno e código disciplinar |  |
-
-| **SEÇÃO III: CRITÉRIOS DE APROVAÇÃO E PONTUAÇÃO** |
+| **SEÇÃO II: CRITÉRIOS DE APROVAÇÃO E PONTUAÇÃO** |
 | --- |
 
 **1. Escala de atendimento por critério.** Cada critério de revisão tem uma pontuação máxima. Na coluna "Nível de atendimento" cada critério apresenta os quatro níveis com a pontuação que lhe corresponde. O avaliador marca a caixa do nível alcançado: se o nível tem pontuação única, essa é a nota; se abrange um intervalo, escreve na linha ao lado a pontuação atribuída dentro desse intervalo. A coluna "Observação" recolhe o fundamento da decisão ou o que deve ser sanado.
@@ -88,7 +72,7 @@ A avaliação in loco começa por esta seção. São requisitos de cumprimento o
 | **PA** — Atende Parcialmente | Entre 50% e 74% das evidências; faltam evidências ou qualidade | 50% a 74% da pontuação máxima |
 | **NA** — Não Atende | Menos de 50% das evidências | 0% a 49% da pontuação máxima |
 
-**2. Equivalência em pontos.** Esta tabela resume a conversão dos percentuais às pontuações máximas do instrumento. Serve de referência geral: na Seção V cada critério já mostra seus próprios valores ao lado de cada nível.
+**2. Equivalência em pontos.** Esta tabela resume a conversão dos percentuais às pontuações máximas do instrumento. Serve de referência geral: na Seção III cada critério já mostra seus próprios valores ao lado de cada nível.
 
 | **Pontuação máxima** | **AP** | **AA** | **PA** | **NA** |
 | --- | --- | --- | --- | --- |
@@ -111,21 +95,7 @@ A avaliação in loco começa por esta seção. São requisitos de cumprimento o
 
 **Critério mínimo de acreditação:** alcançar ao menos 80% da pontuação total e não obter menos de 70% em nenhuma das cinco dimensões.
 
-| **SEÇÃO IV: DIMENSÕES DE AVALIAÇÃO E CLASSIFICAÇÃO FINAL** |
-| --- |
-
-Concluída a avaliação da Seção V, as pontuações obtidas em cada dimensão são transferidas para esta tabela a fim de determinar o nível de atendimento por dimensão e o resultado geral da instituição.
-
-| **Dimensão** | **Pontuação ideal** | **Pontos obtidos** | **% alcançado** | **Classificação** |
-| --- | --- | --- | --- | --- |
-| **1 — Identidade Institucional** | **420** |  |  |  |
-| **2 — Liderança e Gestão** | **220** |  |  |  |
-| **3 — Gestão Pedagógica** | **230** |  |  |  |
-| **4 — Gestão de Recursos** | **230** |  |  |  |
-| **5 — Cidadania e Convivência** | **125** |  |  |  |
-| **TOTAL GERAL** | **1.225** |  |  |  |
-
-| **SEÇÃO V: AVALIAÇÃO DA QUALIDADE** |
+| **SEÇÃO III: AVALIAÇÃO DA QUALIDADE** |
 | --- |
 
 | **DIMENSÃO 1 — IDENTIDADE INSTITUCIONAL** |
@@ -658,7 +628,21 @@ Concluída a avaliação da Seção V, as pontuações obtidas em cada dimensão
 | **TOTAL DIMENSÃO 5 — CIDADANIA E CONVIVÊNCIA:  125 pontos  ·  8 critérios** |
 | --- |
 
-| **SEÇÃO VI: CONCLUSÃO TÉCNICA** |
+| **SEÇÃO IV: DIMENSÕES DE AVALIAÇÃO E CLASSIFICAÇÃO FINAL** |
+| --- |
+
+Concluída a avaliação da Seção III, as pontuações obtidas em cada dimensão são transferidas para esta tabela a fim de determinar o nível de atendimento por dimensão e o resultado geral da instituição.
+
+| **Dimensão** | **Pontuação ideal** | **Pontos obtidos** | **% alcançado** | **Classificação** |
+| --- | --- | --- | --- | --- |
+| **1 — Identidade Institucional** | **420** |  |  |  |
+| **2 — Liderança e Gestão** | **220** |  |  |  |
+| **3 — Gestão Pedagógica** | **230** |  |  |  |
+| **4 — Gestão de Recursos** | **230** |  |  |  |
+| **5 — Cidadania e Convivência** | **125** |  |  |  |
+| **TOTAL GERAL** | **1.225** |  |  |  |
+
+| **SEÇÃO V: CONCLUSÃO TÉCNICA** |
 | --- |
 
 **1. Fortalezas identificadas**
@@ -695,7 +679,7 @@ Concluída a avaliação da Seção V, as pontuações obtidas em cada dimensão
 | **ACREDITADO COM OBSERVAÇÕES** — detalhar as condições a sanar e seu prazo | ☐ |  |
 | **NÃO ACREDITADO** — detalhar as razões e os próximos passos recomendados | ☐ |  |
 
-| **SEÇÃO VII: ASSINATURAS** |
+| **SEÇÃO VI: ASSINATURAS** |
 | --- |
 
 Os integrantes da comissão avaliadora subscrevem o resultado consignado neste instrumento.
