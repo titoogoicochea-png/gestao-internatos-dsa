@@ -216,14 +216,49 @@ function buildMetaTable(docx: any, rows: string[][]): any {
   });
 }
 
+// ── Índice navegable ─────────────────────────────────────────────────────────
+
+export type TocEntry = { level: number; text: string; anchor: string };
+type Ctx = { toc: TocEntry[]; seq: number } | undefined;
+
+// Registra una entrada del índice y devuelve el nombre del marcador al que
+// apuntará el hipervínculo.
+function anclar(ctx: Ctx, level: number, text: string): string | undefined {
+  if (!ctx) return undefined;
+  ctx.seq += 1;
+  const anchor = `sec${ctx.seq}`;
+  ctx.toc.push({ level, text, anchor });
+  return anchor;
+}
+
+// Generador de identificadores de marcador. Se usa BookmarkStart/BookmarkEnd en
+// lugar de Bookmark porque este último emite siempre w:id="1" (ids duplicados).
+let bmGen: (() => number) | undefined;
+function bookmarkId(docx: any): number {
+  if (!bmGen) bmGen = docx.bookmarkUniqueNumericIdGen();
+  return bmGen!();
+}
+
+// Envuelve el texto en un marcador cuando la línea va al índice.
+function marcado(docx: any, run: any, anchor?: string): any[] {
+  if (!anchor) return [run];
+  const { BookmarkStart, BookmarkEnd } = docx;
+  const id = bookmarkId(docx);
+  return [new BookmarkStart(anchor, id), run, new BookmarkEnd(id)];
+}
+
+type BlockOpts = { anchor?: string; heading?: any };
+
 // Banda de color con texto blanco centrado (capítulo / dimensión / subdimensión).
-function banner(docx: any, text: string, fill: string, halfPt: number): any {
+function banner(docx: any, text: string, fill: string, halfPt: number, o: BlockOpts = {}): any {
   const { Paragraph, TextRun, AlignmentType, ShadingType } = docx;
+  const run = new TextRun({ text, bold: true, color: WHITE, size: halfPt, font: "Arial" });
   return new Paragraph({
+    heading: o.heading,
     shading: { type: ShadingType.CLEAR, color: "auto", fill },
     alignment: AlignmentType.CENTER,
     spacing: { before: 240, after: 120 },
-    children: [new TextRun({ text, bold: true, color: WHITE, size: halfPt })],
+    children: marcado(docx, run, o.anchor),
   });
 }
 
@@ -244,16 +279,19 @@ function noteBox(docx: any, text: string): any {
 }
 
 // Encabezado de sección (azul marino, negrita) — estilo "Título N".
-function heading(docx: any, text: string, halfPt: number): any {
-  const { Paragraph, TextRun } = docx;
+function heading(docx: any, text: string, halfPt: number, o: BlockOpts = {}): any {
+  const { Paragraph, TextRun, AlignmentType } = docx;
+  const run = new TextRun({ text, bold: true, color: NAVY, size: halfPt, font: "Arial" });
   return new Paragraph({
+    heading: o.heading,
+    alignment: AlignmentType.LEFT,
     spacing: { before: 220, after: 60 },
-    children: [new TextRun({ text, bold: true, color: NAVY, size: halfPt })],
+    children: marcado(docx, run, o.anchor),
   });
 }
 
-export function markdownToDocx(docx: any, md: string): any[] {
-  const { Paragraph } = docx;
+export function markdownToDocx(docx: any, md: string, ctx?: Ctx): any[] {
+  const { Paragraph, HeadingLevel } = docx;
   const out: any[] = [];
   const lines = md.replace(/\r\n/g, "\n").split("\n");
   let i = 0;
@@ -295,11 +333,18 @@ export function markdownToDocx(docx: any, md: string): any[] {
         if (r.length === 1) {
           flush();
           const txt = plain(r[0] ?? "");
-          if (/^DIMENS(I[ÓO]N|[ÃA]O)\s*\d/i.test(txt)) out.push(banner(docx, txt, NAVY, 28));
-          else if (/^TOTAL\s+DIMENS/i.test(txt)) out.push(banner(docx, txt, NAVY, 20));
-          else if (/^\d+\.\d+\s/.test(txt)) out.push(banner(docx, txt, BLUE, 22));
-          else if (txt.length > 180) out.push(noteBox(docx, r[0]));
-          else out.push(banner(docx, txt, BLUE, 22));
+          // Dimensiones y subdimensiones del Anexo C entran al índice.
+          if (/^DIMENS(I[ÓO]N|[ÃA]O)\s*\d/i.test(txt)) {
+            out.push(banner(docx, txt, NAVY, 28, { anchor: anclar(ctx, 2, txt), heading: HeadingLevel.HEADING_2 }));
+          } else if (/^TOTAL\s+DIMENS/i.test(txt)) {
+            out.push(banner(docx, txt, NAVY, 20));
+          } else if (/^\d+\.\d+\s/.test(txt)) {
+            out.push(banner(docx, txt, BLUE, 22, { anchor: anclar(ctx, 3, txt), heading: HeadingLevel.HEADING_3 }));
+          } else if (txt.length > 180) {
+            out.push(noteBox(docx, r[0]));
+          } else {
+            out.push(banner(docx, txt, BLUE, 22));
+          }
         } else {
           seg.push(r);
         }
@@ -313,11 +358,19 @@ export function markdownToDocx(docx: any, md: string): any[] {
     if (h) {
       const level = h[1].length;
       const text = h[2].replace(/\*\*/g, "");
-      if (level === 1) out.push(banner(docx, text, NAVY, 28));        // Capítulo — barra azul marino, blanco 14pt
-      else if (level === 2) out.push(banner(docx, text, BLUE, 24));   // Subtítulo — barra azul, blanco 12pt
-      else if (level === 3) out.push(heading(docx, text, 24));         // Sección 1.1 — azul marino 12pt
-      else if (level === 4) out.push(heading(docx, text, 23));         // 1.2.1 — azul marino 11.5pt
-      else out.push(heading(docx, text, 22));
+      // Los niveles 1–3 alimentan el índice navegable; todos llevan estilo de
+      // título para que funcione el panel de navegación de Word.
+      if (level === 1) {
+        out.push(banner(docx, text, NAVY, 28, { anchor: anclar(ctx, 1, text), heading: HeadingLevel.HEADING_1 }));
+      } else if (level === 2) {
+        out.push(banner(docx, text, BLUE, 24, { anchor: anclar(ctx, 2, text), heading: HeadingLevel.HEADING_2 }));
+      } else if (level === 3) {
+        out.push(heading(docx, text, 24, { anchor: anclar(ctx, 3, text), heading: HeadingLevel.HEADING_3 }));
+      } else if (level === 4) {
+        out.push(heading(docx, text, 23, { heading: HeadingLevel.HEADING_4 }));
+      } else {
+        out.push(heading(docx, text, 22, { heading: HeadingLevel.HEADING_5 }));
+      }
       i++;
       continue;
     }
@@ -374,7 +427,73 @@ export type Portada = {
   cita: string;           // "O internato é uma comunidade formativa..."
   anio: string;           // 2026
 };
-type DocOpts = { portada: Portada; docs: { markdown: string }[] };
+type DocOpts = { portada: Portada; docs: { markdown: string }[]; lang?: "es" | "pt" };
+
+// Cada apartado encabeza el índice con una sola línea. Si el apartado tiene
+// título y subtítulo (p. ej. "CAPÍTULO I" + "NUESTRA ESENCIA") se unen en esa
+// línea y sus secciones suben un nivel, para que el índice quede legible.
+function normalizarApartado(toc: TocEntry[], start: number): void {
+  const ent = toc.slice(start);
+  if (!ent.length) return;
+  if (ent[0].level > 1) ent[0].level = 1;              // apartados que empiezan en "##"
+  const soloUnSubtitulo = ent.filter((e) => e.level === 2).length === 1;
+  if (soloUnSubtitulo && ent[1]?.level === 2) {
+    ent[0].text = `${ent[0].text} — ${ent[1].text}`;
+    toc.splice(start + 1, 1);
+    for (const e of toc.slice(start + 1)) if (e.level === 3) e.level = 2;
+  }
+}
+
+// Índice navegable: cada línea es un hipervínculo interno al marcador del
+// apartado correspondiente (funciona al abrir el documento, sin actualizar campos).
+function construirIndice(docx: any, toc: TocEntry[], lang: "es" | "pt"): any[] {
+  const { Paragraph, TextRun, InternalHyperlink, AlignmentType } = docx;
+  const out: any[] = [banner(docx, lang === "pt" ? "SUMÁRIO" : "ÍNDICE", NAVY, 28)];
+
+  out.push(
+    new Paragraph({
+      alignment: AlignmentType.LEFT,
+      spacing: { after: 200 },
+      children: [
+        new TextRun({
+          text: lang === "pt"
+            ? "Clique em qualquer item para ir diretamente à seção."
+            : "Haz clic en cualquier ítem para ir directamente a la sección.",
+          italics: true,
+          size: 18,
+          color: "3B3B3B",
+          font: "Arial",
+        }),
+      ],
+    })
+  );
+
+  for (const e of toc) {
+    const lvl1 = e.level === 1;
+    out.push(
+      new Paragraph({
+        alignment: AlignmentType.LEFT,
+        indent: { left: e.level === 1 ? 0 : e.level === 2 ? 340 : 680 },
+        spacing: { before: lvl1 ? 160 : 20, after: 20, line: 240, lineRule: "auto" },
+        children: [
+          new InternalHyperlink({
+            anchor: e.anchor,
+            children: [
+              new TextRun({
+                text: e.text,
+                bold: lvl1,
+                color: lvl1 ? NAVY : BLUE,
+                size: lvl1 ? 22 : e.level === 2 ? 21 : 20,
+                font: "Arial",
+              }),
+            ],
+          }),
+        ],
+      })
+    );
+  }
+  return out;
+}
 
 async function construirDocumento(opts: DocOpts) {
   const docx = await import("docx");
@@ -394,11 +513,24 @@ async function construirDocumento(opts: DocOpts) {
     new Paragraph({ children: [new PageBreak()] }),
   ];
 
-  const children: any[] = [...portada];
+  // Se recorre primero el contenido para reunir las entradas del índice y sus
+  // marcadores; después se antepone el índice, ya con los enlaces resueltos.
+  const lang: "es" | "pt" = opts.lang ?? (/Educaç/i.test(p.departamento) ? "pt" : "es");
+  const ctx = { toc: [] as TocEntry[], seq: 0 };
+  const cuerpo: any[] = [];
   opts.docs.forEach((d, idx) => {
-    if (idx > 0) children.push(new Paragraph({ children: [new PageBreak()] }));
-    children.push(...markdownToDocx(docx, d.markdown));
+    if (idx > 0) cuerpo.push(new Paragraph({ children: [new PageBreak()] }));
+    const start = ctx.toc.length;
+    cuerpo.push(...markdownToDocx(docx, d.markdown, ctx));
+    normalizarApartado(ctx.toc, start);
   });
+
+  const children: any[] = [
+    ...portada,
+    ...construirIndice(docx, ctx.toc, lang),
+    new Paragraph({ children: [new PageBreak()] }),
+    ...cuerpo,
+  ];
 
   const doc = new Document({
     styles: {

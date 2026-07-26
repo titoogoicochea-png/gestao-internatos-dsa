@@ -230,7 +230,7 @@ export async function generarWordReconstruido(
       };
 
   try {
-    const base64 = await documentoADocxBase64({ portada, docs });
+    const base64 = await documentoADocxBase64({ portada, docs, lang });
     return { ok: true, base64, nombre: `referencial-reconstruido-${nivel}-${lang}.docx` };
   } catch (e) {
     return { ok: false, error: e instanceof Error ? e.message : "No se pudo generar el Word." };
