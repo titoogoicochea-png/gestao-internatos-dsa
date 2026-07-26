@@ -64,14 +64,15 @@ const plain = (s: string) => s.replace(/\*/g, "").trim();
 function colWeight(header: string): number {
   const h = plain(header).toLowerCase();
   if (/^n[ºo°]?$/.test(h)) return 1.2;
+  if (/^(nivel de logro|nível de atendimento)$/.test(h)) return 5.0;  // las cuatro opciones
   if (/^(puntaje|pontuação)\s+(máximo|máxima|obtenido|obtida)$/.test(h)) return 2.0;
-  if (/^observaci[óo]n(es)?$|^observaç[ãa]o(es|ões)?$/.test(h)) return 2.7;
+  if (/^observaci[óo]n(es)?$|^observaç[ãa]o(es|ões)?$/.test(h)) return 3.0;
   if (/^(pts|puntos|pontos)$/.test(h)) return 1.25;
-  if (/^(ap|aa|pa|na|a)$/.test(h)) return 2.2;   // ahora muestran el puntaje del nivel
-  if (/crit[eé]rio/.test(h)) return 3.9;
-  if (/evid[eê]ncia/.test(h)) return 3.4;
-  if (/detal/.test(h)) return 4.1;
-  if (/documento/.test(h)) return 3.1;
+  if (/^(ap|aa|pa|na|a)$/.test(h)) return 1.6;
+  if (/crit[eé]rio/.test(h)) return 4.2;
+  if (/evid[eê]ncia/.test(h)) return 3.7;
+  if (/detal/.test(h)) return 4.4;
+  if (/documento/.test(h)) return 3.4;
   return 3;
 }
 
@@ -168,9 +169,12 @@ function buildTable(docx: any, rows: string[][]): any {
     const fill = dataIdx++ % 2 === 1 ? ZEBRA : WHITE;
     return new TableRow({
       children: padded.map((c, i) => {
-        // Casilla de conformidad: sola ("☐") o con el puntaje del nivel ("☐ 12-14").
+        // Casilla de conformidad sola ("☐") o con un único valor ("☐ 12-14").
+        // La celda de "Nivel de logro" lleva las cuatro opciones y va alineada
+        // a la izquierda, porque ocupa varias líneas.
         const soloCasilla = /^[☐☑]$/.test(plain(c));
-        const box = soloCasilla || /^[☐☑]\s+\S/.test(plain(c));
+        const variasOpciones = (plain(c).match(/[☐☑]/g) ?? []).length > 1;
+        const box = !variasOpciones && (soloCasilla || /^[☐☑]\s+\S/.test(plain(c)));
         const strong = i === 0 || isNarrow(i);           // Nº y puntos en negrita
         return tCell(docx, c, {
           fill,

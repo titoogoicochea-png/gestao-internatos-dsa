@@ -153,6 +153,18 @@ function parseAnexoC(raw: string): { intro: string; dims: Dim[]; cierre: string 
   return { intro: introLines.join("\n"), dims, cierre: cierreLines.join("\n") };
 }
 
+
+// Ancho mínimo de cada columna del instrumento, según su encabezado: la de
+// "Nivel de logro" lleva las cuatro opciones y necesita más espacio.
+function anchoCol(header: string | undefined, i: number): string {
+  const h = (header ?? "").toLowerCase();
+  if (/nivel de logro|nível de atendimento/.test(h)) return "14rem";
+  if (/observaci|observaç/.test(h)) return "10rem";
+  if (/puntaje|pontuação/.test(h)) return "5rem";
+  if (i === 0) return "2.5rem";
+  return "7rem";
+}
+
 // ── Renderer de Markdown inline (**negrita**) ─────────────────────────────────
 function Inline({ text }: { text: string }) {
   const parts = text.split(/(\*\*[^*]+\*\*)/);
@@ -250,7 +262,7 @@ export function AnexoCSubdimView({ raw, subdimId }: { raw: string; subdimId: str
                 {row.cells.map((cell, ci) => (
                   <td key={ci}
                     className="border border-slate-300 px-2 py-1.5 align-top text-slate-700"
-                    style={{ minWidth: ci === 0 ? "2.5rem" : ci >= 5 ? "3rem" : "7rem", maxWidth: ci >= 1 && ci <= 4 ? "18rem" : undefined }}>
+                    style={{ minWidth: anchoCol(sub.headers[ci], ci), maxWidth: ci >= 1 && ci <= 4 ? "18rem" : undefined }}>
                     <Inline text={cell} />
                   </td>
                 ))}
@@ -370,9 +382,7 @@ export function AnexoCView({ raw }: { raw: string }) {
                                         key={ci}
                                         className="border border-slate-300 px-2 py-1.5 align-top text-slate-700"
                                         style={{
-                                          minWidth: ci === 0 ? "2.5rem"
-                                            : ci >= 5 ? "3rem"
-                                            : "7rem",
+                                          minWidth: anchoCol(sub.headers[ci], ci),
                                           maxWidth: ci >= 1 && ci <= 4
                                             ? "18rem"
                                             : undefined,
