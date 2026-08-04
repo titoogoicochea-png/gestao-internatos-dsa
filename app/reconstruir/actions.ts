@@ -193,19 +193,21 @@ export async function generarWordReconstruido(
   const auth = await requireAdmin();
   if (!auth.ok) return { ok: false, error: auth.error };
 
-  const { documentoADocxBase64 } = await import("@/lib/md-docx");
+  const { documentoADocxBase64, partirInstrumento } = await import("@/lib/md-docx");
   const { getExtraDocs, getReconstruidoArchivo } = await import("@/lib/reconstruido");
 
   // Documento COMPLETO, en orden: texto reconstruido donde exista; original en su defecto.
-  // Incluye los anexos que solo trae el texto reconstruido (p. ej. el Anexo D).
+  // Incluye los anexos que solo trae el texto reconstruido (p. ej. el Anexo B).
   const base = getDocs(nivel);
   const docs = [...base, ...getExtraDocs(nivel, base.map((d) => d.codigo))]
     .sort((a, b) => a.order - b.order)
-    .map((d) => {
+    .flatMap((d) => {
       const a = getReconstruidoArchivo(nivel, d.codigo);
       const recon = lang === "pt" ? a.pt : a.es;
       const orig = lang === "pt" ? d.raw : d.raw_es;
-      return { markdown: (recon ?? orig ?? "").trim() };
+      const markdown = (recon ?? orig ?? "").trim();
+      // El instrumento de acreditación va en vertical hasta la Sección II.
+      return d.codigo === "ANEXO_C" ? partirInstrumento(markdown) : [{ markdown }];
     })
     .filter((x) => x.markdown.length > 0);
 

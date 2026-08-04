@@ -460,7 +460,15 @@ export type Portada = {
   cita: string;           // "O internato é uma comunidade formativa..."
   anio: string;           // 2026
 };
-type DocOpts = { portada: Portada; docs: { markdown: string }[]; lang?: "es" | "pt" };
+// `horizontal` permite declarar la orientación de un apartado. Si se omite, se
+// deduce del encabezado (ver esInstrumento). Sirve para partir el instrumento de
+// acreditación: sus Secciones I y II son texto corrido y quedan en vertical;
+// desde la Sección III empiezan las tablas anchas y hace falta el horizontal.
+type DocOpts = {
+  portada: Portada;
+  docs: { markdown: string; horizontal?: boolean }[];
+  lang?: "es" | "pt";
+};
 
 // Cada apartado encabeza el índice con una sola línea. Si el apartado tiene
 // título y subtítulo (p. ej. "CAPÍTULO I" + "NUESTRA ESENCIA") se unen en esa
@@ -560,7 +568,7 @@ async function construirDocumento(opts: DocOpts) {
     /^#\s+(ANEXO\s+C\b|FORMULARIO DE ACREDITACIÓN|FORMULÁRIO DE ACREDITAÇÃO)/im.test(md.slice(0, 400));
   const grupos: { horizontal: boolean; children: any[] }[] = [];
   opts.docs.forEach((d) => {
-    const horizontal = esInstrumento(d.markdown);
+    const horizontal = d.horizontal ?? esInstrumento(d.markdown);
     CONTENT_W = horizontal ? ANCHO_HORIZONTAL : ANCHO_VERTICAL;
     const start = ctx.toc.length;
     const bloque = markdownToDocx(docx, d.markdown, ctx);
@@ -608,6 +616,21 @@ async function construirDocumento(opts: DocOpts) {
     sections: grupos.map((g) => ({ properties: { page: pagina(g.horizontal) }, children: g.children })),
   });
   return { docx, doc };
+}
+
+// El instrumento de acreditación arranca con dos secciones de texto corrido
+// (información general, criterios de puntaje) y solo desde la Sección III
+// aparecen las tablas de ocho columnas. Componerlo entero en horizontal deja esas
+// primeras páginas desangeladas, así que se parte en dos apartados con distinta
+// orientación. Si no encuentra la marca de sección, devuelve el texto tal cual.
+export function partirInstrumento(md: string): { markdown: string; horizontal?: boolean }[] {
+  const lineas = md.split("\n");
+  const i = lineas.findIndex((l) => /^\|\s*\*\*(SECCIÓN|SEÇÃO)\s+III\b/i.test(l));
+  if (i <= 0) return [{ markdown: md }];
+  return [
+    { markdown: lineas.slice(0, i).join("\n").trimEnd(), horizontal: false },
+    { markdown: lineas.slice(i).join("\n").trim(), horizontal: true },
+  ];
 }
 
 export async function documentoADocx(opts: DocOpts): Promise<Blob> {
