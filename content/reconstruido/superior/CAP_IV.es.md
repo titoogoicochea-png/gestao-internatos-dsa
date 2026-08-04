@@ -8,7 +8,7 @@ El liderazgo del internado adventista trasciende las estructuras administrativas
 
 Quien lidera un internado adventista es llamado a pastorear, educar, disciplinar y relacionarse. Liderar un internado no significa solamente administrar normas y actividades, sino también cuidar, orientar y acompañar a los estudiantes en su desarrollo espiritual, emocional, social y académico. Estas cuatro dimensiones no operan de manera aislada; se integran en un liderazgo profundamente cristocéntrico, sustentado por un equipo saludable, espiritualmente maduro, técnicamente preparado y comprometido con la misión redentora de la Educación Adventista (Departamento de Educação da DSA, 2017).
 
-Ellen G. White (1903/2008) establece el fundamento de esta visión: "El verdadero objetivo de la educación es restaurar en el hombre la imagen de Dios" (p. 15). Esta restauración no ocurre exclusivamente en el aula. Acontece en los dormitorios, en los pasillos, en las comidas, en los cultos, en los conflictos, en las rutinas y en la convivencia diaria. El internado es, por tanto, un ambiente pedagógico integral, y quien lo lidera necesita comprender esa integralidad.
+Ellen G. White establece el fundamento de esta visión: "El verdadero objetivo de la educación es restaurar en el hombre la imagen de Dios" (*La educación*, 2008, p. 15). Esta restauración no ocurre exclusivamente en el aula. Acontece en los dormitorios, en los pasillos, en las comidas, en los cultos, en los conflictos, en las rutinas y en la convivencia diaria. El internado es, por tanto, un ambiente pedagógico integral, y quien lo lidera necesita comprender esa integralidad.
 
 La investigación empírica de Ferri (2026), realizada con 372 estudiantes residentes en tres internados adventistas de Educación Superior de América del Sur, demostró que estos jóvenes adultos perciben en los preceptores fuertes características de liderazgo transformacional y relacional, y que esa percepción está asociada al bienestar, al sentido de pertenencia y a la intención de permanencia. Hallazgos convergentes fueron observados por Silva Junior (2025) en ambiente residencial adventista. Tales constataciones refuerzan un principio histórico: los internados fuertes dependen menos de estructuras rígidas y más de líderes espiritualmente influyentes, relacionalmente presentes y misioneramente coherentes.
 
@@ -30,7 +30,7 @@ La estructura organizacional de referencia articula cinco niveles funcionales qu
 
 **Nivel de coordinación.** Tres coordinaciones sostienen la operación del internado:
 
-(a) **Coordinación Pastoral**, responsable del desarrollo espiritual, el discipulado, la integración misionera, la conducción del PMDE y la articulación con la iglesia en el campus;
+(a) **Coordinación Pastoral**, responsable del desarrollo espiritual, el discipulado, la integración misionera, la conducción del PMDE y la articulación con la iglesia del campus;
 
 (b) **Coordinación Educativa**, responsable del acompañamiento formativo, la articulación con el área académica, la supervisión de los tutores y monitores, el desarrollo integral y la mentoría pedagógica;
 
@@ -82,7 +82,7 @@ La Dirección del Internado (en algunas instituciones designada Dirección de Bi
 
 #### 4.2.2 Preceptoría
 
-La preceptoría representa el núcleo relacional del internado adventista. El preceptor es la presencia educativa diaria más cercana al estudiante residente. En la Educación Superior, el preceptor actúa como mentor, referencia espiritual y facilitador de la cogobernanza, acompañando a jóvenes adultos que ejercen autonomía creciente, sin dejar de encarnar la "atmósfera doméstica" de que habla White (1913/2007a). Las investigaciones de Ferri (2026) y Silva Junior (2025) evidenciaron que los estudiantes valoran especialmente a los preceptores que demuestran coherencia entre discurso y práctica, proximidad relacional, cuidado genuino, liderazgo por el ejemplo, espiritualidad auténtica y sentido de justicia. Más allá de la preparación técnica, los estudiantes valoran a los preceptores cercanos, empáticos y capaces de escuchar, cuyo ejemplo influye de manera decisiva en la vida de los jóvenes.
+La preceptoría representa el núcleo relacional del internado adventista. El preceptor es la presencia educativa diaria más cercana al estudiante residente. En la Educación Superior, el preceptor actúa como mentor, referencia espiritual y facilitador de la cogobernanza, acompañando a jóvenes adultos que ejercen autonomía creciente, sin dejar de encarnar la "atmósfera doméstica" de que habla White (*Testimonios selectos, tomo 2*, 2007). Las investigaciones de Ferri (2026) y Silva Junior (2025) evidenciaron que los estudiantes valoran especialmente a los preceptores que demuestran coherencia entre discurso y práctica, proximidad relacional, cuidado genuino, liderazgo por el ejemplo, espiritualidad auténtica y sentido de justicia. Más allá de la preparación técnica, los estudiantes valoran a los preceptores cercanos, empáticos y capaces de escuchar, cuyo ejemplo influye de manera decisiva en la vida de los jóvenes.
 
 El preceptor adventista ejerce influencia continua sobre los hábitos, las elecciones, la espiritualidad y el sentido de pertenencia de los residentes. Más que controlar el comportamiento, ayuda a formar la conciencia, la responsabilidad y la madurez cristiana. Tratándose de jóvenes adultos, esa influencia se ejerce por la autoridad del ejemplo y de la relación, y no por la tutela, respetando la autonomía del estudiante.
 
@@ -148,7 +148,7 @@ La presencia del psicólogo en el internado adventista es una necesidad derivada
 
 #### 4.2.4 Capellán
 
-El capellán es el pastor de la comunidad educativa. Su función articula liderazgo pastoral, formación espiritual, consejería, mediación espiritual en situaciones de crisis y articulación con la iglesia en el campus y con la estructura pastoral de la denominación.
+El capellán es el pastor de la comunidad educativa. Su función articula liderazgo pastoral, formación espiritual, consejería, mediación espiritual en situaciones de crisis y articulación con la iglesia del campus y con la estructura pastoral de la denominación.
 
 **Formación requerida.** Graduación en Teología, con credencial pastoral adventista activa. Experiencia pastoral previa, preferentemente en ambiente educacional o juvenil. Formación continuada en capellanía universitaria, consejería pastoral y desarrollo del joven adulto.
 
@@ -166,7 +166,7 @@ El capellán es el pastor de la comunidad educativa. Su función articula lidera
 
 (e) Liderazgo espiritual en momentos de crisis (fallecimientos, accidentes, conflictos comunitarios);
 
-(f) Articulación con la iglesia en el campus, con pastores locales y con la estructura pastoral de la denominación (asociaciones, misiones, uniones);
+(f) Articulación con la iglesia del campus, con pastores locales y con la estructura pastoral de la denominación (asociaciones, misiones, uniones);
 
 (g) Mentoría de estudiantes en discernimiento vocacional, especialmente para el ministerio;
 
@@ -176,9 +176,9 @@ El capellán es el pastor de la comunidad educativa. Su función articula lidera
 
 (j) Acompañamiento de bautismos, clases bautismales y procesos de discipulado.
 
-White (1903/2008) destaca que el líder espiritual debe ser modelo: "La mayor necesidad del mundo es la de hombres — hombres que no se vendan ni se compren; hombres que en lo íntimo de su alma sean verdaderos y honestos" (p. 57).
+White destaca que el líder espiritual debe ser modelo: "La mayor necesidad del mundo es la de hombres — hombres que no se vendan ni se compren; hombres que en lo íntimo de su alma sean verdaderos y honestos" (*La educación*, 2008, p. 57).
 
-**Indicadores de desempeño.** Calidad espiritual de los cultos y devocionales; número de estudiantes en discipulado individual; bautismos en el período; participación de los estudiantes en los programas espirituales; satisfacción espiritual de los residentes; resultados del Índice de Brecha Espiritual.
+**Indicadores de desempeño.** Calidad espiritual de los cultos y devocionales; número de estudiantes en discipulado individual; bautismos en el período; participación de los estudiantes en los programas espirituales; satisfacción espiritual de los residentes; resultados del Índice de Laguna Espiritual.
 
 #### 4.2.5 Educador físico
 
@@ -206,13 +206,13 @@ El educador físico en el internado adventista opera con una perspectiva integra
 
 (h) Articulación con la capellanía para coherencia de las actividades deportivas con el sábado y los principios adventistas.
 
-Ellen G. White (1905/2017a) refuerza la centralidad del movimiento corporal en la formación integral. Las prácticas deportivas en el internado deben ser inclusivas, pedagógicas, seguras y coherentes con los principios bíblicos del internado.
+Ellen G. White (*El ministerio de curación*, 2017) refuerza la centralidad del movimiento corporal en la formación integral. Las prácticas deportivas en el internado deben ser inclusivas, pedagógicas, seguras y coherentes con los principios bíblicos del internado.
 
 **Indicadores de desempeño.** Participación de los estudiantes en actividades deportivas; cobertura inclusiva; satisfacción de los participantes; seguridad de las actividades (índice de accidentes); coherencia con los principios adventistas.
 
 #### 4.2.6 Equipo de apoyo
 
-El equipo de apoyo (funcionarios de mantenimiento, cocina, lavandería, limpieza, seguridad, administración) tiene un papel formativo frecuentemente subestimado. Sus miembros conviven cotidianamente con los estudiantes, observan lo que otros no observan, ejercen influencia por presencia y ejemplo. Ellen G. White (1913/2007b) advertía que "el ejemplo es más poderoso que el precepto": funcionarios comprometidos, amables y profesionales transmiten, a través del trabajo cotidiano, un mensaje formativo que ningún sermón reemplaza.
+El equipo de apoyo (funcionarios de mantenimiento, cocina, lavandería, limpieza, seguridad, administración) tiene un papel formativo frecuentemente subestimado. Sus miembros conviven cotidianamente con los estudiantes, observan lo que otros no observan, ejercen influencia por presencia y ejemplo. Ellen G. White (*Consejos para los maestros, padres y alumnos*, 2007) advertía que "el ejemplo es más poderoso que el precepto": funcionarios comprometidos, amables y profesionales transmiten, a través del trabajo cotidiano, un mensaje formativo que ningún sermón reemplaza.
 
 **Formación requerida.** Variable según la función, pero en todos los casos: vinculación consciente con la misión institucional; capacitación en hospitalidad adventista; formación en ética y protección en el relacionamiento con estudiantes; conocimiento básico de los principios institucionales; formación en primeros auxilios para funciones de contacto directo con estudiantes.
 
@@ -246,13 +246,13 @@ El liderazgo en el internado adventista articula cuatro dimensiones integradas q
 
 La dimensión pastoral es el eje articulador de las demás. Su referencia bíblica es Jesús, el Buen Pastor (Juan 10:11-15). Los líderes pastorales conocen a cada estudiante, cuidan cada situación singular, oran por la comunidad, median la presencia de Dios en la vida cotidiana y articulan fe y formación.
 
-La pastoralidad no es tarea exclusiva del capellán: es una cualidad que atraviesa todo el liderazgo del internado. El director, los preceptores, los coordinadores e incluso los funcionarios de apoyo ejercen ministerio pastoral cuando viven la misión con profundidad espiritual. Ellen G. White (1881/2007a) sintetiza: el verdadero liderazgo espiritual es servicio, y no dominación.
+La pastoralidad no es tarea exclusiva del capellán: es una cualidad que atraviesa todo el liderazgo del internado. El director, los preceptores, los coordinadores e incluso los funcionarios de apoyo ejercen ministerio pastoral cuando viven la misión con profundidad espiritual. Ellen G. White (*Testimonios selectos, tomo 2*, 2007) sintetiza: el verdadero liderazgo espiritual es servicio, y no dominación.
 
 #### 4.3.2 Dimensión educativa
 
 La dimensión educativa entiende toda decisión del liderazgo como una oportunidad formativa. Cómo organizar la rutina, definir prioridades, comunicar cambios, conducir reuniones, gestionar conflictos — todo educa. Una reunión conducida con escucha forma democracia; una decisión tomada con transparencia forma confianza institucional; una corrección hecha con respeto forma cultura relacional saludable.
 
-Esta comprensión es coherente con la tradición freireana (Freire, 1996) y con la pedagogía adventista (Departamento de Educação da DSA, 2017; Knight, 2016): la educación ocurre en todos los espacios y en todos los tiempos, y el liderazgo institucional es, en sí mismo, un agente formativo permanente.
+Esta comprensión es coherente con la tradición freireana (Freire, 1997) y con la pedagogía adventista (Departamento de Educação da DSA, 2017; Knight, 2016): la educación ocurre en todos los espacios y en todos los tiempos, y el liderazgo institucional es, en sí mismo, un agente formativo permanente.
 
 #### 4.3.3 Dimensión disciplinar
 
@@ -274,7 +274,7 @@ El cuidado de los líderes y colaboradores del internado no debe reducirse a ini
 
 #### 4.4.1 Factores de riesgo
 
-El contexto residencial sostenido, con guardias nocturnas, atención de crisis, mediación de conflictos, trato con familias y exigencia espiritual permanente, sobrecarga a quienes trabajan en él. Ellen G. White (1915/2015) advertía que "los trabajadores necesitan descanso, recreación, variación — así como necesitan alimento y sueño". Cuando este principio es descuidado, el resultado es un equipo agotado, con alta rotatividad, productividad comprometida y calidad formativa en descenso. Un líder o preceptor agotado difícilmente podrá cuidar bien de los demás; por eso, cuidar de quienes trabajan en el internado es condición para que el internado cuide bien de sus estudiantes.
+El contexto residencial sostenido, con guardias nocturnas, atención de crisis, mediación de conflictos, trato con familias y exigencia espiritual permanente, sobrecarga a quienes trabajan en él. Ellen G. White (*Obreros evangélicos*, 2015) advertía que "los trabajadores necesitan descanso, recreación, variación — así como necesitan alimento y sueño". Cuando este principio es descuidado, el resultado es un equipo agotado, con alta rotatividad, productividad comprometida y calidad formativa en descenso. Un líder o preceptor agotado difícilmente podrá cuidar bien de los demás; por eso, cuidar de quienes trabajan en el internado es condición para que el internado cuide bien de sus estudiantes.
 
 Los factores específicos de riesgo incluyen: jornadas excesivas o inadecuadamente compensadas; ausencia de tiempo familiar protegido; sobrecarga emocional sin supervisión; aislamiento profesional; falta de formación continuada; ausencia de plan de carrera; falta de cuidado pastoral; remuneración inadecuada a la responsabilidad.
 
@@ -307,5 +307,7 @@ El Plan Estratégico de la DSA 2026-2030 prioriza la excelencia educacional adve
 El internado adventista de Educación Superior permanece como una de las herramientas más poderosas de la Educación Adventista para la formación de identidad, carácter, espiritualidad y misión. Su fortaleza no reside solo en estructuras físicas, normas o sistemas organizacionales, sino en la calidad espiritual y relacional de sus líderes y equipos.
 
 Cuando bien conducido, el internado se convierte en un espacio de transformación profunda, un ambiente en que los jóvenes adultos aprenden a vivir con Dios, servir al prójimo y desarrollar un propósito eterno. El futuro de los internados adventistas de la Divisão Sul-Americana dependerá de la capacidad de preservar sus principios históricos mientras desarrolla modelos de liderazgo espiritualmente sólidos, emocionalmente saludables, pedagógicamente consistentes y misioneramente relevantes para las nuevas generaciones.
+
+Los principios de liderazgo y cuidado descritos en este capítulo se traducen en procedimientos concretos —crisis emocional, riesgo suicida, consumo de sustancias, disciplina restaurativa, conflictos entre residentes, accidentes y comunicación con las familias— en los protocolos operativos reunidos en el **Anexo B**, de modo que este referencial no se quede en el plano conceptual y sirva como manual de trabajo para el equipo del internato.
 
 La síntesis bíblica de este capítulo se encuentra en 1 Pedro 5:2-3: "Apacentad la grey de Dios que está entre vosotros, cuidando de ella, no por fuerza, sino voluntariamente; no por ganancia deshonesta, sino con ánimo pronto; no como teniendo señorío sobre los que están a vuestro cuidado, sino siendo ejemplos de la grey". Este es el paradigma de liderazgo que sostiene el internado adventista.

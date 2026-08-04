@@ -1,4 +1,4 @@
-# ANEXO B
+# ANEXO A
 
 Instrumento de Investigación — Índices ILE e IVC
 

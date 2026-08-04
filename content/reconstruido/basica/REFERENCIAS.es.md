@@ -1,6 +1,8 @@
 # REFERENCIAS
 
-Aberastury, A., & Knobel, M. (1981). *Adolescência normal*. Artes Médicas.
+*Las obras de Ellen G. White se citan en el cuerpo del texto por título, año y página —por ejemplo, (*La educación*, 2008, p. 13)—. Los números de página corresponden a la edición consultada, indicada entre corchetes en cada entrada. Las citas bíblicas siguen la versión Reina-Valera 1960. Las demás referencias siguen el formato APA.*
+
+Aberastury, A., & Knobel, M. (1971). *La adolescencia normal: Un enfoque psicoanalítico*. Paidós.
 
 Abramo, H. W. (1997). Consideraciones sobre la tematización social de la juventud en Brasil. *Revista Brasileira de Educação*, (5-6), 25-36.
 
@@ -24,7 +26,7 @@ Bandura, A. (1977). Self-efficacy: Toward a unifying theory of behavioral change
 
 Bandura, A. (1997). *Self-efficacy: The exercise of control*. W. H. Freeman.
 
-Bauman, Z. (2001). *Modernidade líquida*. Zahar.
+Bauman, Z. (2003). *Modernidad líquida*. Fondo de Cultura Económica. (Obra original publicada en 2000)
 
 Beck, J. S. (2020). *Cognitive behavior therapy: Basics and beyond* (3rd ed.). The Guilford Press.
 
@@ -34,9 +36,9 @@ Borges, M. (2019). *A escola ideal*. Casa Publicadora Brasileira.
 
 Bottentuit Junior, J. B., Furtado, C. C., & Pecegueiro, C. M. P. A. (2021). *Leitura e escrita no mundo digital: Desafios e oportunidades para alunos e professores*. EDUFMA.
 
-Bourdieu, P. (1983). La juventud no es más que una palabra. In *Questões de sociologia*. Marco Zero.
+Bourdieu, P. (1990). La juventud no es más que una palabra. In *Sociología y cultura* (pp. 163-173). Grijalbo.
 
-Bowlby, J. (1984). *Apego e perda: Apego*. Martins Fontes.
+Bowlby, J. (1998). *El apego y la pérdida 1: El apego*. Paidós. (Obra original publicada en 1969)
 
 Brasil. (1988). *Constituição da República Federativa do Brasil*. Senado Federal.
 
@@ -65,7 +67,7 @@ Cavalcante, D. S., & Viana, H. B. (2024). Dependencia digital de niños y adoles
 
 CEPIA. (2020). *Manual de ideias e atividades: Metodologia ativa para o trabalho com adolescentes e jovens*. Cidadania, Estudo, Pesquisa, Informação e Ação.
 
-Chapman, G. (2014). *As cinco linguagens do amor das crianças*. Mundo Cristão.
+Chapman, G., & Campbell, R. (2018). *Los cinco lenguajes del amor de los niños*. Unilit.
 
 
 Conselho Federal de Psicologia. (2005). *Código de ética profissional do psicólogo* (Resolução CFP n.º 010/05). CFP.
@@ -76,7 +78,7 @@ Deming, W. E. (1986). *Out of the crisis*. MIT Press.
 
 Departamento de Educação da Divisão Sul-Americana. (2017). *Diretrizes gerais da Educação Adventista: Uma perspectiva bíblica*. Casa Publicadora Brasileira.
 
-Desmurget, M. (2021). *A fábrica de cretinos digitais: Os perigos das telas para nossas crianças*. Vestígio.
+Desmurget, M. (2020). *La fábrica de cretinos digitales: Los peligros de las pantallas para nuestros hijos*. Península.
 
 Dimock, M. (2019). *Defining generations: Where Millennials end and Generation Z begins*. Pew Research Center.
 
@@ -88,15 +90,15 @@ DuBois, D. L., & Karcher, M. J. (2013). *Handbook of youth mentoring*. SAGE.
 
 Dudley, R. L. (2000). *Why our teenagers leave the church: Personal stories from a 10-year study*. Review and Herald.
 
-Erikson, E. H. (1976). *Identidade, juventude e crise*. Zahar.
+Erikson, E. H. (1980). *Identidad, juventud y crisis*. Taurus. (Obra original publicada en 1968)
 
 Ferreira, H. M. (2025). *A Geração do Quarto: Quando crianças e adolescentes nos ensinam a amar*. Editora Record.
 
 Ferri, C. A. (2026). *Seventh-day Adventist higher education boarding schools: The paradox of governance* [Doctoral dissertation, Andrews University]. Andrews University Digital Commons.
 
-Frankl, V. E. (2008). *Em busca de sentido: Um psicólogo no campo de concentração*. Vozes.
+Frankl, V. E. (1991). *El hombre en busca de sentido*. Herder. (Obra original publicada en 1946)
 
-Freire, P. (1996). *Pedagogia da autonomia: Saberes necessários à prática educativa*. Paz e Terra.
+Freire, P. (1997). *Pedagogía de la autonomía: Saberes necesarios para la práctica educativa*. Siglo XXI.
 
 Furtado, C. C. (2019). Generación Alpha y la lectura literaria. *Revista Brasileira de Biblioteconomia e Documentação*, 15, 418-431.
 
@@ -104,12 +106,12 @@ Furtado, C. C., & Oliveira, L. (2020). Literatura-servicio: La literatura infant
 
 Gillespie, V. B., Donahue, M. J., Boyatt, E., & Gane, B. (2004). *Valuegenesis ten years later: A study of two generations*. Hancock Center for Youth and Family Ministry.
 
-Goffman, E. (2015). *Manicômios, prisões e conventos* (9. ed.). Perspectiva. (Obra original publicada em 1961)
+Goffman, E. (1972). *Internados: Ensayos sobre la situación social de los enfermos mentales*. Amorrortu. (Obra original publicada en 1961)
 
 Goleman, D. (2015). *Emotional intelligence: Why it can matter more than IQ* (10th anniversary ed.). Bantam Books.
 
 
-Haidt, J. (2024). *A geração ansiosa: Como a infância hiperconectada está causando uma epidemia de transtornos mentais*. Companhia das Letras.
+Haidt, J. (2024). *La generación ansiosa: Cómo la gran reconfiguración de la infancia está causando una epidemia de enfermedades mentales*. Deusto.
 
 Hipps, S. (2009). *Flickering pixels: How technology shapes your faith*. Zondervan.
 
@@ -214,27 +216,27 @@ UNICEF. (2021). *The state of the world's children 2021: On my mind — Promotin
 
 Walker, M. (2017). *Why we sleep: Unlocking the power of sleep and dreams*. Scribner.
 
-White, E. G. (2006b). *Testemunhos para a igreja* (Vol. 3). Ellen G. White Estate. (Obra original publicada em 1875)
+White, E. G. (2006). *Cartas a jóvenes enamorados* [edición consultada: *Cartas a Jovens Namorados*]. Casa Publicadora Brasileira. (Obra original publicada en 1908)
 
-White, E. G. (2007c). *O Desejado de todas as nações*. Ellen G. White Estate. (Obra original publicada em 1898)
+White, E. G. (2006). *Testimonios para la iglesia*, tomo 3 [edición consultada: *Testemunhos para a Igreja*, v. 3]. Ellen G. White Estate. (Obra original publicada en 1875)
 
-White, E. G. (2006a). *Cartas a jovens namorados*. Casa Publicadora Brasileira. (Obra original publicada em 1908)
+White, E. G. (2007). *Consejos para los maestros, padres y alumnos* [edición consultada: *Conselhos aos Pais, Professores e Estudantes*]. Casa Publicadora Brasileira. (Obra original publicada en 1913)
 
-White, E. G. (2007a). *Testemunhos seletos* (Vol. 2). Casa Publicadora Brasileira. (Obra original publicada em 1913)
+White, E. G. (2007). *El Deseado de todas las gentes* [edición consultada: *O Desejado de Todas as Nações*]. Ellen G. White Estate. (Obra original publicada en 1898)
 
-White, E. G. (2007b). *Conselhos aos pais, professores e estudantes*. Casa Publicadora Brasileira. (Obra original publicada em 1913)
+White, E. G. (2007). *Testimonios selectos*, tomo 2 [edición consultada: *Testemunhos Seletos*, v. 2]. Casa Publicadora Brasileira. (Obra original publicada en 1913)
 
-White, E. G. (2008). *Educação*. Casa Publicadora Brasileira. (Obra original publicada em 1903)
+White, E. G. (2008). *La educación* [edición consultada: *Educação*]. Casa Publicadora Brasileira. (Obra original publicada en 1903)
 
-White, E. G. (2009). *Mente, caráter e personalidade* (Vol. 1). Casa Publicadora Brasileira.
+White, E. G. (2009). *Mente, carácter y personalidad*, tomo 1 [edición consultada: *Mente, Caráter e Personalidade*, v. 1]. Casa Publicadora Brasileira.
 
-White, E. G. (2010). *Mensagens aos jovens*. Casa Publicadora Brasileira.
+White, E. G. (2010). *Mensajes para los jóvenes* [edición consultada: *Mensagens aos Jovens*]. Casa Publicadora Brasileira.
 
-White, E. G. (2015). *Obreiros evangélicos*. Casa Publicadora Brasileira. (Obra original publicada em 1915)
+White, E. G. (2015). *Obreros evangélicos* [edición consultada: *Obreiros Evangélicos*]. Casa Publicadora Brasileira. (Obra original publicada en 1915)
 
-White, E. G. (2016). *O lar cristão*. Casa Publicadora Brasileira. (Obra original publicada em 1942)
+White, E. G. (2016). *El hogar cristiano* [edición consultada: *O Lar Cristão*]. Casa Publicadora Brasileira. (Obra original publicada en 1942)
 
-White, E. G. (2017a). *A ciência do bom viver*. Casa Publicadora Brasileira. (Obra original publicada em 1905)
+White, E. G. (2017). *El ministerio de curación* [edición consultada: *A Ciência do Bom Viver*]. Casa Publicadora Brasileira. (Obra original publicada en 1905)
 
 White, J. E. (2017). *Meet Generation Z: Understanding and reaching the new post-Christian world*. Baker Books.
 

@@ -1,7 +1,7 @@
 import { notFound, redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { getDocs, isNivel } from "@/lib/content";
-import { getReconstruidoArchivo } from "@/lib/reconstruido";
+import { getExtraDocs, getReconstruidoArchivo } from "@/lib/reconstruido";
 import { Reader } from "@/components/Reader";
 
 // Lector del documento RECONSTRUIDO (mismo componente que el Módulo 1):
@@ -35,6 +35,12 @@ export default async function ReconstruirNivelPage({ params }: { params: { nivel
       sections: a.pt ? a.sec_pt ?? [] : d.sections,
     };
   });
+
+  // Anexos que solo trae el texto reconstruido (p. ej. el Anexo D de protocolos).
+  const extras = getExtraDocs(nivel, docs.map((d) => d.codigo));
+  for (const extra of extras) reconstruidos.push(extra.codigo);
+  docs.push(...extras);
+  docs.sort((a, b) => a.order - b.order);
 
   return <Reader nivel={nivel} docs={docs} reconstruidos={reconstruidos} isAdmin={isAdmin} />;
 }

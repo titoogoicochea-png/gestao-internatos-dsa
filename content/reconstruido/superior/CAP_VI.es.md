@@ -8,13 +8,13 @@ El ambiente del internado adventista trasciende su función estructural y operac
 
 El campus del internado no debe comprenderse únicamente como conjunto de edificaciones, sino como ambiente pedagógico, espiritual y restaurador. Un espacio bien cuidado comunica acogida; los ambientes organizados transmiten seguridad; la naturaleza favorece la contemplación y el equilibrio; los espacios armoniosos elevan el pensamiento y fortalecen la percepción de pertenencia — dimensión especialmente significativa para el estudiante que vive lejos del hogar.
 
-Ellen G. White (1903/2008) afirma que "la naturaleza es la mayor maestra" (p. 100) y que el carácter de Dios se revela por medio de la creación. Esa intuición encuentra respaldo contemporáneo en investigaciones sobre restauración emocional, neurociencia ambiental y bienestar psicológico. El ambiente se convierte así en expresión visible de la filosofía adventista de educación integral. Cada espacio del internado debe comunicar, de forma silenciosa y continua, que la creación de Dios es honrada, el ser humano es valorado y la vida posee propósito.
+Ellen G. White afirma que "la naturaleza es la mayor maestra" (*La educación*, 2008, p. 100) y que el carácter de Dios se revela por medio de la creación. Esa intuición encuentra respaldo contemporáneo en investigaciones sobre restauración emocional, neurociencia ambiental y bienestar psicológico. El ambiente se convierte así en expresión visible de la filosofía adventista de educación integral. Cada espacio del internado debe comunicar, de forma silenciosa y continua, que la creación de Dios es honrada, el ser humano es valorado y la vida posee propósito.
 
 El ambiente que el internado crea y mantiene es, en sí mismo, agente formativo. La belleza, el orden, la naturaleza y los espacios bien diseñados hablan al espíritu antes de que cualquier palabra sea pronunciada. Un campus que restaura, eleva e inspira es una declaración teológica concreta: aquí, la creación de Dios es honrada, el ser humano es valorado y la vida es celebrada.
 
 ### 6.1 Infraestructura y estándares mínimos de habitabilidad
 
-La calidad de la infraestructura ejerce un impacto directo sobre el desarrollo académico, emocional, físico y espiritual de los residentes. Ellen G. White (1903/2008) enfatiza que los ambientes escolares y residenciales influyen profundamente en la formación mental y moral de la juventud.
+La calidad de la infraestructura ejerce un impacto directo sobre el desarrollo académico, emocional, físico y espiritual de los residentes. Ellen G. White (*La educación*, 2008) enfatiza que los ambientes escolares y residenciales influyen profundamente en la formación mental y moral de la juventud.
 
 La tradición educacional adventista ha reconocido históricamente el ambiente físico como parte integrante de la experiencia formativa. Menslin (2017), en investigación sobre la expansión de la Educación Adventista, destaca que la Educación Adventista, especialmente en su modelo de internado, se consolidó también por la intencionalidad de sus espacios educativos y por la valorización del ambiente como herramienta pedagógica y espiritual. Los internados adventistas de Educación Superior de la Divisão Sul-Americana deben buscar estándares mínimos de habitabilidad capaces de asegurar dignidad, seguridad, funcionalidad, acogida y bienestar a los residentes.
 
@@ -32,7 +32,7 @@ Las instalaciones sanitarias deben garantizar funcionalidad, higiene, seguridad 
 
 El comedor en el internado adventista posee una dimensión relacional y comunitaria más allá de la función alimentaria. Las comidas representan momentos de convivencia, integración y fortalecimiento de vínculos, proporcionando experiencias y memorias que perduran por toda la vida.
 
-Las directrices recomendadas incluyen capacidad adecuada para la atención de los residentes, organización y confort ambiental, incentivo a la convivencia saludable, alimentación equilibrada y coherente con los principios adventistas de salud (White, 1905/2017a), y ambientes limpios, acogedores y funcionales. La oferta vegetariana o ovolactovegetariana de calidad, en coherencia con el estilo de vida adventista discutido en el Capítulo III, articula identidad institucional y cuidado nutricional adecuado a jóvenes adultos con elevada demanda física y cognitiva.
+Las directrices recomendadas incluyen capacidad adecuada para la atención de los residentes, organización y confort ambiental, incentivo a la convivencia saludable, alimentación equilibrada y coherente con los principios adventistas de salud (*El ministerio de curación*, 2017), y ambientes limpios, acogedores y funcionales. La oferta vegetariana o ovolactovegetariana de calidad, en coherencia con el estilo de vida adventista discutido en el Capítulo III, articula identidad institucional y cuidado nutricional adecuado a jóvenes adultos con elevada demanda física y cognitiva.
 
 #### 6.1.4 Espacios de estudio
 
@@ -44,7 +44,7 @@ La biblioteca, incluso en los tiempos digitales, mantiene una función formativa
 
 El internado adventista necesita ambientes que favorezcan el silencio, la reflexión, la oración y la espiritualidad. Las directrices recomendadas incluyen espacios de culto y devoción (capilla o auditorio con acústica adecuada), ambientes de contemplación (jardines, áreas externas para la oración), lugares apropiados para pequeños grupos y discipulado, e integración entre espiritualidad y cotidiano institucional.
 
-La presencia visible de estos espacios comunica, sin palabras, que la espiritualidad es dimensión constitutiva del internado. White (1909/2007a) afirma que los ambientes simples, dignos y bien cuidados favorecen el desarrollo espiritual y forman el gusto por el orden y la belleza.
+La presencia visible de estos espacios comunica, sin palabras, que la espiritualidad es dimensión constitutiva del internado. White (*Testimonios selectos, tomo 2*, 2007) afirma que los ambientes simples, dignos y bien cuidados favorecen el desarrollo espiritual y forman el gusto por el orden y la belleza.
 
 #### 6.1.6 Soporte básico de salud
 
@@ -52,7 +52,7 @@ El cuidado integral de los residentes exige una estructura mínima de atención 
 
 ### 6.2 Naturaleza, espacios verdes y bienestar formativo
 
-La iglesia adventista siempre ha comprendido la naturaleza como ambiente educativo y espiritual privilegiado. La creación revela principios divinos de orden, equilibrio, belleza y cuidado. Ellen G. White (1903/2008) afirma que "Dios rodeó a los niños y jóvenes con Su maravillosa creación a fin de despertar su interés y revelarles a su Creador" (p. 100). Esa intuición teológica encuentra respaldo sólido en la literatura científica contemporánea.
+La iglesia adventista siempre ha comprendido la naturaleza como ambiente educativo y espiritual privilegiado. La creación revela principios divinos de orden, equilibrio, belleza y cuidado. Ellen G. White afirma que "Dios rodeó a los niños y jóvenes con Su maravillosa creación a fin de despertar su interés y revelarles a su Creador" (*La educación*, 2008, p. 100). Esa intuición teológica encuentra respaldo sólido en la literatura científica contemporánea.
 
 Kaplan y Kaplan (1989), al desarrollar la teoría de la restauración de la atención, demostraron que los ambientes naturales reducen la fatiga mental, restauran las capacidades cognitivas y favorecen el equilibrio emocional. Wilson (1984), al desarrollar el concepto de biofilia, argumenta que los seres humanos poseen una necesidad natural de conexión con ambientes vivos y elementos de la naturaleza, necesidad que, cuando es frustrada, genera un empobrecimiento existencial mensurable.
 
@@ -66,7 +66,7 @@ Las finalidades formativas de los bosques incluyen devocionales al aire libre, o
 
 #### 6.2.2 Huertos comunitarios
 
-La iglesia adventista siempre ha valorado el trabajo manual como componente formativo de la educación integral. Ellen G. White (1903/2008) defendía que el cultivo de la tierra desarrolla perseverancia, responsabilidad y disciplina, con beneficios físicos, mentales y morales. Esa intuición encuentra correspondencia práctica en la historia del Madison College y de la Fazenda Madison Adventista (Marcelino, 2013), modelos que articularon estudio, trabajo y misión de forma integral.
+La iglesia adventista siempre ha valorado el trabajo manual como componente formativo de la educación integral. Ellen G. White (*La educación*, 2008) defendía que el cultivo de la tierra desarrolla perseverancia, responsabilidad y disciplina, con beneficios físicos, mentales y morales. Esa intuición encuentra correspondencia práctica en la historia del Madison College y de la Fazenda Madison Adventista (Marcelino, 2013), modelos que articularon estudio, trabajo y misión de forma integral.
 
 El huerto comunitario constituye un espacio de aprendizaje práctico, cooperación y desarrollo de pertenencia institucional, además del desarrollo de habilidades manuales. Sus finalidades formativas incluyen educación para la sostenibilidad, valorización del trabajo manual, desarrollo de la responsabilidad, incentivo a la alimentación saludable, fortalecimiento de la convivencia comunitaria e integración entre teoría y práctica — actividades especialmente formativas para el estudiante.
 
@@ -82,7 +82,7 @@ El diseño de los ambientes influye directamente en el comportamiento, las emoci
 
 #### 6.3.1 Espacios comunitarios
 
-Los ambientes colectivos deben favorecer la convivencia, el sentido de pertenencia y la interacción saludable. Ellen G. White (1942/2016) defendía ambientes simples, organizados y armoniosos, capaces de elevar los pensamientos y fortalecer los propósitos. Las características recomendadas incluyen ambientes acogedores, espacios de convivencia, organización funcional, confort relacional y estímulo a la interacción saludable.
+Los ambientes colectivos deben favorecer la convivencia, el sentido de pertenencia y la interacción saludable. Ellen G. White (*El hogar cristiano*, 2016) defendía ambientes simples, organizados y armoniosos, capaces de elevar los pensamientos y fortalecer los propósitos. Las características recomendadas incluyen ambientes acogedores, espacios de convivencia, organización funcional, confort relacional y estímulo a la interacción saludable.
 
 Espacios como salas de convivencia, áreas de juegos y deportes, gimnasio de musculación (gym de pesas), anfiteatros, patios cubiertos y jardines comunitarios componen la infraestructura formativa de las relaciones interpersonales. El gimnasio de musculación, en particular, atiende la necesidad de actividad física regular del joven adulto, favorece la salud, la disciplina y el equilibrio emocional, y constituye un espacio de convivencia saludable en coherencia con los principios adventistas de cuidado del cuerpo. El diseño de estos espacios debe articular flexibilidad (para diferentes usos), confort (mobiliario adecuado, ventilación, iluminación), belleza (cuidado estético) y seguridad (visibilidad, accesibilidad).
 
@@ -94,7 +94,7 @@ La biblioteca, los laboratorios, las salas de estudio individual y las salas de 
 
 #### 6.3.3 Espacios de descanso
 
-El descanso debe comprenderse como dimensión indispensable de la salud integral. Ellen G. White (1905/2017a) enfatiza que el reposo restaura las fuerzas físicas y mentales para las actividades del día siguiente. Walker (2017), en amplia revisión científica sobre el sueño, confirma que las noches de sueño adecuado (de 7 a 9 horas para jóvenes adultos) son esenciales para la regulación cognitiva, emocional e inmunológica — necesidad particularmente crítica en una fase de alta exigencia académica.
+El descanso debe comprenderse como dimensión indispensable de la salud integral. Ellen G. White (*El ministerio de curación*, 2017) enfatiza que el reposo restaura las fuerzas físicas y mentales para las actividades del día siguiente. Walker (2017), en amplia revisión científica sobre el sueño, confirma que las noches de sueño adecuado (de 7 a 9 horas para jóvenes adultos) son esenciales para la regulación cognitiva, emocional e inmunológica — necesidad particularmente crítica en una fase de alta exigencia académica.
 
 Las características recomendadas para los espacios de descanso incluyen control de ruido nocturno e iluminación, ambientes confortables, ventilación adecuada, respeto a los ritmos biológicos y estímulo al sueño reparador. Las políticas institucionales sobre horarios de silencio, uso de dispositivos electrónicos antes de dormir y rutina nocturna componen, junto a la infraestructura, el ecosistema del descanso saludable.
 

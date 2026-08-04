@@ -194,10 +194,13 @@ export async function generarWordReconstruido(
   if (!auth.ok) return { ok: false, error: auth.error };
 
   const { documentoADocxBase64 } = await import("@/lib/md-docx");
-  const { getReconstruidoArchivo } = await import("@/lib/reconstruido");
+  const { getExtraDocs, getReconstruidoArchivo } = await import("@/lib/reconstruido");
 
   // Documento COMPLETO, en orden: texto reconstruido donde exista; original en su defecto.
-  const docs = getDocs(nivel)
+  // Incluye los anexos que solo trae el texto reconstruido (p. ej. el Anexo D).
+  const base = getDocs(nivel);
+  const docs = [...base, ...getExtraDocs(nivel, base.map((d) => d.codigo))]
+    .sort((a, b) => a.order - b.order)
     .map((d) => {
       const a = getReconstruidoArchivo(nivel, d.codigo);
       const recon = lang === "pt" ? a.pt : a.es;

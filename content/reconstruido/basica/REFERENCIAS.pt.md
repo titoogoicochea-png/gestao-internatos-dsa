@@ -1,5 +1,7 @@
 # REFERÊNCIAS
 
+*As obras de Ellen G. White são citadas no corpo do texto por título, ano e página —por exemplo, (*Educação*, 2008, p. 13)—. Os números de página correspondem à edição consultada em cada entrada. As citações bíblicas seguem a versão Almeida Revista e Atualizada (2017). As demais referências seguem o formato APA.*
+
 Aberastury, A., & Knobel, M. (1981). *Adolescência normal*. Artes Médicas.
 
 Abramo, H. W. (1997). Considerações sobre a tematização social da juventude no Brasil. *Revista Brasileira de Educação*, (5-6), 25-36.
@@ -214,27 +216,27 @@ UNICEF. (2021). *The state of the world's children 2021: On my mind — Promotin
 
 Walker, M. (2017). *Why we sleep: Unlocking the power of sleep and dreams*. Scribner.
 
-White, E. G. (2006b). *Testemunhos para a igreja* (Vol. 3). Ellen G. White Estate. (Obra original publicada em 1875)
+White, E. G. (2006). *Cartas a Jovens Namorados*. Casa Publicadora Brasileira. (Obra original publicada em 1908)
 
-White, E. G. (2007c). *O Desejado de todas as nações*. Ellen G. White Estate. (Obra original publicada em 1898)
-
-White, E. G. (2006a). *Cartas a jovens namorados*. Casa Publicadora Brasileira. (Obra original publicada em 1908)
-
-White, E. G. (2007a). *Testemunhos seletos* (Vol. 2). Casa Publicadora Brasileira. (Obra original publicada em 1913)
-
-White, E. G. (2007b). *Conselhos aos pais, professores e estudantes*. Casa Publicadora Brasileira. (Obra original publicada em 1913)
+White, E. G. (2007). *Conselhos aos Pais, Professores e Estudantes*. Casa Publicadora Brasileira. (Obra original publicada em 1913)
 
 White, E. G. (2008). *Educação*. Casa Publicadora Brasileira. (Obra original publicada em 1903)
 
-White, E. G. (2009). *Mente, caráter e personalidade* (Vol. 1). Casa Publicadora Brasileira.
+White, E. G. (2010). *Mensagens aos Jovens*. Casa Publicadora Brasileira.
 
-White, E. G. (2010). *Mensagens aos jovens*. Casa Publicadora Brasileira.
+White, E. G. (2009). *Mente, Caráter e Personalidade*, v. 1. Casa Publicadora Brasileira.
 
-White, E. G. (2015). *Obreiros evangélicos*. Casa Publicadora Brasileira. (Obra original publicada em 1915)
+White, E. G. (2007). *O Desejado de Todas as Nações*. Ellen G. White Estate. (Obra original publicada em 1898)
 
-White, E. G. (2016). *O lar cristão*. Casa Publicadora Brasileira. (Obra original publicada em 1942)
+White, E. G. (2016). *O Lar Cristão*. Casa Publicadora Brasileira. (Obra original publicada em 1942)
 
-White, E. G. (2017a). *A ciência do bom viver*. Casa Publicadora Brasileira. (Obra original publicada em 1905)
+White, E. G. (2015). *Obreiros Evangélicos*. Casa Publicadora Brasileira. (Obra original publicada em 1915)
+
+White, E. G. (2017). *A Ciência do Bom Viver*. Casa Publicadora Brasileira. (Obra original publicada em 1905)
+
+White, E. G. (2006). *Testemunhos para a Igreja*, v. 3. Ellen G. White Estate. (Obra original publicada em 1875)
+
+White, E. G. (2007). *Testemunhos Seletos*, v. 2. Casa Publicadora Brasileira. (Obra original publicada em 1913)
 
 White, J. E. (2017). *Meet Generation Z: Understanding and reaching the new post-Christian world*. Baker Books.
 

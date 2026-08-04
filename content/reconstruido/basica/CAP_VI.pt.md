@@ -8,13 +8,13 @@ O ambiente do internato adventista transcende sua função estrutural e operacio
 
 O campus do internato não deve ser compreendido apenas como conjunto de edificações, mas como ambiente pedagógico, espiritual e restaurador. Um espaço bem cuidado comunica acolhimento; ambientes organizados transmitem segurança; a natureza favorece contemplação e equilíbrio; espaços harmoniosos elevam o pensamento e fortalecem a percepção de pertencimento — dimensão especialmente significativa para o adolescente que vive longe do lar.
 
-Ellen G. White (1903/2008) afirma que "a natureza é a maior professora" (p. 100) e que o caráter de Deus se revela por meio da criação. Essa intuição encontra respaldo contemporâneo em pesquisas sobre restauração emocional, neurociência ambiental e bem-estar psicológico. O ambiente torna-se, assim, expressão visível da filosofia adventista de educação integral. Cada espaço do internato deve comunicar, de forma silenciosa e contínua, que a criação de Deus é honrada, o ser humano é valorizado e a vida possui propósito.
+Ellen G. White afirma que "a natureza é a maior professora" (*Educação*, 2008, p. 100) e que o caráter de Deus se revela por meio da criação. Essa intuição encontra respaldo contemporâneo em pesquisas sobre restauração emocional, neurociência ambiental e bem-estar psicológico. O ambiente torna-se, assim, expressão visível da filosofia adventista de educação integral. Cada espaço do internato deve comunicar, de forma silenciosa e contínua, que a criação de Deus é honrada, o ser humano é valorizado e a vida possui propósito.
 
 O ambiente que o internato cria e mantém é, em si mesmo, agente formativo. A beleza, a ordem, a natureza e os espaços bem desenhados falam ao espírito antes que qualquer palavra seja dita. Um campus que restaura, eleva e inspira é declaração teológica concreta: aqui, a criação de Deus é honrada, o ser humano é valorizado e a vida é celebrada.
 
 ### 6.1 Infraestrutura e padrões mínimos de habitabilidade
 
-A qualidade da infraestrutura exerce impacto direto sobre o desenvolvimento acadêmico, emocional, físico e espiritual dos residentes. Ellen G. White (1903/2008) enfatiza que os ambientes escolares e residenciais influenciam profundamente a formação mental e moral da juventude.
+A qualidade da infraestrutura exerce impacto direto sobre o desenvolvimento acadêmico, emocional, físico e espiritual dos residentes. Ellen G. White (*Educação*, 2008) enfatiza que os ambientes escolares e residenciais influenciam profundamente a formação mental e moral da juventude.
 
 A tradição educacional adventista historicamente reconhece o ambiente físico como parte integrante da experiência formativa. Menslin (2017), em pesquisa sobre a expansão da Educação Adventista, destaca que a Educação Adventista, especialmente em seu modelo de internato, consolidou-se também pela intencionalidade de seus espaços educativos e pela valorização do ambiente como ferramenta pedagógica e espiritual. Os internatos adventistas de Educação Básica da Divisão Sul-Americana devem buscar padrões mínimos de habitabilidade capazes de assegurar dignidade, segurança, funcionalidade, acolhimento e bem-estar aos residentes.
 
@@ -32,7 +32,7 @@ As instalações sanitárias devem garantir funcionalidade, higiene, segurança 
 
 O refeitório no internato adventista possui dimensão relacional e comunitária além da função alimentar. As refeições representam momentos de convivência, integração e fortalecimento de vínculos, proporcionando experiências e memórias que perduram por toda a vida.
 
-As diretrizes recomendadas incluem capacidade adequada para atendimento dos residentes, organização e conforto ambiental, incentivo à convivência saudável, alimentação equilibrada e coerente com os princípios adventistas de saúde (White, 1905/2017a), e ambientes limpos, acolhedores e funcionais. A oferta vegetariana ou ovolactovegetariana de qualidade, em coerência com o estilo de vida adventista discutido no Capítulo III, articula identidade institucional e cuidado nutricional adequado a adolescentes em fase de crescimento.
+As diretrizes recomendadas incluem capacidade adequada para atendimento dos residentes, organização e conforto ambiental, incentivo à convivência saudável, alimentação equilibrada e coerente com os princípios adventistas de saúde (*A Ciência do Bom Viver*, 2017), e ambientes limpos, acolhedores e funcionais. A oferta vegetariana ou ovolactovegetariana de qualidade, em coerência com o estilo de vida adventista discutido no Capítulo III, articula identidade institucional e cuidado nutricional adequado a adolescentes em fase de crescimento.
 
 #### 6.1.4 Espaços de estudo
 
@@ -44,7 +44,7 @@ A biblioteca, mesmo nos tempos digitais, mantém função formativa singular: of
 
 O internato adventista necessita de ambientes que favoreçam silêncio, reflexão, oração e espiritualidade. As diretrizes recomendadas incluem espaços de culto e devoção (capela ou auditório com acústica adequada), ambientes de contemplação (jardins, áreas externas para oração), locais apropriados para pequenos grupos e discipulado, e integração entre espiritualidade e cotidiano institucional.
 
-A presença visível desses espaços comunica, sem palavras, que a espiritualidade é dimensão constitutiva do internato. White (1909/2007a) afirma que ambientes simples, dignos e bem cuidados favorecem o desenvolvimento espiritual e formam o gosto pela ordem e pela beleza.
+A presença visível desses espaços comunica, sem palavras, que a espiritualidade é dimensão constitutiva do internato. White (*Testemunhos Seletos, v. 2*, 2007) afirma que ambientes simples, dignos e bem cuidados favorecem o desenvolvimento espiritual e formam o gosto pela ordem e pela beleza.
 
 #### 6.1.6 Suporte básico de saúde
 
@@ -52,7 +52,7 @@ O cuidado integral dos residentes exige estrutura mínima de atendimento à saú
 
 ### 6.2 Natureza, espaços verdes e bem-estar formativo
 
-A igreja adventista sempre compreendeu a natureza como ambiente educativo e espiritual privilegiado. A criação revela princípios divinos de ordem, equilíbrio, beleza e cuidado. Ellen G. White (1903/2008) afirma que "Deus rodeou as crianças e jovens com a Sua maravilhosa criação a fim de despertar o seu interesse e revelar-lhes seu Criador" (p. 100). Essa intuição teológica encontra respaldo robusto na literatura científica contemporânea.
+A igreja adventista sempre compreendeu a natureza como ambiente educativo e espiritual privilegiado. A criação revela princípios divinos de ordem, equilíbrio, beleza e cuidado. Ellen G. White afirma que "Deus rodeou as crianças e jovens com a Sua maravilhosa criação a fim de despertar o seu interesse e revelar-lhes seu Criador" (*Educação*, 2008, p. 100). Essa intuição teológica encontra respaldo robusto na literatura científica contemporânea.
 
 Kaplan e Kaplan (1989), ao desenvolverem a teoria da restauração da atenção, demonstraram que ambientes naturais reduzem fadiga mental, restauram capacidades cognitivas e favorecem equilíbrio emocional. Wilson (1984), ao desenvolver o conceito de biofilia, argumenta que seres humanos possuem necessidade natural de conexão com ambientes vivos e elementos da natureza, necessidade essa que, quando frustrada, gera empobrecimento existencial mensurável.
 
@@ -66,7 +66,7 @@ As finalidades formativas dos bosques incluem devocionais ao ar livre, oração 
 
 #### 6.2.2 Hortas comunitárias
 
-A igreja adventista sempre valorizou o trabalho manual como componente formativo da educação integral. Ellen G. White (1903/2008) defendia que o cultivo da terra desenvolve perseverança, responsabilidade e disciplina, com benefícios físicos, mentais e morais. Essa intuição encontra correspondência prática na história do Madison College e da Fazenda Madison Adventista (Marcelino, 2013), modelos que articularam estudo, trabalho e missão de forma integral.
+A igreja adventista sempre valorizou o trabalho manual como componente formativo da educação integral. Ellen G. White (*Educação*, 2008) defendia que o cultivo da terra desenvolve perseverança, responsabilidade e disciplina, com benefícios físicos, mentais e morais. Essa intuição encontra correspondência prática na história do Madison College e da Fazenda Madison Adventista (Marcelino, 2013), modelos que articularam estudo, trabalho e missão de forma integral.
 
 A horta comunitária constitui espaço de aprendizagem prática, cooperação e desenvolvimento de pertencimento institucional, além do desenvolvimento de habilidades manuais. Suas finalidades formativas incluem educação para sustentabilidade, valorização do trabalho manual, desenvolvimento de responsabilidade, incentivo à alimentação saudável, fortalecimento da convivência comunitária e integração entre teoria e prática — atividades especialmente formativas para o adolescente.
 
@@ -82,7 +82,7 @@ O design dos ambientes influencia diretamente comportamento, emoções, cogniç�
 
 #### 6.3.1 Espaços comunitários
 
-Os ambientes coletivos devem favorecer convivência, pertencimento e interação saudável. Ellen G. White (1942/2016) defendia ambientes simples, organizados e harmoniosos, capazes de elevar pensamentos e fortalecer propósitos. As características recomendadas incluem ambientes acolhedores, espaços de convivência, organização funcional, conforto relacional e estímulo à interação saudável.
+Os ambientes coletivos devem favorecer convivência, pertencimento e interação saudável. Ellen G. White (*O Lar Cristão*, 2016) defendia ambientes simples, organizados e harmoniosos, capazes de elevar pensamentos e fortalecer propósitos. As características recomendadas incluem ambientes acolhedores, espaços de convivência, organização funcional, conforto relacional e estímulo à interação saudável.
 
 Espaços como salas de convivência, áreas de jogos e esportes, anfiteatros, pátios cobertos e jardins comunitários compõem a infraestrutura formativa das relações interpessoais. O design desses espaços deve articular flexibilidade (para diferentes usos), conforto (mobiliário adequado, ventilação, iluminação), beleza (cuidado estético) e segurança (visibilidade, acessibilidade).
 
@@ -94,7 +94,7 @@ A biblioteca, os laboratórios, as salas de estudo individual e as salas de estu
 
 #### 6.3.3 Espaços de descanso
 
-O descanso deve ser compreendido como dimensão indispensável da saúde integral. Ellen G. White (1905/2017a) enfatiza que o repouso restaura as forças físicas e mentais para as atividades do dia seguinte. Walker (2017), em ampla revisão científica sobre o sono, confirma que noites de sono adequado (de 8 a 10 horas para adolescentes) são essenciais para a regulação cognitiva, emocional e imunológica — necessidade particularmente crítica nessa fase do desenvolvimento.
+O descanso deve ser compreendido como dimensão indispensável da saúde integral. Ellen G. White (*A Ciência do Bom Viver*, 2017) enfatiza que o repouso restaura as forças físicas e mentais para as atividades do dia seguinte. Walker (2017), em ampla revisão científica sobre o sono, confirma que noites de sono adequado (de 8 a 10 horas para adolescentes) são essenciais para a regulação cognitiva, emocional e imunológica — necessidade particularmente crítica nessa fase do desenvolvimento.
 
 As características recomendadas para os espaços de descanso incluem controle de ruído noturno e iluminação, ambientes confortáveis, ventilação adequada, respeito aos ritmos biológicos e estímulo ao sono reparador. Recomenda-se, ainda, diferenciar claramente os ambientes conforme sua finalidade — espaços exclusivos de estudo, de recreação e de descanso —, evitando a sobreposição de usos. Em particular, o espaço de descanso deve ser reservado ao repouso: convém que não disponha de acesso à internet nem de mobiliário de estudo, de modo a favorecer efetivamente o sono reparador. Políticas institucionais sobre horários de silêncio, uso de dispositivos eletrônicos antes do sono e rotina noturna compõem, junto à infraestrutura, o ecossistema do descanso saudável. Na Educação Básica, recomenda-se restringir ao máximo possível a exposição a dispositivos eletrônicos, em especial o acesso às redes sociais, tanto na rotina noturna quanto no conjunto da vida residencial.
 
