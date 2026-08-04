@@ -551,10 +551,13 @@ async function construirDocumento(opts: DocOpts) {
   const lang: "es" | "pt" = opts.lang ?? (/Educaç/i.test(p.departamento) ? "pt" : "es");
   const ctx = { toc: [] as TocEntry[], seq: 0 };
 
-  // El Anexo C (instrumento de acreditación) tiene once columnas y se compone en
-  // horizontal; el resto del documento, en vertical. Los apartados contiguos con
-  // la misma orientación comparten sección.
-  const esInstrumento = (md: string) => /^#\s+ANEXO\s+C\b/im.test(md.slice(0, 400));
+  // El instrumento de acreditación tiene once columnas y se compone en horizontal;
+  // el resto del documento, en vertical. Los apartados contiguos con la misma
+  // orientación comparten sección. El instrumento aparece como Anexo C dentro del
+  // referencial y como documento independiente en el formulario de acreditación,
+  // así que se reconocen ambos encabezados.
+  const esInstrumento = (md: string) =>
+    /^#\s+(ANEXO\s+C\b|FORMULARIO DE ACREDITACIÓN|FORMULÁRIO DE ACREDITAÇÃO)/im.test(md.slice(0, 400));
   const grupos: { horizontal: boolean; children: any[] }[] = [];
   opts.docs.forEach((d) => {
     const horizontal = esInstrumento(d.markdown);
