@@ -60,7 +60,7 @@ const COMO_DOCUMENTO: Record<Lang, [RegExp, string][]> = {
   es: [
     [/^#\s+ANEXO C\s*$/m, "# FORMULARIO DE ACREDITACIÓN DE INTERNADOS"],
     [/referida a los índices ILE e IVC \(Anexo A\)/,
-     "referida a los índices ILE e IVC (Anexo A del *Referencial para la Gestión de Internatos Adventistas*)"],
+     "referida a los índices ILE e IVC (Anexo A del *Referencial para la Gestión de Internados Adventistas*)"],
   ],
   pt: [
     [/^#\s+ANEXO C\s*$/m, "# FORMULÁRIO DE ACREDITAÇÃO DE INTERNATOS"],

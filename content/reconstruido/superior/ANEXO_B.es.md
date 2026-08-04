@@ -1,10 +1,10 @@
 # ANEXO B
 
-## PROTOCOLOS OPERATIVOS DEL INTERNATO
+## PROTOCOLOS OPERATIVOS DEL INTERNADO
 
 ### Cómo se hace: del principio a la conducta concreta
 
-Este anexo responde a una demanda planteada en los talleres de construcción del referencial: el documento explica con solidez *qué* debe hacer el internato, pero el equipo que atiende una crisis a las dos de la madrugada necesita saber *cómo* hacerlo, en qué orden, con qué responsable y en qué plazo. Los siete protocolos que siguen traducen los principios de los Capítulos III y IV en secuencias de actuación verificables.
+Este anexo responde a una demanda planteada en los talleres de construcción del referencial: el documento explica con solidez *qué* debe hacer el internado, pero el equipo que atiende una crisis a las dos de la madrugada necesita saber *cómo* hacerlo, en qué orden, con qué responsable y en qué plazo. Los siete protocolos que siguen traducen los principios de los Capítulos III y IV en secuencias de actuación verificables.
 
 Tres advertencias de uso. Primera: estos protocolos son un modelo de referencia de la DSA y deben ser adaptados por cada institución a la legislación de su país, al tamaño de su equipo y a la red de servicios disponible en su territorio; la adaptación debe quedar aprobada por la Dirección y registrada por escrito. Segunda: se trata de estudiantes mayores de edad, de modo que toda actuación observa su autonomía, el sigilo profesional y la legislación de protección de datos personales vigente; la familia se involucra con consentimiento del estudiante, salvo riesgo grave para la vida. Tercera: ningún protocolo sustituye el criterio profesional ni la derivación a los servicios de salud; su función es evitar la improvisación, no reemplazar a quien tiene la competencia técnica.
 
