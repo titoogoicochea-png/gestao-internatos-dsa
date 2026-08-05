@@ -158,4 +158,4 @@ Cada protocolo se organiza igual: cuándo se activa, qué se hace, qué se regis
 
 ### Implementación y revisión
 
-Cada institución designa a un responsable por protocolo, capacita al equipo al inicio de cada año lectivo, deja los protocolos accesibles en cada residencia y los revisa anualmente a la luz de las ocurrencias registradas. La existencia de los protocolos, la capacitación del equipo y el registro de su aplicación son evidencia verificable en el instrumento de acreditación (Anexo C), en las subdimensiones de gestión del equipo y de convivencia y clima escolar.
+Cada institución designa a un responsable por protocolo, capacita al equipo al inicio de cada año lectivo, deja los protocolos accesibles en cada residencia y los revisa anualmente a la luz de las ocurrencias registradas. La existencia de los protocolos, la capacitación del equipo y el registro de su aplicación son evidencia verificable en el instrumento de acreditación (Anexo C), en la subdimensión 6.4 — Salud, Bienestar Emocional y Protección del Residente.
