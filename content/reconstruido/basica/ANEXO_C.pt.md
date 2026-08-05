@@ -127,12 +127,12 @@ A comissão é presidida pelo Diretor de Educação da Divisão Sul-Americana e 
 
 | **META DE VIVÊNCIA PERCEBIDA (ILE/IVC) — FILOSOFIA E MISSÃO** | |
 | --- | --- |
-| **Crit. 1** | "Percebo que meus professores de ensino religioso conhecem e vivem a fé que ensinam." (ref. ILE ítem 2) |
-| **Crit. 2** | "Sei que conto com um pastor/capelão que se preocupa comigo e me acompanha espiritualmente." (ref. IVC ítem 5) |
-| **Crit. 3** | "Vivo os devocionais como momentos que fortalecem minha relação com Deus." (ref. ILE ítem 5) |
-| **Crit. 4** | "Percebo que os valores espirituais aparecem realmente nas explicações dos professores em sala de aula." (ref. IVC ítem 2) |
-| **Crit. 5** | "Percebo que o que aprendo sobre a criação fortalece minha fé e minha relação com Deus." (ref. ILE ítem 1) |
-| **Crit. 6** | "Sinto orgulho de pertencer ao meu colégio e o reconheço como parte da educação adventista." (ref. IVC ítem 10) |
+| **Crit. 1** | "Percebo que meus professores de ensino religioso conhecem e vivem a fé que ensinam." (ref. ILE item 2) |
+| **Crit. 2** | "Sei que conto com um pastor/capelão que se preocupa comigo e me acompanha espiritualmente." (ref. IVC item 5) |
+| **Crit. 3** | "Vivo os devocionais como momentos que fortalecem minha relação com Deus." (ref. ILE item 5) |
+| **Crit. 4** | "Percebo que os valores espirituais aparecem realmente nas explicações dos professores em sala de aula." (ref. IVC item 2) |
+| **Crit. 5** | "Percebo que o que aprendo sobre a criação fortalece minha fé e minha relação com Deus." (ref. ILE item 1) |
+| **Crit. 6** | "Sinto orgulho de pertencer ao meu colégio e o reconheço como parte da educação adventista." (ref. IVC item 10) |
 
 | **1.2 DESENVOLVIMENTO ESPIRITUAL  ·  80 pontos** |
 | --- |
@@ -152,10 +152,10 @@ A comissão é presidida pelo Diretor de Educação da Divisão Sul-Americana e 
 
 | **META DE VIVÊNCIA PERCEBIDA (ILE/IVC) — DESENVOLVIMENTO ESPIRITUAL** | |
 | --- | --- |
-| **Crit. 7** | "Percebo que o ensinado nas aulas e espaços de Ensino Religioso se reflete realmente no dia a dia do colégio." (ref. IVC ítem 2) |
-| **Crit. 8** | "Percebo que o colégio tem um plano espiritual vivo que fortalece meu crescimento e minha relação com Deus." (ref. ILE ítem 1) |
-| **Crit. 9** | "As atividades espirituais do colégio fortalecem minha vida com Deus e me fazem querer continuar aqui." (ref. IVC ítem 8) |
-| **Crit. 10** | "A leitura dos livros que o colégio me propõe fortalece minha fé e minha formação." (ref. ILE ítem 1) |
+| **Crit. 7** | "Percebo que o ensinado nas aulas e espaços de Ensino Religioso se reflete realmente no dia a dia do colégio." (ref. IVC item 2) |
+| **Crit. 8** | "Percebo que o colégio tem um plano espiritual vivo que fortalece meu crescimento e minha relação com Deus." (ref. ILE item 1) |
+| **Crit. 9** | "As atividades espirituais do colégio fortalecem minha vida com Deus e me fazem querer continuar aqui." (ref. IVC item 8) |
+| **Crit. 10** | "A leitura dos livros que o colégio me propõe fortalece minha fé e minha formação." (ref. ILE item 1) |
 
 | **1.3 EVANGELISMO E TESTEMUNHO  ·  70 pontos** |
 | --- |
@@ -175,10 +175,10 @@ A comissão é presidida pelo Diretor de Educação da Divisão Sul-Americana e 
 
 | **META DE VIVÊNCIA PERCEBIDA (ILE/IVC) — EVANGELISMO E TESTEMUNHO** | |
 | --- | --- |
-| **Crit. 11** | "Percebo que meu colégio vive a missão e me anima a participar do testemunho e das atividades espirituais." (ref. ILE ítem 5) |
-| **Crit. 12** | "As classes bíblicas me ajudam a conhecer Jesus e a fortalecer minha relação com Deus." (ref. ILE ítem 1) |
-| **Crit. 13** | "Vivo as Semanas de Oração e os eventos espirituais como momentos significativos para minha fé." (ref. ILE ítem 5) |
-| **Crit. 14** | "Percebo que o colégio me forma como discípulo e me capacita para compartilhar minha fé com outros." (ref. ILE ítem 1) |
+| **Crit. 11** | "Percebo que meu colégio vive a missão e me anima a participar do testemunho e das atividades espirituais." (ref. ILE item 5) |
+| **Crit. 12** | "As classes bíblicas me ajudam a conhecer Jesus e a fortalecer minha relação com Deus." (ref. ILE item 1) |
+| **Crit. 13** | "Vivo as Semanas de Oração e os eventos espirituais como momentos significativos para minha fé." (ref. ILE item 5) |
+| **Crit. 14** | "Percebo que o colégio me forma como discípulo e me capacita para compartilhar minha fé com outros." (ref. ILE item 1) |
 
 | **1.4 VITALIDADE CONFESSIONAL — ÍNDICE DE ALINHAMENTO VALORATIVO CONFESSIONAL (IVC)  ·  185 pontos** |
 | --- |
@@ -207,21 +207,21 @@ A comissão é presidida pelo Diretor de Educação da Divisão Sul-Americana e 
 
 | **META DE VIVÊNCIA PERCEBIDA (ILE/IVC) — VITALIDADE CONFESSIONAL — ÍNDICE DE ALINHAMENTO VALORATIVO CONFESSIONAL (IVC)** | |
 | --- | --- |
-| **Crit. 15** | "Percebo nos ambientes do internato um entorno que me lembra a missão e me faz sentir em um lugar com propósito espiritual." (ref. IVC ítem 8) |
-| **Crit. 16** | "Percebo coerência entre o que o colégio ensina sobre a identidade cristã e o que vejo nos adultos e colegas." (ref. ILE ítem 2) |
-| **Crit. 17** | "Tenho aulas de Ensino Religioso suficientes, que fortalecem meu crescimento espiritual." (ref. ILE ítem 1) |
-| **Crit. 18** | "Vivo os cultos e capelas como momentos espirituais significativos, não como uma obrigação." (ref. ILE ítem 5 / IVC ítem 8) |
-| **Crit. 19** | "Percebo que meus professores compartilham e vivem a fé do colégio." (ref. ILE ítem 2) |
-| **Crit. 20** | "Percebo que os adultos do colégio estão preparados e vivem os valores que ensinam." (ref. ILE ítem 2) |
-| **Crit. 21** | "Vivo a Semana de Oração como um tempo que fortalece minha relação com Deus." (ref. ILE ítem 5) |
-| **Crit. 22** | "Participo de pequenos grupos onde encontro amigos que me ajudam a crescer espiritualmente." (ref. IVC ítem 6) |
-| **Crit. 23** | "Meu crescimento espiritual me leva a tomar decisões como a entrega a Deus e o batismo." (ref. ILE ítem 1) |
-| **Crit. 24** | "Participo dos clubes e da igreja, e sinto que pertenço a uma comunidade de fé." (ref. IVC ítem 8) |
-| **Crit. 25** | "Participar de projetos missionários dá propósito à minha vida e fortalece minha fé." (ref. ILE ítem 7) |
-| **Crit. 26** | "A Escola de Missões me forma e me dá um senso de propósito e missão." (ref. ILE ítem 7) |
-| **Crit. 27** | "Descubro minha vocação e considero servir a Deus, inclusive no ministério." (ref. ILE ítem 7) |
-| **Crit. 28** | "O colégio me ajuda a projetar meu futuro e a considerar continuar minha formação em instituições adventistas." (ref. ILE ítem 7) |
-| **Crit. 29** | "Percebo que meu colégio me conecta com um projeto de vida e de serviço dentro da igreja." (ref. ILE ítem 7) |
+| **Crit. 15** | "Percebo nos ambientes do internato um entorno que me lembra a missão e me faz sentir em um lugar com propósito espiritual." (ref. IVC item 8) |
+| **Crit. 16** | "Percebo coerência entre o que o colégio ensina sobre a identidade cristã e o que vejo nos adultos e colegas." (ref. ILE item 2) |
+| **Crit. 17** | "Tenho aulas de Ensino Religioso suficientes, que fortalecem meu crescimento espiritual." (ref. ILE item 1) |
+| **Crit. 18** | "Vivo os cultos e capelas como momentos espirituais significativos, não como uma obrigação." (ref. ILE item 5 / IVC item 8) |
+| **Crit. 19** | "Percebo que meus professores compartilham e vivem a fé do colégio." (ref. ILE item 2) |
+| **Crit. 20** | "Percebo que os adultos do colégio estão preparados e vivem os valores que ensinam." (ref. ILE item 2) |
+| **Crit. 21** | "Vivo a Semana de Oração como um tempo que fortalece minha relação com Deus." (ref. ILE item 5) |
+| **Crit. 22** | "Participo de pequenos grupos onde encontro amigos que me ajudam a crescer espiritualmente." (ref. IVC item 6) |
+| **Crit. 23** | "Meu crescimento espiritual me leva a tomar decisões como a entrega a Deus e o batismo." (ref. ILE item 1) |
+| **Crit. 24** | "Participo dos clubes e da igreja, e sinto que pertenço a uma comunidade de fé." (ref. IVC item 8) |
+| **Crit. 25** | "Participar de projetos missionários dá propósito à minha vida e fortalece minha fé." (ref. ILE item 7) |
+| **Crit. 26** | "A Escola de Missões me forma e me dá um senso de propósito e missão." (ref. ILE item 7) |
+| **Crit. 27** | "Descubro minha vocação e considero servir a Deus, inclusive no ministério." (ref. ILE item 7) |
+| **Crit. 28** | "O colégio me ajuda a projetar meu futuro e a considerar continuar minha formação em instituições adventistas." (ref. ILE item 7) |
+| **Crit. 29** | "Percebo que meu colégio me conecta com um projeto de vida e de serviço dentro da igreja." (ref. ILE item 7) |
 
 | **TOTAL DIMENSÃO 1 — IDENTIDADE INSTITUCIONAL:  420 pontos  ·  29 critérios** |
 | --- |
@@ -261,8 +261,8 @@ A comissão é presidida pelo Diretor de Educação da Divisão Sul-Americana e 
 
 | **META DE VIVÊNCIA PERCEBIDA (ILE/IVC) — ASPECTOS LEGAIS** | |
 | --- | --- |
-| **Crit. 30** | "Sinto-me seguro e cuidado porque o colégio funciona em um ambiente legal, saudável e protegido." (ref. IVC ítem 4) |
-| **Crit. 31** | "Quando tenho uma necessidade, sei que o colégio escuta e responde a mim e à minha família." (ref. IVC ítem 7) |
+| **Crit. 30** | "Sinto-me seguro e cuidado porque o colégio funciona em um ambiente legal, saudável e protegido." (ref. IVC item 4) |
+| **Crit. 31** | "Quando tenho uma necessidade, sei que o colégio escuta e responde a mim e à minha família." (ref. IVC item 7) |
 
 | **2.2 PLANEJAMENTO ESTRATÉGICO  ·  40 pontos** |
 | --- |
@@ -283,9 +283,9 @@ A comissão é presidida pelo Diretor de Educação da Divisão Sul-Americana e 
 
 | **META DE VIVÊNCIA PERCEBIDA (ILE/IVC) — PLANEJAMENTO ESTRATÉGICO** | |
 | --- | --- |
-| **Crit. 32** | "Conheço a missão e os valores do colégio e os vejo presentes no dia a dia." (ref. IVC ítem 2) |
+| **Crit. 32** | "Conheço a missão e os valores do colégio e os vejo presentes no dia a dia." (ref. IVC item 2) |
 | **Crit. 33** | "A instituição é guiada por um planejamento estratégico construído com a participação da comunidade educacional." |
-| **Crit. 34** | "Sinto orgulho do meu colégio e o recomendaria a um amigo." (ref. IVC ítem 10) |
+| **Crit. 34** | "Sinto orgulho do meu colégio e o recomendaria a um amigo." (ref. IVC item 10) |
 | **Crit. 35** | "A instituição mantém canais de comunicação oficiais e atualizados com a comunidade educativa." |
 
 | **2.3 LIDERANÇA DA EQUIPE DE GESTÃO  ·  60 pontos** |
@@ -319,11 +319,11 @@ A comissão é presidida pelo Diretor de Educação da Divisão Sul-Americana e 
 | **META DE VIVÊNCIA PERCEBIDA (ILE/IVC) — LIDERANÇA DA EQUIPE DE GESTÃO** | |
 | --- | --- |
 | **Crit. 36** | "A instituição opera de forma organizada e sistêmica conforme seu organograma." |
-| **Crit. 37** | "Percebo que meus pais e o colégio se reúnem e trabalham juntos pela minha educação." (ref. IVC ítem 5) |
-| **Crit. 38** | "Percebo entre os adultos do colégio uma cultura de colaboração e comprometimento coerente com o que ensinam." (ref. ILE ítem 2) |
-| **Crit. 39** | "Percebo que a equipe diretiva está próxima de mim, me motiva e atende minhas necessidades." (ref. IVC ítem 5) |
-| **Crit. 40** | "Percebo que o colégio mantém um bom relacionamento com minha família e a informa sobre meu desempenho." (ref. ILE ítem 6) |
-| **Crit. 41** | "Percebo que o colégio escuta minha opinião e a da comunidade para melhorar." (ref. IVC ítem 7) |
+| **Crit. 37** | "Percebo que meus pais e o colégio se reúnem e trabalham juntos pela minha educação." (ref. IVC item 5) |
+| **Crit. 38** | "Percebo entre os adultos do colégio uma cultura de colaboração e comprometimento coerente com o que ensinam." (ref. ILE item 2) |
+| **Crit. 39** | "Percebo que a equipe diretiva está próxima de mim, me motiva e atende minhas necessidades." (ref. IVC item 5) |
+| **Crit. 40** | "Percebo que o colégio mantém um bom relacionamento com minha família e a informa sobre meu desempenho." (ref. ILE item 6) |
+| **Crit. 41** | "Percebo que o colégio escuta minha opinião e a da comunidade para melhorar." (ref. IVC item 7) |
 
 | **2.4 GESTÃO DE RESULTADOS  ·  80 pontos** |
 | --- |
@@ -354,13 +354,13 @@ A comissão é presidida pelo Diretor de Educação da Divisão Sul-Americana e 
 
 | **META DE VIVÊNCIA PERCEBIDA (ILE/IVC) — GESTÃO DE RESULTADOS** | |
 | --- | --- |
-| **Crit. 42** | "Tenho a intenção de terminar meus estudos neste colégio." (ref. IVC ítem 9) |
-| **Crit. 43** | "O cuidado e o acolhimento que recebo me dão razões para permanecer e não abandonar o colégio." (ref. ILE ítem 4 / IVC ítem 9) |
+| **Crit. 42** | "Tenho a intenção de terminar meus estudos neste colégio." (ref. IVC item 9) |
+| **Crit. 43** | "O cuidado e o acolhimento que recebo me dão razões para permanecer e não abandonar o colégio." (ref. ILE item 4 / IVC item 9) |
 | **Crit. 44** | "A instituição apresenta com transparência seus resultados operacionais à comunidade escolar." |
-| **Crit. 45** | "Percebo que o colégio se esforça para melhorar minha aprendizagem nas matérias." (ref. ILE ítem 6) |
-| **Crit. 46** | "Percebo que meu colégio busca me oferecer uma educação de qualidade." (ref. ILE ítem 6) |
+| **Crit. 45** | "Percebo que o colégio se esforça para melhorar minha aprendizagem nas matérias." (ref. ILE item 6) |
+| **Crit. 46** | "Percebo que meu colégio busca me oferecer uma educação de qualidade." (ref. ILE item 6) |
 | **Crit. 47** | "A instituição aplica processos eficazes para reduzir a inadimplência e sustentar sua operação." |
-| **Crit. 48** | "Sinto-me parte da comunidade residencial do internato e quero permanecer nela." (ref. IVC ítem 9) |
+| **Crit. 48** | "Sinto-me parte da comunidade residencial do internato e quero permanecer nela." (ref. IVC item 9) |
 
 | **TOTAL DIMENSÃO 2 — LIDERANÇA E GESTÃO:  220 pontos  ·  19 critérios** |
 | --- |
@@ -400,14 +400,14 @@ A comissão é presidida pelo Diretor de Educação da Divisão Sul-Americana e 
 
 | **META DE VIVÊNCIA PERCEBIDA (ILE/IVC) — GESTÃO DE ENSINO** | |
 | --- | --- |
-| **Crit. 49** | "Percebo que os professores buscam melhorar minha aprendizagem." (ref. ILE ítem 6) |
-| **Crit. 50** | "Percebo que meus professores se preparam continuamente para me ensinar melhor." (ref. ILE ítem 6) |
-| **Crit. 51** | "Os materiais de Ensino Religioso que uso fortalecem minha fé e meu crescimento espiritual." (ref. ILE ítem 1) |
-| **Crit. 52** | "Percebo que os materiais que uso integram a fé e me ajudam a aprender." (ref. IVC ítem 2) |
-| **Crit. 53** | "Percebo que as aulas integram a fé, atendem minhas necessidades e cuidam do meu desenvolvimento integral." (ref. ILE ítem 6) |
-| **Crit. 54** | "Percebo que há uma equipe que apoia meus professores para que eu aprenda melhor." (ref. ILE ítem 6) |
-| **Crit. 55** | "Percebo que o colégio cuida da qualidade do ensino que recebo." (ref. ILE ítem 6) |
-| **Crit. 56** | "Uso a biblioteca e me sinto acolhido nela como espaço de estudo e leitura." (ref. ILE ítem 6) |
+| **Crit. 49** | "Percebo que os professores buscam melhorar minha aprendizagem." (ref. ILE item 6) |
+| **Crit. 50** | "Percebo que meus professores se preparam continuamente para me ensinar melhor." (ref. ILE item 6) |
+| **Crit. 51** | "Os materiais de Ensino Religioso que uso fortalecem minha fé e meu crescimento espiritual." (ref. ILE item 1) |
+| **Crit. 52** | "Percebo que os materiais que uso integram a fé e me ajudam a aprender." (ref. IVC item 2) |
+| **Crit. 53** | "Percebo que as aulas integram a fé, atendem minhas necessidades e cuidam do meu desenvolvimento integral." (ref. ILE item 6) |
+| **Crit. 54** | "Percebo que há uma equipe que apoia meus professores para que eu aprenda melhor." (ref. ILE item 6) |
+| **Crit. 55** | "Percebo que o colégio cuida da qualidade do ensino que recebo." (ref. ILE item 6) |
+| **Crit. 56** | "Uso a biblioteca e me sinto acolhido nela como espaço de estudo e leitura." (ref. ILE item 6) |
 
 | **3.2 GESTÃO DA APRENDIZAGEM  ·  100 pontos** |
 | --- |
@@ -434,14 +434,14 @@ A comissão é presidida pelo Diretor de Educação da Divisão Sul-Americana e 
 
 | **META DE VIVÊNCIA PERCEBIDA (ILE/IVC) — GESTÃO DA APRENDIZAGEM** | |
 | --- | --- |
-| **Crit. 57** | "Quando tenho dificuldades, o colégio me ajuda a recuperar e melhorar minha aprendizagem." (ref. ILE ítem 6) |
-| **Crit. 58** | "Conto com um orientador que me acompanha na minha vida acadêmica e no meu projeto de vida." (ref. ILE ítem 7) |
-| **Crit. 59** | "Se fico atrasado, recebo ajuda para melhorar nos estudos." (ref. ILE ítem 6) |
-| **Crit. 60** | "O colégio reconhece e potencializa meus talentos e meu bom desempenho." (ref. ILE ítem 6) |
-| **Crit. 61** | "Percebo que o colégio trabalha para melhorar a qualidade da minha aprendizagem." (ref. ILE ítem 6) |
-| **Crit. 62** | "Percebo que os professores trabalham juntos para melhorar minha aprendizagem." (ref. ILE ítem 6) |
-| **Crit. 63** | "Percebo que meus pais se envolvem, junto ao colégio, na minha aprendizagem." (ref. ILE ítem 6) |
-| **Crit. 64** | "Se tenho uma necessidade especial, o colégio me atende e me acolhe." (ref. ILE ítem 4) |
+| **Crit. 57** | "Quando tenho dificuldades, o colégio me ajuda a recuperar e melhorar minha aprendizagem." (ref. ILE item 6) |
+| **Crit. 58** | "Conto com um orientador que me acompanha na minha vida acadêmica e no meu projeto de vida." (ref. ILE item 7) |
+| **Crit. 59** | "Se fico atrasado, recebo ajuda para melhorar nos estudos." (ref. ILE item 6) |
+| **Crit. 60** | "O colégio reconhece e potencializa meus talentos e meu bom desempenho." (ref. ILE item 6) |
+| **Crit. 61** | "Percebo que o colégio trabalha para melhorar a qualidade da minha aprendizagem." (ref. ILE item 6) |
+| **Crit. 62** | "Percebo que os professores trabalham juntos para melhorar minha aprendizagem." (ref. ILE item 6) |
+| **Crit. 63** | "Percebo que meus pais se envolvem, junto ao colégio, na minha aprendizagem." (ref. ILE item 6) |
+| **Crit. 64** | "Se tenho uma necessidade especial, o colégio me atende e me acolhe." (ref. ILE item 4) |
 
 | **3.3 GESTÃO DA PESQUISA E INOVAÇÃO EDUCACIONAL  ·  30 pontos** |
 | --- |
@@ -458,8 +458,8 @@ A comissão é presidida pelo Diretor de Educação da Divisão Sul-Americana e 
 
 | **META DE VIVÊNCIA PERCEBIDA (ILE/IVC) — GESTÃO DA PESQUISA E INOVAÇÃO EDUCACIONAL** | |
 | --- | --- |
-| **Crit. 65** | "Minhas aulas despertam minha curiosidade e me convidam a pesquisar e inovar." (ref. ILE ítem 6) |
-| **Crit. 66** | "Percebo que meus professores inovam e melhoram sua forma de me ensinar." (ref. ILE ítem 6) |
+| **Crit. 65** | "Minhas aulas despertam minha curiosidade e me convidam a pesquisar e inovar." (ref. ILE item 6) |
+| **Crit. 66** | "Percebo que meus professores inovam e melhoram sua forma de me ensinar." (ref. ILE item 6) |
 
 | **TOTAL DIMENSÃO 3 — GESTÃO PEDAGÓGICA:  230 pontos  ·  18 critérios** |
 | --- |
@@ -495,12 +495,12 @@ A comissão é presidida pelo Diretor de Educação da Divisão Sul-Americana e 
 
 | **META DE VIVÊNCIA PERCEBIDA (ILE/IVC) — GESTÃO DA EQUIPE** | |
 | --- | --- |
-| **Crit. 67** | "Percebo que os adultos que lideram o colégio agem com preparo e coerência." (ref. ILE ítem 2) |
-| **Crit. 68** | "Percebo que meus professores estão capacitados para me ensinar bem e com identidade cristã." (ref. ILE ítem 6) |
-| **Crit. 69** | "Percebo que todo o pessoal do colégio, incluídos preceptores e monitores, age segundo os valores cristãos." (ref. IVC ítem 3) |
-| **Crit. 70** | "Percebo que os adultos do colégio se preparam continuamente para me servir melhor." (ref. ILE ítem 6) |
+| **Crit. 67** | "Percebo que os adultos que lideram o colégio agem com preparo e coerência." (ref. ILE item 2) |
+| **Crit. 68** | "Percebo que meus professores estão capacitados para me ensinar bem e com identidade cristã." (ref. ILE item 6) |
+| **Crit. 69** | "Percebo que todo o pessoal do colégio, incluídos preceptores e monitores, age segundo os valores cristãos." (ref. IVC item 3) |
+| **Crit. 70** | "Percebo que os adultos do colégio se preparam continuamente para me servir melhor." (ref. ILE item 6) |
 | **Crit. 71** | "A instituição define claramente as funções de cada funcionário mediante documentação assinada." |
-| **Crit. 72** | "Percebo que todos os que trabalham no colégio compartilham sua missão e seus valores." (ref. ILE ítem 2) |
+| **Crit. 72** | "Percebo que todos os que trabalham no colégio compartilham sua missão e seus valores." (ref. ILE item 2) |
 | **Crit. 73** | "A instituição avalia e retroalimenta sistematicamente o desempenho de seus funcionários." |
 
 | **4.2 GESTÃO DE RECURSOS FINANCEIROS.  ·  90 pontos** |
@@ -533,7 +533,7 @@ A comissão é presidida pelo Diretor de Educação da Divisão Sul-Americana e 
 | **Crit. 77** | "A instituição mantém um plano equilibrado de cargos e salários." |
 | **Crit. 78** | "A instituição mantém uma projeção adequada de receitas e despesas." |
 | **Crit. 79** | "A instituição gere a ocupação de suas salas conforme sua capacidade instalada." |
-| **Crit. 80** | "Graças à bolsa, posso estudar aqui e me sentir parte do colégio." (ref. IVC ítem 9) |
+| **Crit. 80** | "Graças à bolsa, posso estudar aqui e me sentir parte do colégio." (ref. IVC item 9) |
 
 | **4.3 INFRAESTRUTURA E INVESTIMENTOS  ·  30 pontos** |
 | --- |
@@ -556,8 +556,8 @@ A comissão é presidida pelo Diretor de Educação da Divisão Sul-Americana e 
 | **META DE VIVÊNCIA PERCEBIDA (ILE/IVC) — INFRAESTRUTURA E INVESTIMENTOS** | |
 | --- | --- |
 | **Crit. 81** | "A instituição mantém seus prédios registrados, legalizados e segurados." |
-| **Crit. 82** | "Estudo e convivo em instalações adequadas e confortáveis." (ref. ILE ítem 6) |
-| **Crit. 83** | "Percebo que o colégio investe em melhorar meus espaços, incluídos os espirituais." (ref. IVC ítem 8) |
+| **Crit. 82** | "Estudo e convivo em instalações adequadas e confortáveis." (ref. ILE item 6) |
+| **Crit. 83** | "Percebo que o colégio investe em melhorar meus espaços, incluídos os espirituais." (ref. IVC item 8) |
 
 | **4.4 GESTÃO DE RECURSOS EDUCACIONAIS  ·  40 pontos** |
 | --- |
@@ -574,9 +574,9 @@ A comissão é presidida pelo Diretor de Educação da Divisão Sul-Americana e 
 
 | **META DE VIVÊNCIA PERCEBIDA (ILE/IVC) — GESTÃO DE RECURSOS EDUCACIONAIS** | |
 | --- | --- |
-| **Crit. 84** | "Aprendo de forma prática e ativa em espaços bem equipados." (ref. ILE ítem 6) |
-| **Crit. 85** | "Percebo que o colégio cuida da minha saúde e do meu desenvolvimento físico." (ref. ILE ítem 4) |
-| **Crit. 86** | "Conto com recursos tecnológicos que apoiam minha aprendizagem." (ref. ILE ítem 6) |
+| **Crit. 84** | "Aprendo de forma prática e ativa em espaços bem equipados." (ref. ILE item 6) |
+| **Crit. 85** | "Percebo que o colégio cuida da minha saúde e do meu desenvolvimento físico." (ref. ILE item 4) |
+| **Crit. 86** | "Conto com recursos tecnológicos que apoiam minha aprendizagem." (ref. ILE item 6) |
 
 | **TOTAL DIMENSÃO 4 — GESTÃO DE RECURSOS:  230 pontos  ·  20 critérios** |
 | --- |
@@ -607,11 +607,11 @@ A comissão é presidida pelo Diretor de Educação da Divisão Sul-Americana e 
 
 | **META DE VIVÊNCIA PERCEBIDA (ILE/IVC) — FORMAÇÃO E DESENVOLVIMENTO CIDADÃO** | |
 | --- | --- |
-| **Crit. 87** | "Participar de projetos sociais e missionários dá propósito à minha vida." (ref. ILE ítem 7) |
-| **Crit. 88** | "Percebo que o colégio se preocupa com minha saúde integral e me ajuda a me cuidar." (ref. IVC ítem 5) |
-| **Crit. 89** | "Percebo que o colégio se aproxima da minha família e se preocupa comigo." (ref. IVC ítem 5) |
-| **Crit. 90** | "O colégio me conecta com oportunidades para meu futuro e meu projeto de vida." (ref. ILE ítem 7) |
-| **Crit. 91** | "Quando tenho um problema pessoal ou espiritual, encontro no colégio alguém com quem conversar." (ref. IVC ítem 7) |
+| **Crit. 87** | "Participar de projetos sociais e missionários dá propósito à minha vida." (ref. ILE item 7) |
+| **Crit. 88** | "Percebo que o colégio se preocupa com minha saúde integral e me ajuda a me cuidar." (ref. IVC item 5) |
+| **Crit. 89** | "Percebo que o colégio se aproxima da minha família e se preocupa comigo." (ref. IVC item 5) |
+| **Crit. 90** | "O colégio me conecta com oportunidades para meu futuro e meu projeto de vida." (ref. ILE item 7) |
+| **Crit. 91** | "Quando tenho um problema pessoal ou espiritual, encontro no colégio alguém com quem conversar." (ref. IVC item 7) |
 
 | **5.2 CONVIVÊNCIA E CLIMA ESCOLAR  ·  50 pontos** |
 | --- |
@@ -627,9 +627,9 @@ A comissão é presidida pelo Diretor de Educação da Divisão Sul-Americana e 
 
 | **META DE VIVÊNCIA PERCEBIDA (ILE/IVC) — CONVIVÊNCIA E CLIMA ESCOLAR** | |
 | --- | --- |
-| **Crit. 92** | "Conheço as normas de convivência e as percebo justas para crescer como pessoa." (ref. IVC ítem 4) |
-| **Crit. 93** | "Percebo que as normas disciplinares são aplicadas com justiça." (ref. IVC ítem 4) |
-| **Crit. 94** | "Convivo em um ambiente escolar saudável onde minhas amizades me ajudam a ser uma pessoa melhor." (ref. IVC ítem 6) |
+| **Crit. 92** | "Conheço as normas de convivência e as percebo justas para crescer como pessoa." (ref. IVC item 4) |
+| **Crit. 93** | "Percebo que as normas disciplinares são aplicadas com justiça." (ref. IVC item 4) |
+| **Crit. 94** | "Convivo em um ambiente escolar saudável onde minhas amizades me ajudam a ser uma pessoa melhor." (ref. IVC item 6) |
 
 | **TOTAL DIMENSÃO 5 — CIDADANIA E CONVIVÊNCIA:  125 pontos  ·  8 critérios** |
 | --- |
@@ -655,10 +655,10 @@ A comissão é presidida pelo Diretor de Educação da Divisão Sul-Americana e 
 
 | **META DE VIVÊNCIA PERCEBIDA (ILE/IVC) — EQUIPE RESIDENCIAL E PRECEPTORIA** | |
 | --- | --- |
-| **Crit. 95** | "Percebo que há sempre um adulto disponível quando preciso, a qualquer hora." (ref. ILE ítem 3) |
-| **Crit. 96** | "Meus preceptores demonstram preparo para me acompanhar." (ref. IVC ítem 5) |
-| **Crit. 97** | "Percebo que a instituição cuida de quem cuida de mim." (ref. IVC ítem 3) |
-| **Crit. 98** | "Reconheço na equipe residencial um testemunho coerente com a fé que a instituição ensina." (ref. IVC ítem 2) |
+| **Crit. 95** | "Percebo que há sempre um adulto disponível quando preciso, a qualquer hora." (ref. ILE item 4) |
+| **Crit. 96** | "Meus preceptores demonstram preparo para me acompanhar." (ref. IVC item 5) |
+| **Crit. 97** | "Percebo que a instituição cuida de quem cuida de mim." (ref. IVC item 13) |
+| **Crit. 98** | "Reconheço na equipe residencial um testemunho coerente com a fé que a instituição ensina." (ref. IVC item 3) |
 
 | **6.2 ESPAÇOS E ROTINA DA VIDA RESIDENCIAL  ·  50 pontos** |
 | --- |
@@ -675,10 +675,10 @@ A comissão é presidida pelo Diretor de Educação da Divisão Sul-Americana e 
 
 | **META DE VIVÊNCIA PERCEBIDA (ILE/IVC) — ESPAÇOS E ROTINA DA VIDA RESIDENCIAL** | |
 | --- | --- |
-| **Crit. 99** | "O lugar onde moro é limpo, seguro e digno." (ref. ILE ítem 4) |
-| **Crit. 100** | "Conheço a rotina da residência e a percebo como razoável." (ref. IVC ítem 4) |
-| **Crit. 101** | "A alimentação que recebo é adequada e cuidada." (ref. ILE ítem 4) |
-| **Crit. 102** | "Encontro no campus lugares onde estudar, conviver e descansar." (ref. ILE ítem 4) |
+| **Crit. 99** | "O lugar onde moro é limpo, seguro e digno." (ref. ILE item 8) |
+| **Crit. 100** | "Conheço a rotina da residência e a percebo como razoável." (ref. IVC item 4) |
+| **Crit. 101** | "A alimentação que recebo é adequada e cuidada." (ref. ILE item 9) |
+| **Crit. 102** | "Encontro no campus lugares onde estudar, conviver e descansar." (ref. ILE item 8) |
 
 | **6.3 VIDA ESPIRITUAL NO CAMPUS  ·  55 pontos** |
 | --- |
@@ -696,10 +696,10 @@ A comissão é presidida pelo Diretor de Educação da Divisão Sul-Americana e 
 
 | **META DE VIVÊNCIA PERCEBIDA (ILE/IVC) — VIDA ESPIRITUAL NO CAMPUS** | |
 | --- | --- |
-| **Crit. 103** | "Os cultos da residência fortalecem minha relação com Deus." (ref. ILE ítem 5) |
-| **Crit. 104** | "A Semana de Oração é um momento marcante do meu ano." (ref. ILE ítem 5) |
-| **Crit. 105** | "Tenho lugar e voz na programação da igreja do campus." (ref. IVC ítem 7) |
-| **Crit. 106** | "Conto com alguém que me acompanha espiritualmente de forma pessoal." (ref. IVC ítem 5) |
+| **Crit. 103** | "Os cultos da residência fortalecem minha relação com Deus." (ref. ILE item 5) |
+| **Crit. 104** | "A Semana de Oração é um momento marcante do meu ano." (ref. ILE item 5) |
+| **Crit. 105** | "Tenho lugar e voz na programação da igreja do campus." (ref. IVC item 14) |
+| **Crit. 106** | "Conto com alguém que me acompanha espiritualmente de forma pessoal." (ref. IVC item 7) |
 
 | **6.4 SAÚDE, BEM-ESTAR EMOCIONAL E PROTEÇÃO DO RESIDENTE  ·  50 pontos** |
 | --- |
@@ -718,10 +718,10 @@ A comissão é presidida pelo Diretor de Educação da Divisão Sul-Americana e 
 
 | **META DE VIVÊNCIA PERCEBIDA (ILE/IVC) — SAÚDE, BEM-ESTAR EMOCIONAL E PROTEÇÃO DO RESIDENTE** | |
 | --- | --- |
-| **Crit. 107** | "Quando adoeço, sei que serei atendido." (ref. ILE ítem 3) |
-| **Crit. 108** | "Sei a quem recorrer quando não estou bem emocionalmente, e consigo ser atendido." (ref. ILE ítem 3) |
-| **Crit. 109** | "Percebo que a instituição sabe como agir quando algo grave acontece." (ref. IVC ítem 4) |
-| **Crit. 110** | "Sinto-me seguro no lugar onde moro." (ref. ILE ítem 4) |
+| **Crit. 107** | "Quando adoeço, sei que serei atendido." (ref. ILE item 10) |
+| **Crit. 108** | "Sei a quem recorrer quando não estou bem emocionalmente, e consigo ser atendido." (ref. IVC item 7) |
+| **Crit. 109** | "Percebo que a instituição sabe como agir quando algo grave acontece." (ref. IVC item 12) |
+| **Crit. 110** | "Sinto-me seguro no lugar onde moro." (ref. IVC item 11) |
 
 | **6.5 RECREAÇÃO, ESPORTE, MÚSICA E CULTURA  ·  40 pontos** |
 | --- |
@@ -739,10 +739,10 @@ A comissão é presidida pelo Diretor de Educação da Divisão Sul-Americana e 
 
 | **META DE VIVÊNCIA PERCEBIDA (ILE/IVC) — RECREAÇÃO, ESPORTE, MÚSICA E CULTURA** | |
 | --- | --- |
-| **Crit. 111** | "Tenho oportunidades reais de praticar esporte e me recrear." (ref. ILE ítem 4) |
-| **Crit. 112** | "Posso desenvolver meu talento musical na instituição." (ref. ILE ítem 4) |
-| **Crit. 113** | "Os sábados no internato são significativos, não vazios." (ref. ILE ítem 5) |
-| **Crit. 114** | "Recebo orientação para usar bem meu tempo livre." (ref. IVC ítem 4) |
+| **Crit. 111** | "Tenho oportunidades reais de praticar esporte e me recrear." (ref. ILE item 11) |
+| **Crit. 112** | "Posso desenvolver meu talento musical na instituição." (ref. ILE item 12) |
+| **Crit. 113** | "Os sábados no internato são significativos, não vazios." (ref. ILE item 13) |
+| **Crit. 114** | "Recebo orientação para usar bem meu tempo livre." (ref. ILE item 13) |
 
 | **TOTAL DIMENSÃO 6 — VIDA NO CAMPUS:  250 pontos  ·  20 critérios** |
 | --- |

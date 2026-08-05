@@ -655,10 +655,10 @@ La comisión está presidida por el Director de Educación de la División Sudam
 
 | **META DE VIVENCIA PERCIBIDA (ILE/IVC) — EQUIPO RESIDENCIAL Y PRECEPTORÍA** | |
 | --- | --- |
-| **Crit. 95** | "Percibo que hay siempre un adulto disponible cuando lo necesito, a cualquier hora." (ref. ILE ítem 3) |
+| **Crit. 95** | "Percibo que hay siempre un adulto disponible cuando lo necesito, a cualquier hora." (ref. ILE ítem 4) |
 | **Crit. 96** | "Mis preceptores demuestran preparación para acompañarme." (ref. IVC ítem 5) |
-| **Crit. 97** | "Percibo que la institución cuida de quienes cuidan de mí." (ref. IVC ítem 3) |
-| **Crit. 98** | "Reconozco en el equipo residencial un testimonio coherente con la fe que la institución enseña." (ref. IVC ítem 2) |
+| **Crit. 97** | "Percibo que la institución cuida de quienes cuidan de mí." (ref. IVC ítem 13) |
+| **Crit. 98** | "Reconozco en el equipo residencial un testimonio coherente con la fe que la institución enseña." (ref. IVC ítem 3) |
 
 | **6.2 ESPACIOS Y RUTINA DE LA VIDA RESIDENCIAL  ·  50 puntos** |
 | --- |
@@ -675,10 +675,10 @@ La comisión está presidida por el Director de Educación de la División Sudam
 
 | **META DE VIVENCIA PERCIBIDA (ILE/IVC) — ESPACIOS Y RUTINA DE LA VIDA RESIDENCIAL** | |
 | --- | --- |
-| **Crit. 99** | "El lugar donde vivo es limpio, seguro y digno." (ref. ILE ítem 4) |
+| **Crit. 99** | "El lugar donde vivo es limpio, seguro y digno." (ref. ILE ítem 8) |
 | **Crit. 100** | "Conozco la rutina de la residencia y la percibo como razonable." (ref. IVC ítem 4) |
-| **Crit. 101** | "La alimentación que recibo es adecuada y cuidada." (ref. ILE ítem 4) |
-| **Crit. 102** | "Encuentro en el campus lugares donde estudiar, convivir y descansar." (ref. ILE ítem 4) |
+| **Crit. 101** | "La alimentación que recibo es adecuada y cuidada." (ref. ILE ítem 9) |
+| **Crit. 102** | "Encuentro en el campus lugares donde estudiar, convivir y descansar." (ref. ILE ítem 8) |
 
 | **6.3 VIDA ESPIRITUAL EN EL CAMPUS  ·  55 puntos** |
 | --- |
@@ -698,8 +698,8 @@ La comisión está presidida por el Director de Educación de la División Sudam
 | --- | --- |
 | **Crit. 103** | "Los cultos de la residencia fortalecen mi relación con Dios." (ref. ILE ítem 5) |
 | **Crit. 104** | "La Semana de Oración es un momento marcante de mi año." (ref. ILE ítem 5) |
-| **Crit. 105** | "Tengo lugar y voz en la programación de la iglesia del campus." (ref. IVC ítem 7) |
-| **Crit. 106** | "Cuento con alguien que me acompaña espiritualmente de forma personal." (ref. IVC ítem 5) |
+| **Crit. 105** | "Tengo lugar y voz en la programación de la iglesia del campus." (ref. IVC ítem 14) |
+| **Crit. 106** | "Cuento con alguien que me acompaña espiritualmente de forma personal." (ref. IVC ítem 7) |
 
 | **6.4 SALUD, BIENESTAR EMOCIONAL Y PROTECCIÓN DEL RESIDENTE  ·  50 puntos** |
 | --- |
@@ -718,10 +718,10 @@ La comisión está presidida por el Director de Educación de la División Sudam
 
 | **META DE VIVENCIA PERCIBIDA (ILE/IVC) — SALUD, BIENESTAR EMOCIONAL Y PROTECCIÓN DEL RESIDENTE** | |
 | --- | --- |
-| **Crit. 107** | "Cuando me enfermo, sé que voy a ser atendido." (ref. ILE ítem 3) |
-| **Crit. 108** | "Sé a quién recurrir cuando no estoy bien emocionalmente, y consigo ser atendido." (ref. ILE ítem 3) |
-| **Crit. 109** | "Percibo que la institución sabe cómo actuar cuando algo grave ocurre." (ref. IVC ítem 4) |
-| **Crit. 110** | "Me siento seguro en el lugar donde vivo." (ref. ILE ítem 4) |
+| **Crit. 107** | "Cuando me enfermo, sé que voy a ser atendido." (ref. ILE ítem 10) |
+| **Crit. 108** | "Sé a quién recurrir cuando no estoy bien emocionalmente, y consigo ser atendido." (ref. IVC ítem 7) |
+| **Crit. 109** | "Percibo que la institución sabe cómo actuar cuando algo grave ocurre." (ref. IVC ítem 12) |
+| **Crit. 110** | "Me siento seguro en el lugar donde vivo." (ref. IVC ítem 11) |
 
 | **6.5 RECREACIÓN, DEPORTE, MÚSICA Y CULTURA  ·  40 puntos** |
 | --- |
@@ -739,10 +739,10 @@ La comisión está presidida por el Director de Educación de la División Sudam
 
 | **META DE VIVENCIA PERCIBIDA (ILE/IVC) — RECREACIÓN, DEPORTE, MÚSICA Y CULTURA** | |
 | --- | --- |
-| **Crit. 111** | "Tengo oportunidades reales de practicar deporte y recrearme." (ref. ILE ítem 4) |
-| **Crit. 112** | "Puedo desarrollar mi talento musical en la institución." (ref. ILE ítem 4) |
-| **Crit. 113** | "Los sábados en el internado son significativos, no vacíos." (ref. ILE ítem 5) |
-| **Crit. 114** | "Recibo orientación para usar bien mi tiempo libre." (ref. IVC ítem 4) |
+| **Crit. 111** | "Tengo oportunidades reales de practicar deporte y recrearme." (ref. ILE ítem 11) |
+| **Crit. 112** | "Puedo desarrollar mi talento musical en la institución." (ref. ILE ítem 12) |
+| **Crit. 113** | "Los sábados en el internado son significativos, no vacíos." (ref. ILE ítem 13) |
+| **Crit. 114** | "Recibo orientación para usar bien mi tiempo libre." (ref. ILE ítem 13) |
 
 | **TOTAL DIMENSIÓN 6 — VIDA EN EL CAMPUS:  250 puntos  ·  20 criterios** |
 | --- |
