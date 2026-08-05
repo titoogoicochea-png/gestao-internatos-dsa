@@ -210,7 +210,7 @@ A acreditação valoriza, ainda, a existência de cultura institucional unificad
 
 #### 7.3.6 Instrumento de avaliação para a acreditação
 
-Para operacionalizar a acreditação, a Divisão Sul-Americana propõe instrumento padronizado de avaliação, organizado em **cinco dimensões e dezessete subdimensões**, com critérios objetivos, evidências documentais e pontuação ponderada. As cinco dimensões são:
+Para operacionalizar a acreditação, a Divisão Sul-Americana propõe instrumento padronizado de avaliação, organizado em **seis dimensões e vinte e duas subdimensões**, com critérios objetivos, evidências documentais e pontuação ponderada. As seis dimensões são:
 
 1. **Identidade Institucional** — articulada em quatro subdimensões: Filosofia e Missão; Desenvolvimento Espiritual; Evangelismo e Testemunho; e Indicadores Institucionais do IVC.
 
@@ -221,6 +221,8 @@ Para operacionalizar a acreditação, a Divisão Sul-Americana propõe instrumen
 4. **Gestão de Recursos** — articulada em quatro subdimensões: Gestão da Equipe; Gestão de Recursos Financeiros; Infraestrutura e Investimentos; Gestão de Recursos Educacionais.
 
 5. **Cidadania e Convivência** — articulada em duas subdimensões: Formação e Desenvolvimento Cidadão; Convivência e Clima Escolar.
+
+6. **Vida no Campus** — articulada em cinco subdimensões: Equipe Residencial e Preceptoria; Espaços e Rotina da Vida Residencial; Vida Espiritual no Campus; Saúde, Bem-Estar Emocional e Proteção do Residente; Recreação, Esporte, Música e Cultura. É a dimensão própria do internato: as cinco anteriores avaliam a instituição como escola, e esta avalia aquilo que só acontece quando os estudantes vivem no campus.
 
 Este instrumento, com seus critérios avaliativos, evidências documentais requeridas e critérios de pontuação, é apresentado integralmente no **Anexo C** deste documento, aplicável a internatos de Educação Superior.
 

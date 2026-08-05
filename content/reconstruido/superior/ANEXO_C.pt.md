@@ -4,7 +4,7 @@
 
 Acompanhamento Filosófico, Administrativo e Pedagógico de Internatos
 
-| **5 Dimensões** | **17 Subdimensões** | **95 Critérios** | **1.235 Pontos** |
+| **6 Dimensões** | **22 Subdimensões** | **115 Critérios** | **1.485 Pontos** |
 | --- | --- | --- | --- |
 
 | **INSTRUMENTO DE APLICAÇÃO REGIONAL — DIVISÃO SUL-AMERICANA** Este instrumento foi elaborado para aplicação nos oito países da Divisão Sul-Americana: Argentina, Bolívia, Brasil, Chile, Equador, Paraguai, Peru e Uruguai. Os critérios legais, fiscais, sanitários e de avaliação de aprendizagem devem ser interpretados conforme a legislação e a nomenclatura vigente em cada país. As referências a órgãos governamentais, documentos legais, certificações, avaliações padronizadas e níveis de ensino estão expressas de forma genérica; cada União/Campo deve apresentar o documento equivalente em seu território. **Equivalências de referência: **níveis de ensino (Educação Infantil/Inicial · Ensino Fundamental/Primária · Ensino Médio/Secundária); registro fiscal da entidade (CNPJ no Brasil · RUC no Paraguai/Peru/Equador · RUT no Chile/Uruguai · NIT na Bolívia · CUIT na Argentina); órgão educacional governamental (Ministério da Educação ou Secretaria equivalente de cada país); avaliação de aprendizagem padronizada (PAAEB no Brasil ou a avaliação adotada pela União/Campo). |
@@ -59,6 +59,7 @@ A comissão é presidida pelo Diretor de Educação da Divisão Sul-Americana e 
 | **6** | Especialista — Dimensão 3: Gestão Pedagógica |  |  |  |
 | **7** | Especialista — Dimensão 4: Gestão de Recursos |  |  |  |
 | **8** | Especialista — Dimensão 5: Cidadania e Convivência |  |  |  |
+| **9** | Especialista — Dimensão 6: Vida no Campus |  |  |  |
 
 | **SEÇÃO II: CRITÉRIOS DE APROVAÇÃO E PONTUAÇÃO** |
 | --- |
@@ -637,6 +638,119 @@ A comissão é presidida pelo Diretor de Educação da Divisão Sul-Americana e 
 | **TOTAL DIMENSÃO 5 — CIDADANIA E CONVIVÊNCIA:  125 pontos  ·  8 critérios** |
 | --- |
 
+| **DIMENSÃO 6 — VIDA NO CAMPUS** |
+| --- |
+
+**Orientação ao avaliador.** Esta dimensão verifica aquilo que distingue um internato de uma escola com dormitório: a equipe que convive com os estudantes, os espaços e a rotina da vida residencial, a vida espiritual do campus, o cuidado da saúde e do bem-estar emocional, e a programação recreativa, esportiva, musical e cultural. As demais dimensões avaliam a instituição como escola; esta a avalia como casa. Contraste sempre a evidência documental com a vivência percebida pelo residente.
+
+| **6.1 EQUIPE RESIDENCIAL E PRECEPTORIA  ·  55 pontos** |
+| --- |
+| **N°** | **Critérios de Revisão** | **Evidências** | **Detalhe** | **Documentos em PDF / Anexo** | **Pontuação máxima** | **Nível de atendimento** | **Observação** |
+| **96** | A Instituição conta com equipe de preceptoria dimensionada para a população residente, com cobertura em todos os turnos, inclusive o noturno. | Quadro da equipe de preceptoria com nomes, funções, escala de turnos e residência atendida. | Indicar a proporção de preceptores por estudante residente em cada residência. |  | **20** | ☐ AP 20<br>☐ AA 15-19  ____<br>☐ PA 10-14  ____<br>☐ NA 0-9  ____ |  |
+|  |  | Contratos de trabalho e registro de jornada da equipe residencial. | Cópia dos contratos e da escala vigente. |  |  |  |  |
+|  |  | Declaração de cobertura noturna e de fins de semana, com responsável identificado. | Descrever como se garante a presença adulta 24 horas. |  |  |  |  |
+| **97** | A Instituição executa um plano de formação inicial e continuada para a preceptoria. | Plano de formação com conteúdos, carga horária e cronograma. | Deve contemplar filosofia adventista da educação, primeiros socorros, saúde mental, mediação de conflitos e cuidado pastoral. |  | **15** | ☐ AP 15<br>☐ AA 12-14  ____<br>☐ PA 8-11  ____<br>☐ NA 0-7  ____ |  |
+|  |  | Registro de participação da equipe nas formações dos últimos dois anos. | Listas de presença e certificados. |  |  |  |  |
+| **98** | A Instituição implementa ações de cuidado da equipe residencial, com descanso, apoio emocional e prevenção do esgotamento. | Política de descanso semanal, férias e tempo familiar protegido da equipe residencial. | Descrever como se garante o descanso efetivo de quem vive no campus. |  | **10** | ☐ AP 10<br>☐ AA 8-9  ____<br>☐ PA 5-7  ____<br>☐ NA 0-4  ____ |  |
+|  |  | Relatório de ações de apoio emocional e espiritual dirigidas à equipe. | Indicar também o índice de rotatividade da preceptoria nos últimos três anos. |  |  |  |  |
+| **99** | Os integrantes da equipe residencial são membros da Igreja Adventista do Sétimo Dia em plena comunhão e com formação denominacional. | Declaração de membresia assinada pela capelania ou pelo pastor distrital. | Indicar a igreja de membresia de cada integrante. |  | **10** | ☐ AP 10<br>☐ AA 8-9  ____<br>☐ PA 5-7  ____<br>☐ NA 0-4  ____ |  |
+|  |  | Lista da equipe residencial com sua formação denominacional ou cursos realizados. | Anexar certificados ou registro institucional. |  |  |  |  |
+|  |  |  |  | **SUBTOTAL — EQUIPE RESIDENCIAL E PRECEPTORIA** | **55** |  |  |
+
+| **META DE VIVÊNCIA PERCEBIDA (ILE/IVC) — EQUIPE RESIDENCIAL E PRECEPTORIA** | |
+| --- | --- |
+| **Crit. 96** | "Percebo que há sempre um adulto disponível quando preciso, a qualquer hora." (ref. ILE ítem 3) |
+| **Crit. 97** | "Meus preceptores demonstram preparo para me acompanhar." (ref. IVC ítem 5) |
+| **Crit. 98** | "Percebo que a instituição cuida de quem cuida de mim." (ref. IVC ítem 3) |
+| **Crit. 99** | "Reconheço na equipe residencial um testemunho coerente com a fé que a instituição ensina." (ref. IVC ítem 2) |
+
+| **6.2 ESPAÇOS E ROTINA DA VIDA RESIDENCIAL  ·  50 pontos** |
+| --- |
+| **N°** | **Critérios de Revisão** | **Evidências** | **Detalhe** | **Documentos em PDF / Anexo** | **Pontuação máxima** | **Nível de atendimento** | **Observação** |
+| **100** | Os dormitórios e as áreas de convivência das residências são adequados em capacidade, privacidade, segurança, mobiliário e higiene. | Registro fotográfico e planta das residências, com capacidade declarada e ocupação real. | Indicar número de vagas por quarto e de sanitários por residente. |  | **15** | ☐ AP 15<br>☐ AA 12-14  ____<br>☐ PA 8-11  ____<br>☐ NA 0-7  ____ |  |
+|  |  | Plano de manutenção e de limpeza das residências, com periodicidade e responsável. | Anexar o cronograma e o último relatório de execução. |  |  |  |  |
+| **101** | A Instituição mantém uma rotina residencial estruturada e publicada, construída com participação dos estudantes. | Horário da vida residencial: despertar, cultos, refeições, estudo dirigido, recreação, silêncio e descanso. | Anexar o horário vigente, exposto nas residências. |  | **15** | ☐ AP 15<br>☐ AA 12-14  ____<br>☐ PA 8-11  ____<br>☐ NA 0-7  ____ |  |
+|  |  | Evidência da divulgação da rotina às famílias no momento da matrícula. | Termo de ciência assinado ou material entregue. |  |  |  |  |
+| **102** | A alimentação oferecida aos residentes segue cardápio nutricional aprovado e os princípios adventistas de saúde. | Cardápio do período, assinado por profissional de nutrição habilitado. | Anexar o cardápio dos últimos três meses. |  | **10** | ☐ AP 10<br>☐ AA 8-9  ____<br>☐ PA 5-7  ____<br>☐ NA 0-4  ____ |  |
+|  |  | Procedimento de atendimento a restrições alimentares e necessidades específicas. | Descrever como se identificam e atendem as restrições declaradas na matrícula. |  |  |  |  |
+| **103** | O campus dispõe de espaços diferenciados para o estudo, a recreação e o descanso. | Descrição e registro fotográfico das salas de estudo, salas de convivência e áreas de descanso. | Indicar horários de uso e normas de cada espaço. |  | **10** | ☐ AP 10<br>☐ AA 8-9  ____<br>☐ PA 5-7  ____<br>☐ NA 0-4  ____ |  |
+|  |  | Política de uso de dispositivos e de conectividade em cada tipo de espaço. | Descrever as restrições aplicadas nas áreas de descanso e no horário noturno. |  |  |  |  |
+|  |  |  |  | **SUBTOTAL — ESPAÇOS E ROTINA DA VIDA RESIDENCIAL** | **50** |  |  |
+
+| **META DE VIVÊNCIA PERCEBIDA (ILE/IVC) — ESPAÇOS E ROTINA DA VIDA RESIDENCIAL** | |
+| --- | --- |
+| **Crit. 100** | "O lugar onde moro é limpo, seguro e digno." (ref. ILE ítem 4) |
+| **Crit. 101** | "Conheço a rotina da residência e a percebo como razoável." (ref. IVC ítem 4) |
+| **Crit. 102** | "A alimentação que recebo é adequada e cuidada." (ref. ILE ítem 4) |
+| **Crit. 103** | "Encontro no campus lugares onde estudar, conviver e descansar." (ref. ILE ítem 4) |
+
+| **6.3 VIDA ESPIRITUAL NO CAMPUS  ·  55 pontos** |
+| --- |
+| **N°** | **Critérios de Revisão** | **Evidências** | **Detalhe** | **Documentos em PDF / Anexo** | **Pontuação máxima** | **Nível de atendimento** | **Observação** |
+| **104** | A Instituição executa cultos devocionais diários nas residências, planejados e avaliados. | Planejamento dos cultos matinais e vespertinos do residencial, com temática e responsáveis. | Anexar a programação do semestre em curso. |  | **20** | ☐ AP 20<br>☐ AA 15-19  ____<br>☐ PA 10-14  ____<br>☐ NA 0-9  ____ |  |
+|  |  | Registro de realização e de participação dos residentes. | Relatório com frequência, participação média e avaliação qualitativa. |  |  |  |  |
+|  |  | Evidência do cuidado do culto da noite de sexta-feira, como recepção do sábado. | Descrever seu formato, participação e preparação. |  |  |  |  |
+| **105** | A Instituição realiza a Semana de Oração e mantém um calendário espiritual próprio da vida residencial. | Programação da Semana de Oração, com temática adequada à faixa etária e participação dos estudantes. | Anexar a programação e o relatório da última edição, com decisões registradas. |  | **15** | ☐ AP 15<br>☐ AA 12-14  ____<br>☐ PA 8-11  ____<br>☐ NA 0-7  ____ |  |
+|  |  | Calendário espiritual anual do residencial: retiros, vigílias, batismos e ênfases por período. | Anexar o calendário vigente. |  |  |  |  |
+| **106** | Os estudantes residentes exercem protagonismo na programação da igreja do campus. | Escala de participação dos residentes na igreja do campus: pregação, música, Escola Sabatina, recepção e projetos. | Indicar o número de residentes com função atribuída e a periodicidade da escala. |  | **10** | ☐ AP 10<br>☐ AA 8-9  ____<br>☐ PA 5-7  ____<br>☐ NA 0-4  ____ |  |
+|  |  | Registro de projetos ou programações concebidos e conduzidos pelos próprios estudantes. | Anexar relatório com fotos e lista de responsáveis. |  |  |  |  |
+| **107** | A Instituição mantém pequenos grupos e mentoria espiritual articulados com a capelania universitária. | Lista de pequenos grupos com líderes, frequência de reunião e número de participantes. | Indicar o percentual de residentes envolvidos. |  | **10** | ☐ AP 10<br>☐ AA 8-9  ____<br>☐ PA 5-7  ____<br>☐ NA 0-4  ____ |  |
+|  |  | Registro do acompanhamento espiritual individual, com responsável identificado por estudante. | Preservar a confidencialidade; apresentar o modelo de registro e dados agregados. |  |  |  |  |
+|  |  |  |  | **SUBTOTAL — VIDA ESPIRITUAL NO CAMPUS** | **55** |  |  |
+
+| **META DE VIVÊNCIA PERCEBIDA (ILE/IVC) — VIDA ESPIRITUAL NO CAMPUS** | |
+| --- | --- |
+| **Crit. 104** | "Os cultos da residência fortalecem minha relação com Deus." (ref. ILE ítem 5) |
+| **Crit. 105** | "A Semana de Oração é um momento marcante do meu ano." (ref. ILE ítem 5) |
+| **Crit. 106** | "Tenho lugar e voz na programação da igreja do campus." (ref. IVC ítem 7) |
+| **Crit. 107** | "Conto com alguém que me acompanha espiritualmente de forma pessoal." (ref. IVC ítem 5) |
+
+| **6.4 SAÚDE, BEM-ESTAR EMOCIONAL E PROTEÇÃO DO RESIDENTE  ·  50 pontos** |
+| --- |
+| **N°** | **Critérios de Revisão** | **Evidências** | **Detalhe** | **Documentos em PDF / Anexo** | **Pontuação máxima** | **Nível de atendimento** | **Observação** |
+| **108** | A Instituição garante atendimento de saúde ao residente, com ficha atualizada, controle de medicação e articulação com a rede assistencial. | Ficha de saúde de cada residente, com alergias, condições crônicas e medicação de uso contínuo. | Apresentar o modelo de ficha e evidência de sua atualização anual. |  | **15** | ☐ AP 15<br>☐ AA 12-14  ____<br>☐ PA 8-11  ____<br>☐ NA 0-7  ____ |  |
+|  |  | Procedimento de guarda e administração de medicamentos, com registro. | Descrever quem administra, onde se guarda e como se registra. |  |  |  |  |
+|  |  | Convênio ou fluxo formal de encaminhamento a serviços de saúde do território. | Anexar o convênio vigente ou o fluxo documentado. |  |  |  |  |
+| **109** | A Instituição oferece atendimento psicológico e acompanhamento emocional acessível aos residentes. | Contrato e carga horária do profissional de psicologia, com horário de atendimento publicado. | Indicar a proporção de horas de atendimento por número de residentes. |  | **15** | ☐ AP 15<br>☐ AA 12-14  ____<br>☐ PA 8-11  ____<br>☐ NA 0-7  ____ |  |
+|  |  | Indicadores de uso do serviço: número de atendimentos, tempo de espera e motivos agregados. | Apresentar dados agregados do último ano, sem identificação dos estudantes. |  |  |  |  |
+| **110** | A Instituição aplica e registra os protocolos operacionais da vida residencial. | Protocolos adotados e adaptados à legislação do país, aprovados pela Direção. | Crise emocional, risco suicida, substâncias, disciplina restaurativa, conflitos, acidentes e comunicação com as famílias. |  | **10** | ☐ AP 10<br>☐ AA 8-9  ____<br>☐ PA 5-7  ____<br>☐ NA 0-4  ____ |  |
+|  |  | Registro de capacitação da equipe nos protocolos, no início de cada ano letivo. | Listas de presença e material utilizado. |  |  |  |  |
+|  |  | Relatório agregado de ocorrências atendidas e de seu desfecho. | Preservar a confidencialidade; apresentar apenas dados agregados. |  |  |  |  |
+| **111** | O campus mantém condições de segurança e proteção para a população residente. | Plano de segurança do campus: controle de acessos, circulação noturna, iluminação e vigilância. | Anexar o plano e o registro de sua revisão anual. |  | **10** | ☐ AP 10<br>☐ AA 8-9  ____<br>☐ PA 5-7  ____<br>☐ NA 0-4  ____ |  |
+|  |  | Certidões de antecedentes de todo o pessoal com acesso às residências. | Apresentar as certidões vigentes conforme a legislação de cada país. |  |  |  |  |
+|  |  |  |  | **SUBTOTAL — SAÚDE, BEM-ESTAR EMOCIONAL E PROTEÇÃO DO RESIDENTE** | **50** |  |  |
+
+| **META DE VIVÊNCIA PERCEBIDA (ILE/IVC) — SAÚDE, BEM-ESTAR EMOCIONAL E PROTEÇÃO DO RESIDENTE** | |
+| --- | --- |
+| **Crit. 108** | "Quando adoeço, sei que serei atendido." (ref. ILE ítem 3) |
+| **Crit. 109** | "Sei a quem recorrer quando não estou bem emocionalmente, e consigo ser atendido." (ref. ILE ítem 3) |
+| **Crit. 110** | "Percebo que a instituição sabe como agir quando algo grave acontece." (ref. IVC ítem 4) |
+| **Crit. 111** | "Sinto-me seguro no lugar onde moro." (ref. ILE ítem 4) |
+
+| **6.5 RECREAÇÃO, ESPORTE, MÚSICA E CULTURA  ·  40 pontos** |
+| --- |
+| **N°** | **Critérios de Revisão** | **Evidências** | **Detalhe** | **Documentos em PDF / Anexo** | **Pontuação máxima** | **Nível de atendimento** | **Observação** |
+| **112** | A Instituição executa uma programação regular de recreação e esporte para os residentes. | Calendário de atividades recreativas e esportivas, com periodicidade e responsável. | Indicar a frequência semanal e os espaços utilizados. |  | **15** | ☐ AP 15<br>☐ AA 12-14  ____<br>☐ PA 8-11  ____<br>☐ NA 0-7  ____ |  |
+|  |  | Registro de participação dos residentes, por atividade. | Anexar relatório com número de participantes e fotos. |  |  |  |  |
+|  |  | Descrição da infraestrutura esportiva disponível e seu estado de conservação. | Quadras, ginásio, sala de musculação, piscina ou outros espaços, com registro fotográfico. |  |  |  |  |
+| **113** | A Instituição mantém grupos musicais com ensaio regular e participação dos residentes. | Lista dos grupos musicais, com responsável, horário de ensaio e número de integrantes residentes. | Indicar o percentual de residentes envolvidos em música. |  | **10** | ☐ AP 10<br>☐ AA 8-9  ____<br>☐ PA 5-7  ____<br>☐ NA 0-4  ____ |  |
+|  |  | Registro de participações em cultos, eventos institucionais e da comunidade. | Anexar relatório do último ano. |  |  |  |  |
+| **114** | A Instituição oferece programação de fim de semana e do sábado adequada à vida residencial. | Programação dos sábados, com atividades de comunhão, serviço e contato com a natureza. | Detalhar em particular a tarde de sábado, evitando o ócio não orientado. |  | **10** | ☐ AP 10<br>☐ AA 8-9  ____<br>☐ PA 5-7  ____<br>☐ NA 0-4  ____ |  |
+|  |  | Programação dos domingos e feriados para os residentes que permanecem no campus. | Indicar responsável e frequência. |  |  |  |  |
+| **115** | A Instituição orienta o uso saudável do tempo livre e da tecnologia no ambiente residencial. | Política de uso de internet e dispositivos nas residências, com horários definidos. | Anexar a política vigente e evidência de sua divulgação. |  | **5** | ☐ AP 5<br>☐ AA 4<br>☐ PA 3<br>☐ NA 0-2  ____ |  |
+|  |  | Ações formativas sobre cidadania digital dirigidas aos residentes. | Relatório das atividades realizadas no último ano. |  |  |  |  |
+|  |  |  |  | **SUBTOTAL — RECREAÇÃO, ESPORTE, MÚSICA E CULTURA** | **40** |  |  |
+
+| **META DE VIVÊNCIA PERCEBIDA (ILE/IVC) — RECREAÇÃO, ESPORTE, MÚSICA E CULTURA** | |
+| --- | --- |
+| **Crit. 112** | "Tenho oportunidades reais de praticar esporte e me recrear." (ref. ILE ítem 4) |
+| **Crit. 113** | "Posso desenvolver meu talento musical na instituição." (ref. ILE ítem 4) |
+| **Crit. 114** | "Os sábados no internato são significativos, não vazios." (ref. ILE ítem 5) |
+| **Crit. 115** | "Recebo orientação para usar bem meu tempo livre." (ref. IVC ítem 4) |
+
+| **TOTAL DIMENSÃO 6 — VIDA NO CAMPUS:  250 pontos  ·  20 critérios** |
+| --- |
+
 | **SEÇÃO IV: DIMENSÕES DE AVALIAÇÃO E CLASSIFICAÇÃO FINAL** |
 | --- |
 
@@ -649,7 +763,8 @@ Concluída a avaliação da Seção III, as pontuações obtidas em cada dimens�
 | **3 — Gestão Pedagógica** | **230** |  |  |  |
 | **4 — Gestão de Recursos** | **230** |  |  |  |
 | **5 — Cidadania e Convivência** | **125** |  |  |  |
-| **TOTAL GERAL** | **1.235** |  |  |  |
+| **6 — Vida no Campus** | **250** |  |  |  |
+| **TOTAL GERAL** | **1.485** |  |  |  |
 
 | **SEÇÃO V: CONCLUSÃO TÉCNICA** |
 | --- |
