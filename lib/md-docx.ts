@@ -337,6 +337,9 @@ export function markdownToDocx(docx: any, md: string, ctx?: Ctx): any[] {
   const out: any[] = [];
   const lines = md.replace(/\r\n/g, "\n").split("\n");
   let i = 0;
+  // La primera dimensión no debe abrir página propia: dejaría el rótulo de la
+  // sección solo en una hoja. Las demás sí.
+  let vieneDeSeccion = false;
 
   while (i < lines.length) {
     const line = lines[i];
@@ -363,9 +366,10 @@ export function markdownToDocx(docx: any, md: string, ctx?: Ctx): any[] {
       // (fila de una sola celda) y la tabla de criterios. Se separa en segmentos:
       // cada fila de una sola celda es una banda; el resto forma una tabla.
       let seg: string[][] = [];
-      // Una tabla de Word no tiene margen inferior propio: sin este respiro, la
-      // tabla siguiente o la banda de la subdimensión quedan pegadas a ella.
-      const respiro = () => new Paragraph({ spacing: { after: 0, line: 120, lineRule: "auto" }, children: [] });
+      // Una tabla de Word no tiene margen inferior propio. Se deja un párrafo
+      // vacío de altura normal: además de separar, es un punto donde se puede
+      // situar el cursor para ajustar la paginación a mano al maquetar.
+      const respiro = () => new Paragraph({ spacing: { after: 0, line: 240, lineRule: "auto" }, children: [] });
       const flush = () => {
         if (!seg.length) return;
         const head = plain(seg[0][0] ?? "");
@@ -381,19 +385,23 @@ export function markdownToDocx(docx: any, md: string, ctx?: Ctx): any[] {
           const txt = plain(r[0] ?? "");
           // Secciones, dimensiones y subdimensiones del Anexo C entran al índice.
           if (/^SE(CCI[ÓO]N|[ÇC][ÃA]O)\s+[IVX]+\s*:/i.test(txt)) {
-            out.push(banner(docx, txt, NAVY, 26, { anchor: anclar(ctx, 2, txt), heading: HeadingLevel.HEADING_2 }));
+            out.push(banner(docx, txt, NAVY, 26, { anchor: anclar(ctx, 2, txt), heading: HeadingLevel.HEADING_2, keepNext: true }));
+            vieneDeSeccion = true;
           } else if (/^DIMENS(I[ÓO]N|[ÃA]O)\s*\d/i.test(txt)) {
-            // Cada dimensión abre página propia.
+            // Cada dimensión abre página propia, salvo la primera: iría pegada
+            // al rótulo de la sección y lo dejaría solo en la hoja anterior.
             out.push(banner(docx, txt, NAVY, 28, {
               anchor: anclar(ctx, 3, txt), heading: HeadingLevel.HEADING_3,
-              pageBreak: out.length > 0, keepNext: true,
+              pageBreak: out.length > 0 && !vieneDeSeccion, keepNext: true,
             }));
+            vieneDeSeccion = false;
           } else if (/^TOTAL\s+DIMENS/i.test(txt)) {
             out.push(banner(docx, txt, NAVY, 20, { before: 360 }));
           } else if (/^\d+\.\d+\s/.test(txt)) {
-            // Las subdimensiones se apretaban unas contra otras: se les da aire
-            // por arriba y se mantienen unidas a su tabla de criterios.
-            out.push(banner(docx, txt, BLUE, 22, { heading: HeadingLevel.HEADING_4, before: 520, keepNext: true }));
+            // Las subdimensiones se apretaban unas contra otras. El aire lo da el
+            // párrafo vacío que cierra la tabla anterior; aquí basta un margen
+            // corto, y el rótulo queda unido a su tabla de criterios.
+            out.push(banner(docx, txt, BLUE, 22, { heading: HeadingLevel.HEADING_4, before: 200, keepNext: true }));
           } else if (txt.length > 180) {
             out.push(noteBox(docx, r[0]));
           } else {
