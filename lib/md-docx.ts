@@ -166,8 +166,11 @@ function buildTable(docx: any, rows: string[][]): any {
       });
     }
 
-    // Fila de subtotal / total: blanco sobre azul marino.
-    if (/\bSUBTOTAL\b|\bTOTAL\b/i.test(flat)) {
+    // Fila de subtotal / total: blanco sobre azul marino. Se reconoce por el
+    // rótulo en negrita al principio de una celda, y NO por la palabra suelta:
+    // muchos criterios dicen «en relación al total de alumnos» y quedaban
+    // pintados como si fueran subtotales.
+    if (padded.some((c) => /^\*\*\s*(SUBTOTAL|TOTAL)\b/i.test(c.trim()))) {
       return new TableRow({
         children: padded.map((c, i) =>
           tCell(docx, c, {
@@ -278,7 +281,13 @@ function marcado(docx: any, run: any, anchor?: string): any[] {
   return [new BookmarkStart(anchor, id), run, new BookmarkEnd(id)];
 }
 
-type BlockOpts = { anchor?: string; heading?: any };
+type BlockOpts = {
+  anchor?: string;
+  heading?: any;
+  pageBreak?: boolean;   // abre página propia (cada dimensión empieza en una)
+  before?: number;       // separación superior, en veinteavos de punto
+  keepNext?: boolean;    // no dejar el rótulo huérfano al pie de página
+};
 
 // Banda de color con texto blanco centrado (capítulo / dimensión / subdimensión).
 function banner(docx: any, text: string, fill: string, halfPt: number, o: BlockOpts = {}): any {
@@ -288,7 +297,9 @@ function banner(docx: any, text: string, fill: string, halfPt: number, o: BlockO
     heading: o.heading,
     shading: { type: ShadingType.CLEAR, color: "auto", fill },
     alignment: AlignmentType.CENTER,
-    spacing: { before: 240, after: 120 },
+    spacing: { before: o.before ?? 240, after: 120 },
+    pageBreakBefore: o.pageBreak,
+    keepNext: o.keepNext,
     children: marcado(docx, run, o.anchor),
   });
 }
@@ -352,11 +363,15 @@ export function markdownToDocx(docx: any, md: string, ctx?: Ctx): any[] {
       // (fila de una sola celda) y la tabla de criterios. Se separa en segmentos:
       // cada fila de una sola celda es una banda; el resto forma una tabla.
       let seg: string[][] = [];
+      // Una tabla de Word no tiene margen inferior propio: sin este respiro, la
+      // tabla siguiente o la banda de la subdimensión quedan pegadas a ella.
+      const respiro = () => new Paragraph({ spacing: { after: 0, line: 120, lineRule: "auto" }, children: [] });
       const flush = () => {
         if (!seg.length) return;
         const head = plain(seg[0][0] ?? "");
         if (seg[0].length === 2 && /META DE VIV[EÊ]NCIA/i.test(head)) out.push(buildMetaTable(docx, seg));
         else out.push(buildTable(docx, seg));
+        out.push(respiro());
         seg = [];
       };
 
@@ -368,11 +383,17 @@ export function markdownToDocx(docx: any, md: string, ctx?: Ctx): any[] {
           if (/^SE(CCI[ÓO]N|[ÇC][ÃA]O)\s+[IVX]+\s*:/i.test(txt)) {
             out.push(banner(docx, txt, NAVY, 26, { anchor: anclar(ctx, 2, txt), heading: HeadingLevel.HEADING_2 }));
           } else if (/^DIMENS(I[ÓO]N|[ÃA]O)\s*\d/i.test(txt)) {
-            out.push(banner(docx, txt, NAVY, 28, { anchor: anclar(ctx, 3, txt), heading: HeadingLevel.HEADING_3 }));
+            // Cada dimensión abre página propia.
+            out.push(banner(docx, txt, NAVY, 28, {
+              anchor: anclar(ctx, 3, txt), heading: HeadingLevel.HEADING_3,
+              pageBreak: out.length > 0, keepNext: true,
+            }));
           } else if (/^TOTAL\s+DIMENS/i.test(txt)) {
-            out.push(banner(docx, txt, NAVY, 20));
+            out.push(banner(docx, txt, NAVY, 20, { before: 360 }));
           } else if (/^\d+\.\d+\s/.test(txt)) {
-            out.push(banner(docx, txt, BLUE, 22, { heading: HeadingLevel.HEADING_4 }));
+            // Las subdimensiones se apretaban unas contra otras: se les da aire
+            // por arriba y se mantienen unidas a su tabla de criterios.
+            out.push(banner(docx, txt, BLUE, 22, { heading: HeadingLevel.HEADING_4, before: 520, keepNext: true }));
           } else if (txt.length > 180) {
             out.push(noteBox(docx, r[0]));
           } else {
