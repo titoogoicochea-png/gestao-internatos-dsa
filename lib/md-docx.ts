@@ -17,6 +17,21 @@ const ZEBRA = "EBF3FB";  // fila alterna (igual que el original)
 const GRID = "CCCCCC";   // borde de celda
 const NOTE = "F2F7FC";   // recuadro de nota
 
+// Cada dimensión del instrumento tiene color propio, para orientarse en un
+// documento largo: `fuerte` en su banda y en los subtotales, `medio` en las
+// bandas de subdimensión y en los encabezados de tabla, `tinte` en la fila
+// cebra. Todos los tonos son oscuros lo bastante para leer texto blanco encima.
+export type Paleta = { fuerte: string; medio: string; tinte: string };
+const AZUL_DSA: Paleta = { fuerte: NAVY, medio: BLUE, tinte: ZEBRA };
+const PALETA_DIM: Paleta[] = [
+  { fuerte: "1F3864", medio: "2E75B6", tinte: "E8EEF7" },  // 1 · Identidad Institucional
+  { fuerte: "12495A", medio: "1F7A94", tinte: "E3F1F5" },  // 2 · Liderazgo y Gestión
+  { fuerte: "15503B", medio: "24805F", tinte: "E4F2EC" },  // 3 · Gestión Pedagógica
+  { fuerte: "5C4410", medio: "8F6A16", tinte: "F5EEDF" },  // 4 · Gestión de Recursos
+  { fuerte: "5C2530", medio: "8E3B4A", tinte: "F6E9EC" },  // 5 · Ciudadanía y Convivencia
+  { fuerte: "392F63", medio: "5B4B93", tinte: "ECE9F5" },  // 6 · Vida en el Campus
+];
+
 // A4 menos márgenes de 2,5 cm → ancho útil para las tablas (twips).
 const PAGE_W = 11906, PAGE_H = 16838, MARGIN = 1417;
 const ANCHO_VERTICAL = PAGE_W - MARGIN * 2;
@@ -132,7 +147,7 @@ function tCell(
   });
 }
 
-function buildTable(docx: any, rows: string[][]): any {
+function buildTable(docx: any, rows: string[][], pal: Paleta = AZUL_DSA): any {
   const { Table, TableRow, WidthType, AlignmentType, TableLayoutType } = docx;
 
   const headers = rows[0] ?? [];
@@ -175,7 +190,7 @@ function buildTable(docx: any, rows: string[][]): any {
         tableHeader: true,
         children: padded.map((c, i) =>
           tCell(docx, abrevHeader(c), {
-            fill: BLUE,
+            fill: pal.medio,
             align: C,
             width: widths[i],
             tight: isNarrow(i),
@@ -193,7 +208,7 @@ function buildTable(docx: any, rows: string[][]): any {
       return new TableRow({
         children: padded.map((c, i) =>
           tCell(docx, c, {
-            fill: NAVY,
+            fill: pal.fuerte,
             align: isNarrow(i) ? C : L,
             width: widths[i],
             tight: isNarrow(i),
@@ -206,7 +221,7 @@ function buildTable(docx: any, rows: string[][]): any {
     // Filas de datos: cebra blanco / EBF3FB, como el original. En el instrumento
     // el color cambia por criterio, para que sus filas se lean como un bloque.
     if (!esInstrumento || merge[ri] !== "cont") dataIdx++;
-    const fill = (dataIdx - 1) % 2 === 1 ? ZEBRA : WHITE;
+    const fill = (dataIdx - 1) % 2 === 1 ? pal.tinte : WHITE;
     return new TableRow({
       children: padded.map((c, i) => {
         // Casilla de conformidad sola ("☐") o con un único valor ("☐ 12-14").
@@ -240,7 +255,7 @@ function buildTable(docx: any, rows: string[][]): any {
 }
 
 // Bloque "Meta de vivencia percibida (ILE/IVC)": título a todo el ancho + filas.
-function buildMetaTable(docx: any, rows: string[][]): any {
+function buildMetaTable(docx: any, rows: string[][], pal: Paleta = AZUL_DSA): any {
   const { Table, TableRow, WidthType, AlignmentType, TableLayoutType } = docx;
   const widths = [Math.round(CONTENT_W * 0.14), Math.round(CONTENT_W * 0.86)];
   const C = AlignmentType.CENTER;
@@ -249,12 +264,12 @@ function buildMetaTable(docx: any, rows: string[][]): any {
   const trs: any[] = [
     new TableRow({
       children: [
-        tCell(docx, rows[0][0], { fill: BLUE, align: L, span: 2, base: { size: 16, bold: true, color: WHITE } }),
+        tCell(docx, rows[0][0], { fill: pal.medio, align: L, span: 2, base: { size: 16, bold: true, color: WHITE } }),
       ],
     }),
   ];
   rows.slice(1).forEach((r, i) => {
-    const fill = i % 2 === 1 ? ZEBRA : WHITE;
+    const fill = i % 2 === 1 ? pal.tinte : WHITE;
     trs.push(
       new TableRow({
         children: [
@@ -364,6 +379,9 @@ export function markdownToDocx(docx: any, md: string, ctx?: Ctx): any[] {
   // La primera dimensión no debe abrir página propia: dejaría el rótulo de la
   // sección solo en una hoja. Las demás sí.
   let vieneDeSeccion = false;
+  // Paleta de la dimensión que se está componiendo. Fuera del instrumento —los
+  // capítulos del referencial— se mantiene el azul institucional.
+  let pal: Paleta = AZUL_DSA;
 
   while (i < lines.length) {
     const line = lines[i];
@@ -397,8 +415,8 @@ export function markdownToDocx(docx: any, md: string, ctx?: Ctx): any[] {
       const flush = () => {
         if (!seg.length) return;
         const head = plain(seg[0][0] ?? "");
-        if (seg[0].length === 2 && /META DE VIV[EÊ]NCIA/i.test(head)) out.push(buildMetaTable(docx, seg));
-        else out.push(buildTable(docx, seg));
+        if (seg[0].length === 2 && /META DE VIV[EÊ]NCIA/i.test(head)) out.push(buildMetaTable(docx, seg, pal));
+        else out.push(buildTable(docx, seg, pal));
         out.push(respiro());
         seg = [];
       };
@@ -409,23 +427,26 @@ export function markdownToDocx(docx: any, md: string, ctx?: Ctx): any[] {
           const txt = plain(r[0] ?? "");
           // Secciones, dimensiones y subdimensiones del Anexo C entran al índice.
           if (/^SE(CCI[ÓO]N|[ÇC][ÃA]O)\s+[IVX]+\s*:/i.test(txt)) {
-            out.push(banner(docx, txt, NAVY, 26, { anchor: anclar(ctx, 2, txt), heading: HeadingLevel.HEADING_2, keepNext: true }));
+            pal = AZUL_DSA;
+            out.push(banner(docx, txt, pal.fuerte, 26, { anchor: anclar(ctx, 2, txt), heading: HeadingLevel.HEADING_2, keepNext: true }));
             vieneDeSeccion = true;
           } else if (/^DIMENS(I[ÓO]N|[ÃA]O)\s*\d/i.test(txt)) {
             // Cada dimensión abre página propia, salvo la primera: iría pegada
             // al rótulo de la sección y lo dejaría solo en la hoja anterior.
-            out.push(banner(docx, txt, NAVY, 28, {
+            const nd = Number((txt.match(/\d+/) ?? ["0"])[0]);
+            pal = PALETA_DIM[nd - 1] ?? AZUL_DSA;
+            out.push(banner(docx, txt, pal.fuerte, 28, {
               anchor: anclar(ctx, 3, txt), heading: HeadingLevel.HEADING_3,
               pageBreak: out.length > 0 && !vieneDeSeccion, keepNext: true,
             }));
             vieneDeSeccion = false;
           } else if (/^TOTAL\s+DIMENS/i.test(txt)) {
-            out.push(banner(docx, txt, NAVY, 20, { before: 360 }));
+            out.push(banner(docx, txt, pal.fuerte, 20, { before: 360 }));
           } else if (/^\d+\.\d+\s/.test(txt)) {
             // Las subdimensiones se apretaban unas contra otras. El aire lo da el
             // párrafo vacío que cierra la tabla anterior; aquí basta un margen
             // corto, y el rótulo queda unido a su tabla de criterios.
-            out.push(banner(docx, txt, BLUE, 22, { heading: HeadingLevel.HEADING_4, before: 200, keepNext: true }));
+            out.push(banner(docx, txt, pal.medio, 22, { heading: HeadingLevel.HEADING_4, before: 200, keepNext: true }));
           } else if (txt.length > 180) {
             out.push(noteBox(docx, r[0]));
           } else {
