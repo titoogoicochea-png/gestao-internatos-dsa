@@ -108,12 +108,15 @@ function cellBorders(docx: any) {
 function tCell(
   docx: any,
   text: string,
-  opts: { fill?: string; align?: any; base?: Base; span?: number; width?: number; tight?: boolean }
+  opts: { fill?: string; align?: any; base?: Base; span?: number; width?: number; tight?: boolean; merge?: "start" | "cont" }
 ): any {
-  const { TableCell, Paragraph, ShadingType, WidthType, VerticalAlign } = docx;
+  const { TableCell, Paragraph, ShadingType, WidthType, VerticalAlign, VerticalMergeType } = docx;
   const pad = opts.tight ? 30 : 80;   // columnas estrechas con menos margen interno
   return new TableCell({
     columnSpan: opts.span,
+    verticalMerge: opts.merge === "start" ? VerticalMergeType.RESTART
+                 : opts.merge === "cont" ? VerticalMergeType.CONTINUE
+                 : undefined,
     width: opts.width ? { size: opts.width, type: WidthType.DXA } : undefined,
     shading: opts.fill ? { type: ShadingType.CLEAR, color: "auto", fill: opts.fill } : undefined,
     borders: cellBorders(docx),
@@ -144,6 +147,22 @@ function buildTable(docx: any, rows: string[][]): any {
 
   const C = AlignmentType.CENTER;
   const L = AlignmentType.LEFT;
+
+  // En el instrumento, un criterio ocupa varias filas: la primera lleva su número
+  // y su enunciado, y las siguientes solo añaden evidencias. Dejar las celdas de
+  // «N°» y «Criterios de Revisión» vacías hacía leer cada fila como un criterio
+  // distinto, así que se combinan verticalmente y el sombreado alterna por
+  // criterio y no por fila.
+  const esInstrumento = nCols >= 6;
+  const esSubtotal = (r: string[]) => r.some((c) => /^\*\*\s*(SUBTOTAL|TOTAL)\b/i.test(c.trim()));
+  const grupo: ("start" | "cont" | "none")[] = rows.map((r, ri) => {
+    if (!esInstrumento || ri === 0 || esSubtotal(r)) return "none";
+    return plain(r[0] ?? "").trim() ? "start" : "cont";
+  });
+  // Una fila «start» sin continuaciones no necesita combinarse.
+  const merge = grupo.map((g, ri) =>
+    g === "start" && grupo[ri + 1] !== "cont" ? "none" : g
+  );
 
   let dataIdx = 0;
   const trs = rows.map((cells, ri) => {
@@ -184,8 +203,10 @@ function buildTable(docx: any, rows: string[][]): any {
       });
     }
 
-    // Filas de datos: cebra blanco / EBF3FB, como el original.
-    const fill = dataIdx++ % 2 === 1 ? ZEBRA : WHITE;
+    // Filas de datos: cebra blanco / EBF3FB, como el original. En el instrumento
+    // el color cambia por criterio, para que sus filas se lean como un bloque.
+    if (!esInstrumento || merge[ri] !== "cont") dataIdx++;
+    const fill = (dataIdx - 1) % 2 === 1 ? ZEBRA : WHITE;
     return new TableRow({
       children: padded.map((c, i) => {
         // Casilla de conformidad sola ("☐") o con un único valor ("☐ 12-14").
@@ -195,12 +216,15 @@ function buildTable(docx: any, rows: string[][]): any {
         const variasOpciones = (plain(c).match(/[☐☑]/g) ?? []).length > 1;
         const box = !variasOpciones && (soloCasilla || /^[☐☑]\s+\S/.test(plain(c)));
         const strong = i === 0 || isNarrow(i);           // Nº y puntos en negrita
-        return tCell(docx, c, {
+        // Solo se combinan las dos primeras columnas: número y enunciado.
+        const m = i <= 1 && merge[ri] !== "none" ? merge[ri] : undefined;
+        return tCell(docx, m === "cont" ? "" : c, {
           fill,
           align: isNarrow(i) || box ? C : L,
           width: widths[i],
           tight: isNarrow(i),
           base: { size: soloCasilla ? 20 : size, bold: strong && !box },
+          merge: m,
         });
       }),
     });
