@@ -54,5 +54,8 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)"],
+  // `api/cron` queda fuera a propósito: lo llama Vercel Cron, que no trae sesión,
+  // y si no se excluye acaba redirigido a /login y el latido nunca se ejecuta.
+  // No queda desprotegido: esa ruta exige su propio CRON_SECRET.
+  matcher: ["/((?!api/cron|_next/static|_next/image|favicon.ico|.*\\.(?:svg|png|jpg|jpeg|gif|webp)$).*)"],
 };
