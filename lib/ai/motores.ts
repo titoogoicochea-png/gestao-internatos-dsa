@@ -34,14 +34,14 @@ interface MotorDef {
 }
 
 export const MOTORES: Record<MotorReal, MotorDef> = {
-  "groq":         { label: "Groq · Llama 3.3 70B", badge: "GRATIS", proveedor: "groq",          model: "llama-3.3-70b-versatile", envKey: "GROQ_API_KEY",      maxTokens: 8000 },
+  "groq":         { label: "Groq · GPT-OSS 120B", badge: "GRATIS", proveedor: "groq",          model: "openai/gpt-oss-120b", envKey: "GROQ_API_KEY",      maxTokens: 8000 },
   "gemini-flash": { label: "Gemini 2.5 Flash",     badge: "GRATIS", proveedor: "google",        model: "gemini-2.5-flash",        envKey: "GEMINI_API_KEY",    envKeyAlt: "GOOGLE_API_KEY", maxTokens: 16000 },
   "deepseek":     { label: "DeepSeek Chat",        badge: "BARATO", proveedor: "openai-compat", model: "deepseek-chat",           envKey: "DEEPSEEK_API_KEY",  baseUrl: "https://api.deepseek.com/v1", maxTokens: 8000 },
   "grok":         { label: "Grok (xAI)",           badge: "BARATO", proveedor: "openai-compat", model: "grok-2-latest",           envKey: "XAI_API_KEY",       baseUrl: "https://api.x.ai/v1",         maxTokens: 8000 },
   "chatgpt":      { label: "ChatGPT · GPT-4o mini",badge: "BARATO", proveedor: "openai-compat", model: "gpt-4o-mini",             envKey: "OPENAI_API_KEY",    baseUrl: "https://api.openai.com/v1",   maxTokens: 16000 },
   "gemini-pro":   { label: "Gemini 2.5 Pro",       badge: "BARATO", proveedor: "google",        model: "gemini-2.5-pro",          envKey: "GEMINI_API_KEY",    envKeyAlt: "GOOGLE_API_KEY", maxTokens: 16000 },
   "haiku":        { label: "Claude Haiku 4.5",     badge: "BARATO", proveedor: "anthropic",     model: "claude-haiku-4-5-20251001", envKey: "ANTHROPIC_API_KEY", maxTokens: 16000 },
-  "sonnet":       { label: "Claude Sonnet 4.6",    badge: "PREMIUM",proveedor: "anthropic",     model: "claude-sonnet-4-6",       envKey: "ANTHROPIC_API_KEY", maxTokens: 16000 },
+  "sonnet":       { label: "Claude Sonnet 5",    badge: "PREMIUM",proveedor: "anthropic",     model: "claude-sonnet-5",       envKey: "ANTHROPIC_API_KEY", maxTokens: 16000 },
   "opus":         { label: "Claude Opus 4.8",      badge: "PREMIUM",proveedor: "anthropic",     model: "claude-opus-4-8",         envKey: "ANTHROPIC_API_KEY", maxTokens: 32000 },
 };
 

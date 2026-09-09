@@ -19,14 +19,14 @@ type Props = {
 // Etiquetas de los motores (nombres de producto, neutros al idioma).
 const MOTOR_LABEL: Record<string, string> = {
   auto: "Automático",
-  groq: "Groq · Llama 3.3 70B",
+  groq: "Groq · GPT-OSS 120B",
   "gemini-flash": "Gemini 2.5 Flash",
   deepseek: "DeepSeek Chat",
   grok: "Grok (xAI)",
   chatgpt: "ChatGPT · GPT-4o mini",
   "gemini-pro": "Gemini 2.5 Pro",
   haiku: "Claude Haiku 4.5",
-  sonnet: "Claude Sonnet 4.6",
+  sonnet: "Claude Sonnet 5",
 };
 const MOTOR_OPCIONES: { id: Exclude<Motor, "auto">; badge: Badge }[] = [
   { id: "groq", badge: "GRATIS" },
