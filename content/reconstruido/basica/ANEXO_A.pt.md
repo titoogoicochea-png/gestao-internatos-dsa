@@ -1,5 +1,7 @@
 # ANEXO A
 
+## INSTRUMENTO DE PESQUISA — ÍNDICES ILE E IVC
+
 Instrumento de Pesquisa — Índices ILE e IVC
 
 Versão adaptada para internatos com Ensino Médio
@@ -93,4 +95,10 @@ Sugestões de intervenção — Ensino Médio
 | **ILE ****negativo**** ****em**** "****cultos**** e ****atividades**** ****espirituais****"** | Revisão da programação espiritual, escuta dos alunos, formação dos líderes de cultos, diversificação metodológica. |
 | **ILE ****negativo**** ****em**** "****ajuda**** ****nos**** ****estudos****"** | Fortalecimento dos plantões pedagógicos, monitorias específicas, recuperação paralela. |
 | **ILE ****negativo**** ****em**** "****projeto**** de ****vida****"** | Programas de orientação vocacional, mentoria por adultos significativos, palestras sobre propósito e missão. |
+| **ILE negativo em "o lugar onde moro"** | Revisão do estado dos dormitórios, mobiliário, higiene e privacidade; plano de manutenção com prazos e responsável. |
+| **ILE negativo em "alimentação"** | Revisão do cardápio com profissional de nutrição, escuta dos estudantes, atenção a restrições alimentares. |
+| **ILE negativo em "saúde e apoio emocional"** | Ampliação das horas de atendimento psicológico, revisão do fluxo de encaminhamento, capacitação da preceptoria em primeiros socorros emocionais. |
+| **ILE negativo em "esporte e recreação"** | Revisão do calendário de atividades e do estado da infraestrutura esportiva; inclusão de quem não participa. |
+| **ILE negativo em "música e cultura"** | Abertura de novos grupos, revisão dos horários de ensaio, ampliação das oportunidades de participação. |
+| **ILE negativo em "tempo livre e fins de semana"** | Programação intencional da tarde de sábado e dos domingos; revisão da política de uso de dispositivos. |
 

@@ -1,5 +1,7 @@
 # ANEXO A
 
+## INSTRUMENTO DE INVESTIGACIÓN — ÍNDICES ILE E IVC
+
 Instrumento de Investigación — Índices ILE e IVC
 
 Versión adaptada para internados con Bachillerato
@@ -93,4 +95,10 @@ Sugerencias de intervención — Bachillerato
 | **ILE ****negativo**** ****en**** "****cultos**** y ****actividades**** ****espirituales****"** | Revisión de la programación espiritual, escucha a los alumnos, formación de los líderes de cultos, diversificación metodológica. |
 | **ILE ****negativo**** ****en**** "****ayuda**** ****en**** ****los**** ****estudios****"** | Fortalecimiento de los talleres pedagógicos, tutorías específicas, recuperación paralela. |
 | **ILE ****negativo**** ****en**** "****proyecto**** de ****vida****"** | Programas de orientación vocacional, mentoría por parte de adultos significativos, charlas sobre propósito y misión. |
+| **ILE negativo en "el lugar donde vivo"** | Revisión del estado de los dormitorios, mobiliario, higiene y privacidad; plan de mantenimiento con plazos y responsable. |
+| **ILE negativo en "alimentación"** | Revisión del menú con profesional de nutrición, escucha de los estudiantes, atención a restricciones alimentarias. |
+| **ILE negativo en "salud y apoyo emocional"** | Ampliación de las horas de atención psicológica, revisión del flujo de derivación, capacitación de la preceptoría en primeros auxilios emocionales. |
+| **ILE negativo en "deporte y recreación"** | Revisión del calendario de actividades y del estado de la infraestructura deportiva; inclusión de quienes no participan. |
+| **ILE negativo en "música y cultura"** | Apertura de nuevos grupos, revisión de los horarios de ensayo, ampliación de las oportunidades de participación. |
+| **ILE negativo en "tiempo libre y fines de semana"** | Programación intencional de la tarde del sábado y de los domingos; revisión de la política de uso de dispositivos. |
 

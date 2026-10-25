@@ -1,5 +1,7 @@
 # ANEXO A
 
+## INSTRUMENTO DE INVESTIGACIÓN — ÍNDICES ILE E IVC
+
 Instrumento de Investigación — Índices ILE e IVC
 
 Versión para internados con Educación Superior
@@ -92,6 +94,13 @@ Sugerencias de intervención por patrón de respuesta
 | **ILE negativo en "proyecto de vida"** | Capellanía contextualizada, orientación vocacional, charlas sobre propósito, mayor integración entre fe, carácter y decisiones futuras. |
 | **ILE negativo en "vivencia sabática"** | Revisión de la programación sabática, formación de los líderes de cultos, escucha de los estudiantes sobre sus expectativas espirituales. |
 | **ILE negativo en "convivencia espiritual entre estudiantes"** | Fortalecimiento de pequeños grupos, programas de mentoría entre pares, retiros espirituales regulares. |
+| **ILE negativo en "cuidado y disponibilidad de la preceptoría"** | Revisión del dimensionamiento del equipo y de la cobertura de turnos; formación en acogida y supervisión pastoral. |
+| **ILE negativo en "el lugar donde vivo"** | Revisión del estado de los dormitorios, mobiliario, higiene y privacidad; plan de mantenimiento con plazos y responsable. |
+| **ILE negativo en "alimentación"** | Revisión del menú con profesional de nutrición, escucha de los estudiantes, atención a restricciones alimentarias. |
+| **ILE negativo en "salud y apoyo emocional"** | Ampliación de las horas de atención psicológica, revisión del flujo de derivación, capacitación de la preceptoría en primeros auxilios emocionales. |
+| **ILE negativo en "deporte y recreación"** | Revisión del calendario de actividades y del estado de la infraestructura deportiva; inclusión de quienes no participan. |
+| **ILE negativo en "música y cultura"** | Apertura de nuevos grupos, revisión de los horarios de ensayo, ampliación de las oportunidades de participación. |
+| **ILE negativo en "tiempo libre y fines de semana"** | Programación intencional de la tarde del sábado y de los domingos; revisión de la política de uso de dispositivos. |
 | **IVC bajo en "motivación"** | Revisión de los canales de comunicación institucional previos a la matrícula, proceso de admisión que refuerce la identidad confesional, encuentros formativos con familias. |
 | **IVC bajo en "coherencia"** | Análisis de las prácticas administrativas y disciplinarias a la luz de los valores institucionales, revisión de protocolos, formación continua de los equipos. |
 | **IVC bajo en "permanencia"** | Investigación cualitativa de los motivos de posible deserción, programas de fidelización confesional, fortalecimiento de la experiencia espiritual cotidiana. |
