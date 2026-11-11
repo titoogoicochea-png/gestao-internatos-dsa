@@ -38,3 +38,13 @@ next-env.d.ts
 backup-*.sql
 *.dump
 lib/reconstruido.generated.json
+
+# documentos generados (PDF, Word, PPT): se replican a OneDrive, no a Git.
+# Sí se versionan los maquetadores en Python y sus insumos (fuentes, portadas, logos).
+/Documentos diagramados/**/*.pdf
+/Documentos diagramados/**/*.docx
+/Documentos diagramados/**/*.pptx
+/Documentos originales/
+/Documentos para aprobación/
+/Documentos reconstruidos/
+/Referencial-Internatos-DSA.pptx
