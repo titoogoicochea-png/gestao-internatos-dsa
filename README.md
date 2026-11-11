@@ -82,6 +82,26 @@ git commit -m "Lector bilingüe de los referenciais DSA"
 - **IA**: generación de informes por grupo (Gemini / Claude) y exportación DOCX.
 - i18n con `next-intl`, dashboard de progreso, gestión de usuarios.
 
+## Dónde quedan los documentos generados
+
+Las carpetas `Documentos diagramados`, `Documentos reconstruidos` y
+`Documentos para aprobación` **no están en Git** (son binarios pesados). Para que no
+vivan solo en una computadora, se replican a OneDrive cada 5 minutos, a la carpeta de
+trabajo del comité:
+
+`OneDrive/Núcleo Estratégico Educacional - DSA/Comitê de gestão do Internatos DSA/`
+→ `5. Documentos diagramados`, `6. Documentos reconstruidos`,
+`7. Documentos para aprobación` y `8. Otros documentos` (lo nuevo que no encaje
+en las anteriores).
+
+Lo hace `~/aplicativos-titoia/sincronizar-onedrive/sincronizar.py`, que corre solo
+con el agente `com.titoia.sincronizar-onedrive`. Solo copia, nunca borra. El mapa
+completo y cómo correrlo a mano están en
+`~/aplicativos-titoia/sincronizar-onedrive/LEEME.md`.
+
+> Los documentos generados dentro de un *worktree* de Claude Code no se sincronizan:
+> conviene generarlos en la carpeta principal del aplicativo.
+
 ## Stack
 
 Next.js 14 (App Router) · TypeScript · Tailwind CSS · react-markdown + remark-gfm + rehype-slug.
