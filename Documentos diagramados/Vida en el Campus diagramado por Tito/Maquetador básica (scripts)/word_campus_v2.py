@@ -161,8 +161,7 @@ def componer(doc, DOC, T, lang):
     seccion_md(DOC.JUSTIFICACION)
     # la presentación lleva cuerpo y entrelínea algo mayores: así llena la
     # página en vez de dejar un tercio en blanco
-    seccion_md(DOC.PRESENTACION, firma=True, cuerpo=10.8,
-               interlinea=15.6 if lang == "es" else 15.3)
+    seccion_md(DOC.PRESENTACION, firma=True, cuerpo=10.8, interlinea=15.3)
     seccion_md(DOC.SECCION_I)
 
     rot, titulo = parte_rotulo(DOC.TITULOS["s2"])

@@ -7,7 +7,7 @@ documentos generados» del `README.md`.
 
 | Carpeta | Qué compone |
 |---|---|
-| `Presentaciones/Maquetador (scripts)` | Los `.pptx` editables de aprobación (Referencial y Formularios). |
+| `Presentaciones/Maquetador (scripts)` | Los `.pptx` editables de aprobación (Referencial y Formularios), de **Ed Superior** y **Ed Básica**. |
 | `Vida en el Campus diagramado por Tito/Maquetador (scripts)` | El Formulario de Vida en el Campus de **Ed Superior** (ES y PT). |
 | `Vida en el Campus diagramado por Tito/Maquetador básica (scripts)` | El mismo formulario para **Ed Básica** (ES y PT); trae su propio juego de fuentes, portadas y los criterios en `crit_es.py` / `crit_pt.py`. |
 | `Presentaciones/Fuentes para instalar` | Las fuentes de la identidad (Lato, Montserrat, Niconne). Hay que **instalarlas en el sistema** para editar los `.pptx` sin que se sustituyan. |
