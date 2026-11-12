@@ -29,8 +29,10 @@ FUENTES = {
     "script": os.path.join(LATO, "Niconne-Regular.ttf"),
     "montmed": os.path.join(LATO, "Mont-500.ttf"),
     "montsemi": os.path.join(LATO, "Montserrat-SemiBold.ttf"),
-    "montbold": os.path.join(MONT, "Montserrat-Bold.ttf"),
-    "montxbold": os.path.join(MONT, "Montserrat-ExtraBold.ttf"),
+    # estas dos vivían en una carpeta de OneDrive, que las descarga de la nube
+    # cuando quiere y deja la maqueta sin fuente: ahora van con el taller
+    "montbold": os.path.join(LATO, "Montserrat-Bold.ttf"),
+    "montxbold": os.path.join(LATO, "Montserrat-ExtraBold.ttf"),
     # El logotipo de la Iglesia va en una tipografía propia que no tenemos; la
     # más próxima de las libres es Open Sans con el eje de anchura en 75, que
     # reproduce el ancho y la altura de caja del original casi exactamente.

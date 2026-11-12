@@ -214,10 +214,10 @@ def componer():
 
     # ── frente del cuerpo ───────────────────────────────────────────────────
     seccion_md(DOC.JUSTIFICACION)
-    # el portugués corre unas líneas más que el español en esta página: con
-    # la interlínea del español la firma caía sola en la página siguiente
-    seccion_md(DOC.PRESENTACION, firma=True, cuerpo=10.8,
-               inter=15.6 if LANG == "es" else 15.3)
+    # 15,3 en los dos idiomas. En Superior el español cabía con 15,6 y solo el
+    # portugués pedía menos; aquí los dos textos son igual de largos y con 15,6
+    # la firma se iba sola a la página siguiente.
+    seccion_md(DOC.PRESENTACION, firma=True, cuerpo=10.8, inter=15.3)
     seccion_md(DOC.SECCION_I)
 
     # ── Sección II: las dimensiones descritas ───────────────────────────────
